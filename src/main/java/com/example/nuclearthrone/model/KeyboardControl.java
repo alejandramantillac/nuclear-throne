@@ -4,14 +4,13 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.input.KeyEvent;
 
+// Clase encargada de registrar los eventos de teclado
 public class KeyboardControl {
 
     public static BooleanProperty wPressed = new SimpleBooleanProperty(false);
     public static BooleanProperty sPressed = new SimpleBooleanProperty(false);
     public static BooleanProperty dPressed = new SimpleBooleanProperty(false);
     public static BooleanProperty aPressed = new SimpleBooleanProperty(false);
-    
-    
 
     public static void onKeyPressed(KeyEvent key) {
         switch (key.getCode()) {

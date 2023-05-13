@@ -1,5 +1,4 @@
-package com.example.nuclearthrone.model;
-
+package com.example.nuclearthrone.model.entity;
 
 public abstract class Enemy extends Entity implements IAnimation {
     
@@ -7,17 +6,17 @@ public abstract class Enemy extends Entity implements IAnimation {
     int speed;
     
     public Enemy(int x, int y, double width, double height, int health, int damage, int speed) {
-        super(x, y, width, height, health);
+        super(x, y, width, height, health,false);
         this.damage = damage;
         this.speed = speed;
     }
     @Override
-    public void start() {
+    public void startAnimation() {
         // TODO: implement animation for enemy
     }
     
     @Override
-    public void stop() {
+    public void stopAnimation() {
         // TODO: stop enemy animation
     }
     

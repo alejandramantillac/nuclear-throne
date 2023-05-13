@@ -1,4 +1,4 @@
-package com.example.nuclearthrone.model;
+package com.example.nuclearthrone.model.item;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.image.Image;
