@@ -1,11 +1,12 @@
 package com.example.nuclearthrone;
 
+import java.io.File;
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class HelloApplication extends Application {
     @Override
@@ -15,6 +16,10 @@ public class HelloApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static File getFile(String fileName) {
+        return new File(HelloApplication.class.getResource(fileName).getPath());
     }
 
     public static void main(String[] args) {
