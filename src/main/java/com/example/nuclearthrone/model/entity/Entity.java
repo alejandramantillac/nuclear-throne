@@ -1,5 +1,10 @@
 package com.example.nuclearthrone.model.entity;
 
+import java.util.ArrayList;
+
+import com.example.nuclearthrone.HelloApplication;
+
+import javafx.collections.ObservableList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -11,7 +16,7 @@ public abstract class Entity extends Rectangle {
     int health;
     boolean tangible;
 
-    public Entity(int x, int y, double width, double height, int health, boolean tangible) {
+    public Entity(double x, double y, double width, double height, int health, boolean tangible) {
         this.xProperty().set(x);
         this.yProperty().set(y);
         this.setHeight(height);
@@ -22,13 +27,39 @@ public abstract class Entity extends Rectangle {
 
     public abstract void takeDamage(int damage);
 
-    public void draw(GraphicsContext gc){
-        gc.setFill(Color.WHITE);
-        if(sprite != null) gc.drawImage(sprite, getX(), getY());
-        else gc.fillRect(getX(), getY(), getWidth(), getHeight());
+    public void draw(GraphicsContext gc) {
+        if (sprite != null) {
+            gc.drawImage(sprite, getX(), getY());
+        } else {
+            gc.setFill(Color.WHITE);
+            gc.fillRect(getX(), getY(), getWidth(), getHeight());
+        }
     }
 
-    public boolean intersects(Entity other){
+    public boolean intersects(Entity other) {
+        if (!tangible || !other.tangible)
+            return false;
+        if (this instanceof Avatar && other instanceof Bullet)
+            return false;
         return this.intersects(other.getBoundsInLocal());
+    }
+
+    public ArrayList<Entity> intersectsAny(ObservableList<? extends Entity> entities) {
+        ArrayList<Entity> intersected = new ArrayList<>();
+        for (Entity entity : entities) {
+            if (!tangible || !entity.tangible)
+                continue;
+            if (this instanceof Avatar && entity instanceof Bullet)
+                continue;
+            if (this.intersects(entity.getBoundsInLocal())) {
+                intersected.add(entity);
+            }
+        }
+        return intersected;
+    }
+
+    public static boolean isOutOfScreen(Entity e) {
+        return e.getX() > HelloApplication.getWidth() || e.getX() + e.getWidth() <= 0
+                || e.getY() > HelloApplication.getHeight() || e.getY() + e.getHeight() <= 0;
     }
 }

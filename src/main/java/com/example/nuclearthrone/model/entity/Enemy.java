@@ -5,7 +5,7 @@ public abstract class Enemy extends Entity implements IAnimation {
     int damage;
     int speed;
     
-    public Enemy(int x, int y, double width, double height, int health, int damage, int speed) {
+    public Enemy(double x, double y, double width, double height, int health, int damage, int speed) {
         super(x, y, width, height, health,false);
         this.damage = damage;
         this.speed = speed;

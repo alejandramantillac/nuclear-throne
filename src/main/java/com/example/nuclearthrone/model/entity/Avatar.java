@@ -20,6 +20,7 @@ public class Avatar extends Entity implements IAnimation {
     public static Avatar getIntance() {
         if (instance == null)
             instance = new Avatar(10, 10, 50, 50);
+        if(instance.health <= 0) return null;
         return instance;
     }
 
@@ -30,7 +31,7 @@ public class Avatar extends Entity implements IAnimation {
     private BooleanBinding keyPressed = KeyboardControl.wPressed.or(KeyboardControl.aPressed).or(
             KeyboardControl.sPressed).or(KeyboardControl.dPressed);
 
-    private Avatar(int x, int y, double width, double height) {
+    private Avatar(double x, double y, double width, double height) {
         super(x, y, width, height, 100, true);
         speed = 2;
         isAttacking = false;
@@ -84,8 +85,8 @@ public class Avatar extends Entity implements IAnimation {
             if (KeyboardControl.dPressed.get()) {
                 setX(previousX+speed);
             }
-            for (Wall wall : HelloController.walls) {
-                if(intersects(wall)){
+            for (Entity entity : HelloController.walls) {
+                if(intersects(entity)){
                     setX(previousX);
                     setY(previousY);
                 }
@@ -101,4 +102,9 @@ public class Avatar extends Entity implements IAnimation {
         }
     }
 
+    public void shoot(double x, double y){
+        Bullet bullet = new Bullet(20, 10, 1,10);
+        bullet.shootTo(x,y);
+        HelloController.bullets.add(bullet);
+    }
 }

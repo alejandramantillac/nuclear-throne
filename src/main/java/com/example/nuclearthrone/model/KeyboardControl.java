@@ -1,8 +1,11 @@
 package com.example.nuclearthrone.model;
 
+import com.example.nuclearthrone.model.entity.Avatar;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 // Clase encargada de registrar los eventos de teclado
 public class KeyboardControl {
@@ -48,5 +51,9 @@ public class KeyboardControl {
             default:
                 break;
         }
+    }
+
+    public static void onMousePressed(MouseEvent event){
+        Avatar.getIntance().shoot(event.getX(),event.getY());
     }
 }
