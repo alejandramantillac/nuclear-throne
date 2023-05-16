@@ -1,0 +1,7 @@
+.button {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-font-family: 'Monospaced';
+    -fx-font-size: 30px;
+    -fx-background-radius: 30;
+}
