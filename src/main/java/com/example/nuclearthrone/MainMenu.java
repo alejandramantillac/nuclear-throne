@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -19,7 +20,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import com.example.nuclearthrone.model.Soundtrack;
 
+import java.io.File;
 import java.io.IOException;
 
 public class MainMenu extends Application {
@@ -36,24 +39,36 @@ public class MainMenu extends Application {
     @FXML
     private Button quitButton;
 
+    @FXML
+    private ImageView logoImage;
+
     public static void main(String[] args) {
         launch(args);
     }
 
     private Canvas canvas;
 
+    Soundtrack playSoundtrack = new Soundtrack();
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Main Menu");
 
+        // Load fxml
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-menu.fxml"));
         AnchorPane root = fxmlLoader.load();
+
+        // Play song
+        playSoundtrack.mainMenuSong();
+
+        // Image
+
 
         // Background with gradient
         Rectangle background = new Rectangle(800, 600);
         RadialGradient gradient = new RadialGradient(0, 0, 0.5, 0.5, 1, true, CycleMethod.NO_CYCLE,
-                new Stop(0, Color.rgb(51, 0, 102, 0.8)), // Morado oscuro más opaco
-                new Stop(1, Color.rgb(17, 17, 34, 0.8))); // Morado más gris y oscuro
+                new Stop(0, Color.rgb(51, 0, 102, 0.8)),
+                new Stop(1, Color.rgb(17, 17, 34, 0.8)));
         background.setFill(gradient);
 
         // Ball Movement 1

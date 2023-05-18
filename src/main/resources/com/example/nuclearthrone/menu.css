@@ -1,7 +1,12 @@
+@font-face {
+    font-family: 'Karmatic Arcade';
+    src: url("utils/fonts/ka1.ttf");
+}
+
 .button {
     -fx-background-color: black;
-    -fx-text-fill: white;
-    -fx-font-family: 'Monospaced';
-    -fx-font-size: 30px;
+    -fx-text-fill: #4AD818;
+    -fx-font-family: 'Karmatic Arcade', monospace;
+    -fx-font-size: 35px;
     -fx-background-radius: 30;
 }
