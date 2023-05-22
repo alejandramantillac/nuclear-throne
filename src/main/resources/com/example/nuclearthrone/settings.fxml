@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="@settings.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nuclearthrone.model.menus.Settings">
+   <children>
+      <ImageView fx:id="logoImg" fitHeight="96.0" fitWidth="307.0" layoutX="185.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@nuclear-throne-logo.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="soundImg" fitHeight="71.0" fitWidth="75.0" layoutX="150.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@sound.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="muteImg" fitHeight="71.0" fitWidth="75.0" layoutX="150.0" layoutY="221.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@mute.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="resetImg" fitHeight="71.0" fitWidth="75.0" layoutX="150.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@settings.png" />
+         </image>
+      </ImageView>
+      <Slider fx:id="sliderSound" layoutX="269.0" layoutY="145.0" prefHeight="39.0" prefWidth="211.0" />
+      <ToggleButton fx:id="turnSound" layoutX="269.0" layoutY="237.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="211.0" text="Sound Off" styleClass="button" />
+      <Button fx:id="resetSettingsBtn" layoutX="269.0" layoutY="330.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="211.0" text="RESET" />
+   </children>
+</AnchorPane>

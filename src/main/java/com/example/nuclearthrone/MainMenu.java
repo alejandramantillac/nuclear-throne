@@ -20,9 +20,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import com.example.nuclearthrone.model.Soundtrack;
+import com.example.nuclearthrone.model.menus.Soundtrack;
 
-import java.io.File;
 import java.io.IOException;
 
 public class MainMenu extends Application {
@@ -48,7 +47,8 @@ public class MainMenu extends Application {
 
     private Canvas canvas;
 
-    Soundtrack playSoundtrack = new Soundtrack();
+    Soundtrack playSoundtrack = Soundtrack.getInstance();
+
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -129,7 +129,7 @@ public class MainMenu extends Application {
         });
 
         settingsButton.setOnAction(e -> {
-            System.out.println("Opening settings...");
+            openWindow("settings.fxml");
         });
 
         creditsButton.setOnAction(e -> {

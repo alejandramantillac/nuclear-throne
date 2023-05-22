@@ -8,4 +8,6 @@ module com.example.nuclearthrone {
     exports com.example.nuclearthrone;
     opens com.example.nuclearthrone.model to javafx.fxml;
     exports com.example.nuclearthrone.model;
+    exports com.example.nuclearthrone.model.menus;
+    opens com.example.nuclearthrone.model.menus to javafx.fxml;
 }
