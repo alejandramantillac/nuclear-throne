@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@credits.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nuclearthrone.model.menus.Credits">
+   <children>
+      <VBox layoutX="41.0" layoutY="142.0" prefHeight="244.0" prefWidth="272.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="label2" text="Developers" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textST" text="Maria Alejandra Mantilla Coral">
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin></Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textST" text="Andres David Parra Garcia">
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin></Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textST" text="Rafaela Sofia Ruiz Pizarro">
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin></Text>
+         </children>
+      </VBox>
+      <ImageView fx:id="characterImageView" fitHeight="63.0" fitWidth="89.0" layoutX="434.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@adventurer-idle-2-02.png" />
+         </image></ImageView>
+      <ImageView fx:id="logoImg" fitHeight="79.0" fitWidth="200.0" layoutX="213.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@nuclear-throne-logo.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

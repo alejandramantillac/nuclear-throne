@@ -61,14 +61,11 @@ public class MainMenu extends Application {
         // Play song
         playSoundtrack.mainMenuSong();
 
-        // Image
-
-
         // Background with gradient
         Rectangle background = new Rectangle(800, 600);
         RadialGradient gradient = new RadialGradient(0, 0, 0.5, 0.5, 1, true, CycleMethod.NO_CYCLE,
-                new Stop(0, Color.rgb(51, 0, 102, 0.8)),
-                new Stop(1, Color.rgb(17, 17, 34, 0.8)));
+                new Stop(0, Color.rgb(51, 0, 102, 0.35)),
+                new Stop(1, Color.rgb(17, 17, 34, 0.35)));
         background.setFill(gradient);
 
         // Ball Movement 1
@@ -133,7 +130,7 @@ public class MainMenu extends Application {
         });
 
         creditsButton.setOnAction(e -> {
-            System.out.println("Showing credits...");
+            openWindow("credits.fxml");
         });
 
         quitButton.setOnAction(e -> {

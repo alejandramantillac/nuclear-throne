@@ -1,0 +1,34 @@
+@font-face {
+    font-family: 'Karmatic Arcade';
+    src: url("utils/fonts/ka1.ttf");
+}
+
+.root {
+    -fx-background-color: black;
+}
+
+.label {
+    -fx-font-family: 'Karmatic Arcade';
+    -fx-font-size: 30px;
+    -fx-text-fill: black;
+    -fx-background-color: #A5AA8D;
+    -fx-background-radius: 5px;
+    -fx-border-width: 3px;
+    -fx-background-insets: -3px;
+}
+
+.label2 {
+    -fx-font-family: 'Karmatic Arcade';
+    -fx-font-size: 20px;
+    -fx-text-fill: black;
+    -fx-background-color: #A5AA8D;
+    -fx-background-radius: 5px;
+    -fx-border-width: 3px;
+    -fx-background-insets: -3px;
+}
+
+.textST {
+    -fx-font-family: 'Karmatic Arcade';
+    -fx-font-size: 15px;
+    -fx-fill: white;
+}
