@@ -41,12 +41,43 @@ public class Level {
         level1.walls.add(new Wall(175,600,200,200,100));
 
         Level level2 = new Level();
-        level2.walls.add(new Wall(50,50,50,50,100));
-        level1.left = level2;
-        level2.right = level1;
+        level2.walls.add(new Wall(0, 0, 90, 70, 100));
+        level2.walls.add(new Wall(90, 0, 90, 200, 100));
+        level2.walls.add(new Wall(300, 180, 350, 50, 100));
+        level2.walls.add(new Wall(300, 180, 50, 150, 100));
+        level2.walls.add(new Wall(650, 180, 50, 150, 100));
+        level2.walls.add(new Wall(300, 330, 100, 50, 100));
+        level2.walls.add(new Wall(600, 330, 100, 50, 100));
+        level2.walls.add(new Wall(300, 600, App.getWidth()-300, 100, 10000));
+        level2.walls.add(new Wall(300, 500, 80, 100, 100));
+        level2.walls.add(new Wall(800, 180, 120, 430, 10000));
+        level2.walls.add(new Wall(920, 550, App.getWidth()-920, 100, 10000));
+        level1.right = level2;
+
+
+        Level level3 = new Level();
+        level3.walls.add(new Wall(0,600,App.getWidth(),100,10000));
+        level3.walls.add(new Wall(400,400,80,200,100));
+        level3.walls.add(new Wall(300,400,180,80,100));
+        level3.walls.add(new Wall(570,510,250,90,100));
+        level3.walls.add(new Wall(630,330,120,180,100));
+        level3.walls.add(new Wall(400,400,80,200,100));
+        level3.walls.add(new Wall(1000,180,80,80,100));
+        level2.right = level3;
+
+        Level level4 = new Level();
+        level4.walls.add(new Wall(200,0,100,200,100));
+        level4.walls.add(new Wall(200,480,100,200,100));
+        level4.walls.add(new Wall(500,220,100,200,100));
+        level3.up=level4;
+        level4.left=level1;
+
+
 
         levels.add(level1);
         levels.add(level2);
+        levels.add(level3);
+        levels.add(level4);
     }
 
     public static Level currentLevel() {
