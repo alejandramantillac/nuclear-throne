@@ -1,9 +1,9 @@
 package com.example.nuclearthrone.model.entity;
 
-import com.example.nuclearthrone.HelloApplication;
-import com.example.nuclearthrone.HelloController;
+import com.example.nuclearthrone.App;
 import com.example.nuclearthrone.model.KeyboardControl;
 import com.example.nuclearthrone.model.item.Weapon;
+import com.example.nuclearthrone.model.level.Level;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
@@ -19,8 +19,9 @@ public class Avatar extends Entity implements IAnimation {
 
     public static Avatar getIntance() {
         if (instance == null)
-            instance = new Avatar(10, 10, 50, 50);
-        if(instance.health <= 0) return null;
+            instance = new Avatar(100,100, 50, 50);
+        if (instance.health <= 0)
+            return null;
         return instance;
     }
 
@@ -50,10 +51,10 @@ public class Avatar extends Entity implements IAnimation {
 
     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
         if (spriteStage == 1) {
-            sprite = new Image(HelloApplication.getFile("PATH-TO-STAGE-1").getAbsolutePath());
+            sprite = new Image(App.getFile("PATH-TO-STAGE-1").getAbsolutePath());
             spriteStage = 2;
         } else if (spriteStage == 2) {
-            sprite = new Image(HelloApplication.getFile("PATH-TO-STAGE-1").getAbsolutePath());
+            sprite = new Image(App.getFile("PATH-TO-STAGE-1").getAbsolutePath());
             spriteStage = 1;
         }
     }));
@@ -74,19 +75,25 @@ public class Avatar extends Entity implements IAnimation {
             double previousX = getX();
             double previousY = getY();
             if (KeyboardControl.wPressed.get()) {
-                setY(previousY-speed);
+                setY(previousY - speed);
             }
             if (KeyboardControl.sPressed.get()) {
-                setY(previousY+speed);
+                setY(previousY + speed);
             }
             if (KeyboardControl.aPressed.get()) {
-                setX(previousX-speed);
+                setX(previousX - speed);
             }
             if (KeyboardControl.dPressed.get()) {
-                setX(previousX+speed);
+                setX(previousX + speed);
             }
-            for (Entity entity : HelloController.walls) {
-                if(intersects(entity)){
+
+            if(isOutOfScreen(instance)){
+                setX(previousX);
+                setY(previousY);
+            }
+
+            for (Entity entity : Level.currentLevel().walls) {
+                if (intersects(entity)) {
                     setX(previousX);
                     setY(previousY);
                 }
@@ -102,9 +109,9 @@ public class Avatar extends Entity implements IAnimation {
         }
     }
 
-    public void shoot(double x, double y){
-        Bullet bullet = new Bullet(20, 10, 1,10);
-        bullet.shootTo(x,y);
-        HelloController.bullets.add(bullet);
+    public void shoot(double x, double y) {
+        Bullet bullet = new Bullet(20, 10, 1, 10);
+        bullet.shootTo(x, y);
+        Level.currentLevel().bullets.add(bullet);
     }
 }

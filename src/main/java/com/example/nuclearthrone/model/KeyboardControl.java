@@ -53,7 +53,7 @@ public class KeyboardControl {
         }
     }
 
-    public static void onMousePressed(MouseEvent event){
-        Avatar.getIntance().shoot(event.getX(),event.getY());
+    public static void onMousePressed(MouseEvent event) {
+        Avatar.getIntance().shoot(event.getX(), event.getY());
     }
 }

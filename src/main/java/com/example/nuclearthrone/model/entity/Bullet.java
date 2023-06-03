@@ -1,6 +1,6 @@
 package com.example.nuclearthrone.model.entity;
 
-import com.example.nuclearthrone.HelloApplication;
+import com.example.nuclearthrone.App;
 import com.example.nuclearthrone.model.Vector;
 
 public class Bullet extends Entity {
@@ -27,7 +27,7 @@ public class Bullet extends Entity {
                 setX(getX() + movement.x);
                 setY(getY() + movement.y);
                 try {
-                    Thread.sleep(HelloApplication.msRate());
+                    Thread.sleep(App.msRate());
                 } catch (InterruptedException e) {
 
                 }

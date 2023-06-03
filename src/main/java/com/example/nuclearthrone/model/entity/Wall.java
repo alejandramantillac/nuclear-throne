@@ -1,6 +1,6 @@
 package com.example.nuclearthrone.model.entity;
 
-import com.example.nuclearthrone.HelloController;
+import com.example.nuclearthrone.model.level.Level;
 
 public class Wall extends Entity {
 
@@ -10,9 +10,10 @@ public class Wall extends Entity {
 
     @Override
     public void takeDamage(int damage) {
-        health -= (damage/100)+1;
-        if(health <= 0){
-            HelloController.walls.remove(this);
+        health -= (damage / 100) + 1;
+        if (health <= 0) {
+
+            Level.currentLevel().walls.remove(this);
         }
     }
 

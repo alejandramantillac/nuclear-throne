@@ -2,7 +2,7 @@ package com.example.nuclearthrone.model.entity;
 
 import java.util.ArrayList;
 
-import com.example.nuclearthrone.HelloApplication;
+import com.example.nuclearthrone.App;
 
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.GraphicsContext;
@@ -59,7 +59,7 @@ public abstract class Entity extends Rectangle {
     }
 
     public static boolean isOutOfScreen(Entity e) {
-        return e.getX() > HelloApplication.getWidth() || e.getX() + e.getWidth() <= 0
-                || e.getY() > HelloApplication.getHeight() || e.getY() + e.getHeight() <= 0;
+        return e.getX() + e.getWidth() +10> App.getWidth() || e.getX() <= 0
+                || e.getY() +30+e.getHeight() > App.getHeight() || e.getY()  <= 0;
     }
 }
