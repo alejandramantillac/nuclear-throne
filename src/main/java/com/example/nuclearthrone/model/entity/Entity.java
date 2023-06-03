@@ -62,4 +62,20 @@ public abstract class Entity extends Rectangle {
         return e.getX() + e.getWidth() +10> App.getWidth() || e.getX() <= 0
                 || e.getY() +30+e.getHeight() > App.getHeight() || e.getY()  <= 0;
     }
+
+    public static String getSideOut(Entity e){
+        if(e.getX() + e.getWidth() +10> App.getWidth()){
+            return "RIGHT";
+        }
+        if(e.getX() <= 0){
+            return "LEFT";
+        }
+        if(e.getY() +30+e.getHeight() > App.getHeight()){
+            return "DOWN";
+        }
+        if(e.getY()  <= 0){
+            return "UP";
+        }
+        return "NONE";
+    }
 }

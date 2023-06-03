@@ -88,8 +88,10 @@ public class Avatar extends Entity implements IAnimation {
             }
 
             if(isOutOfScreen(instance)){
-                setX(previousX);
-                setY(previousY);
+                if(!Level.inGate(instance)) {
+                    setX(previousX);
+                    setY(previousY);
+                }
             }
 
             for (Entity entity : Level.currentLevel().walls) {
