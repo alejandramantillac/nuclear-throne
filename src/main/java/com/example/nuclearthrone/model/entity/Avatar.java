@@ -45,8 +45,9 @@ public class Avatar extends Entity implements IAnimation {
     }
 
     @Override
-    public void takeDamage(int damage) {
-        health -= damage;
+    public void takeDamage(Entity other) {
+        health -= other.damage;
+        System.out.print(health);
         updateLifeBar();
     }
 
@@ -123,7 +124,7 @@ public class Avatar extends Entity implements IAnimation {
     }
 
     public void shoot(double x, double y) {
-        Bullet bullet = new Bullet(20, 10, 1, 10);
+        Bullet bullet = new PlayerBullet(20, 10, 1, 10);
         bullet.shootTo(x, y);
         Level.currentLevel().bullets.add(bullet);
     }

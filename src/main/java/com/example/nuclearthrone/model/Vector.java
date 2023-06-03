@@ -17,8 +17,8 @@ public class Vector {
     }
 
     public void setMag(double scalar) {
-        this.x += scalar;
-        this.y += scalar;
+        this.x *= scalar;
+        this.y *= scalar;
     }
 
 }

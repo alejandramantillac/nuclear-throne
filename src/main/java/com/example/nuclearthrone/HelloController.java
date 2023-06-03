@@ -3,10 +3,7 @@ package com.example.nuclearthrone;
 import java.util.ArrayList;
 
 import com.example.nuclearthrone.model.KeyboardControl;
-import com.example.nuclearthrone.model.entity.Avatar;
-import com.example.nuclearthrone.model.entity.Enemy;
-import com.example.nuclearthrone.model.entity.Entity;
-import com.example.nuclearthrone.model.entity.Wall;
+import com.example.nuclearthrone.model.entity.*;
 import com.example.nuclearthrone.model.level.Level;
 
 import javafx.application.Platform;
@@ -26,6 +23,7 @@ public class HelloController {
     @FXML
     private Rectangle lifeBar;
 
+    @SuppressWarnings("unchecked")
     @FXML
     public void initialize(){
         Avatar.getIntance().lifeBar = lifeBar;
@@ -51,11 +49,19 @@ public class HelloController {
                         enemy.draw(gc);
                     }
                     for (int i = 0; i < current.bullets.size(); i++) {
-                        current.bullets.get(i).draw(gc);
-                        ArrayList<Entity> intersected = current.bullets.get(i).intersectsAny(
-                                current.walls);
+                        Bullet currentB = current.bullets.get(i);
+                        currentB.draw(gc);
+                        if(currentB instanceof EnemyBullet){
+                            if(currentB.intersects(Avatar.getIntance())){
+                                Avatar.getIntance().takeDamage(currentB);
+                                current.bullets.remove(i);
+                                i--;
+                                continue;
+                            }
+                        }
+                        ArrayList<Entity> intersected = currentB.intersectsAny(current.walls, current.enemies);
                         for (Entity entity : intersected) {
-                            entity.takeDamage(current.bullets.get(i).damage);
+                            entity.takeDamage(currentB);
                             break;
                         }
                         if (!intersected.isEmpty()) {

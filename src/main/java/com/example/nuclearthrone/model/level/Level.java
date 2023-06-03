@@ -24,14 +24,23 @@ public class Level {
     private Level up;
     private Level down;
 
-    private Level() {
+    private int level;
+
+    private boolean initialized;
+
+    private Level(int level) {
+        initialized = false;
+        this.level = level;
     }
     private void initializeEnemies(){
         int quantity = ((int) (Math.random()*3)) +1;
         while(quantity > 0){
-            Enemy enemy = Enemy.generateEnemy();
+            Enemy enemy = Enemy.generateEnemy(level);
             if(enemy != null){
                 boolean add = true;
+                if(Entity.isOutOfScreen(enemy)){
+                    continue;
+                }
                 for(Wall wall : walls){
                     if(enemy.intersects(wall)){
                         add = false;
@@ -49,8 +58,11 @@ public class Level {
     }
 
     private void start(){
-        for(Enemy enemy : enemies) {
-            enemy.run();
+        if(!initialized){
+            initialized = true;
+            for(Enemy enemy : enemies) {
+                enemy.start();
+            }
         }
     }
 
@@ -64,41 +76,41 @@ public class Level {
 
     private static void initializeLevels() {
         levels = new ArrayList<>();
-        Level level1 = new Level();
-        level1.walls.add(new Wall(700, 50, 100, 400, 100));
-        level1.walls.add(new Wall(0, 0, App.getWidth(), 50, 10000));
-        level1.walls.add(new Wall(300, 50, 50, 100, 100));
-        level1.walls.add(new Wall(175, 150, 300, 50, 100));
-        level1.walls.add(new Wall(550, 450, 250, 100, 100));
-        level1.walls.add(new Wall(175,600,200,200,100));
+        Level level1 = new Level(0);
+        level1.walls.add(new Wall(700, 50, 100, 400, 100,0));
+        level1.walls.add(new Wall(0, 0, App.getWidth(), 50, 10000,0));
+        level1.walls.add(new Wall(300, 50, 50, 100, 100,0));
+        level1.walls.add(new Wall(175, 150, 300, 50, 100,0));
+        level1.walls.add(new Wall(550, 450, 250, 100, 100,0));
+        level1.walls.add(new Wall(175,600,200,200,100,0));
 
-        Level level2 = new Level();
-        level2.walls.add(new Wall(0, 0, 90, 70, 100));
-        level2.walls.add(new Wall(90, 0, 90, 200, 100));
-        level2.walls.add(new Wall(300, 180, 350, 50, 100));
-        level2.walls.add(new Wall(300, 180, 50, 150, 100));
-        level2.walls.add(new Wall(650, 180, 50, 150, 100));
-        level2.walls.add(new Wall(300, 330, 100, 50, 100));
-        level2.walls.add(new Wall(600, 330, 100, 50, 100));
-        level2.walls.add(new Wall(300, 600, App.getWidth()-300, 100, 10000));
-        level2.walls.add(new Wall(300, 500, 80, 100, 100));
-        level2.walls.add(new Wall(800, 180, 120, 430, 10000));
-        level2.walls.add(new Wall(920, 550, App.getWidth()-920, 100, 10000));
+        Level level2 = new Level(1);
+        level2.walls.add(new Wall(0, 0, 90, 70, 100,1));
+        level2.walls.add(new Wall(90, 0, 90, 200, 100,1));
+        level2.walls.add(new Wall(300, 180, 350, 50, 100,1));
+        level2.walls.add(new Wall(300, 180, 50, 150, 100,1));
+        level2.walls.add(new Wall(650, 180, 50, 150, 100,1));
+        level2.walls.add(new Wall(300, 330, 100, 50, 100,1));
+        level2.walls.add(new Wall(600, 330, 100, 50, 100,1));
+        level2.walls.add(new Wall(300, 600, App.getWidth()-300, 100, 10000,1));
+        level2.walls.add(new Wall(300, 500, 80, 100, 100,1));
+        level2.walls.add(new Wall(800, 180, 120, 430, 10000,1));
+        level2.walls.add(new Wall(920, 550, App.getWidth()-920, 100, 10000,1));
 
 
-        Level level3 = new Level();
-        level3.walls.add(new Wall(0,600,App.getWidth(),100,10000));
-        level3.walls.add(new Wall(400,400,80,200,100));
-        level3.walls.add(new Wall(300,400,180,80,100));
-        level3.walls.add(new Wall(570,510,250,90,100));
-        level3.walls.add(new Wall(630,330,120,180,100));
-        level3.walls.add(new Wall(400,400,80,200,100));
-        level3.walls.add(new Wall(1000,180,80,80,100));
+        Level level3 = new Level(2);
+        level3.walls.add(new Wall(0,600,App.getWidth(),100,10000,2));
+        level3.walls.add(new Wall(400,400,80,200,100,2));
+        level3.walls.add(new Wall(300,400,180,80,100,2));
+        level3.walls.add(new Wall(570,510,250,90,100,2));
+        level3.walls.add(new Wall(630,330,120,180,100,2));
+        level3.walls.add(new Wall(400,400,80,200,100,2));
+        level3.walls.add(new Wall(1000,180,80,80,100,2));
 
-        Level level4 = new Level();
-        level4.walls.add(new Wall(200,0,100,200,100));
-        level4.walls.add(new Wall(200,480,100,200,100));
-        level4.walls.add(new Wall(500,220,100,200,100));
+        Level level4 = new Level(3);
+        level4.walls.add(new Wall(200,0,100,200,100,3));
+        level4.walls.add(new Wall(200,480,100,200,100,3));
+        level4.walls.add(new Wall(500,220,100,200,100,3));
 
         level1.right = level2;
         level2.left = level1;
@@ -111,6 +123,12 @@ public class Level {
         levels.add(level2);
         levels.add(level3);
         levels.add(level4);
+
+        for(Level level : levels){
+            level.initializeEnemies();
+        }
+
+        levels.get(selected).start();
     }
 
     public static Level currentLevel() {
@@ -163,5 +181,15 @@ public class Level {
                 break;
         }
         return false;
+    }
+
+    public static Level getLevel(int level){
+        if(level >= levels.size())
+            return null;
+        return levels.get(level);
+    }
+
+    public static int getSelected(){
+        return selected;
     }
 }

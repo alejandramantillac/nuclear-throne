@@ -18,6 +18,7 @@ public abstract class Entity extends Rectangle {
     int health;
     boolean tangible;
     boolean isAlive;
+    double damage;
 
     public Entity(double x, double y, double width, double height, int health, boolean tangible) {
         this.xProperty().set(x);
@@ -28,7 +29,7 @@ public abstract class Entity extends Rectangle {
         this.tangible = tangible;
         this.isAlive = true;
     }
-    public abstract void takeDamage(int damage);
+    public abstract void takeDamage(Entity other);
 
     public void draw(GraphicsContext gc) {
         if (sprite != null) {
@@ -42,20 +43,20 @@ public abstract class Entity extends Rectangle {
     public boolean intersects(Entity other) {
         if (!tangible || !other.tangible)
             return false;
-        if (this instanceof Avatar && other instanceof Bullet)
+        if ((this instanceof Avatar || this instanceof  Enemy) && (other instanceof Bullet || other instanceof Enemy))
+            return false;
+        if(this instanceof EnemyBullet && other instanceof Enemy)
             return false;
         return this.intersects(other.getBoundsInLocal());
     }
 
-    public ArrayList<Entity> intersectsAny(ObservableList<? extends Entity> entities) {
+    public ArrayList<Entity> intersectsAny(ObservableList<? extends Entity>... list) {
         ArrayList<Entity> intersected = new ArrayList<>();
-        for (Entity entity : entities) {
-            if (!tangible || !entity.tangible)
-                continue;
-            if (this instanceof Avatar && entity instanceof Bullet)
-                continue;
-            if (this.intersects(entity.getBoundsInLocal())) {
-                intersected.add(entity);
+        for(ObservableList<? extends Entity> entities : list){
+            for (Entity entity : entities) {
+                if(intersects(entity)){
+                    intersected.add(entity);
+                }
             }
         }
         return intersected;

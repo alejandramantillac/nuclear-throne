@@ -5,16 +5,15 @@ import com.example.nuclearthrone.model.Vector;
 
 public class Bullet extends Entity {
 
-    public int damage;
     double speed;
 
-    public Bullet(double width, double height, int health, int damage) {
-        super(Avatar.getIntance().getX(), Avatar.getIntance().getY(), width, height, health, true);
+    public Bullet(Entity entity, double width, double height, int health, int damage) {
+        super(entity.getX(), entity.getY(), width, height, health, true);
         this.damage = damage;
     }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(Entity other) {
 
     }
 
