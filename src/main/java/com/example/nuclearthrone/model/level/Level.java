@@ -26,7 +26,39 @@ public class Level {
 
     private Level() {
     }
+    private void initializeEnemies(){
+        int quantity = ((int) (Math.random()*3)) +1;
+        while(quantity > 0){
+            Enemy enemy = Enemy.generateEnemy();
+            if(enemy != null){
+                boolean add = true;
+                for(Wall wall : walls){
+                    if(enemy.intersects(wall)){
+                        add = false;
+                        break;
+                    }
+                }
+                if(add){
+                    enemies.add(enemy);
+                    quantity--;
+                }
+            }
+        }
+        System.out.println(enemies.size());
 
+    }
+
+    private void start(){
+        for(Enemy enemy : enemies) {
+            enemy.run();
+        }
+    }
+
+    private void pause(){
+        for(Enemy enemy : enemies){
+            enemy.pause();
+        }
+    }
     private static ArrayList<Level> levels;
     private static int selected;
 
@@ -52,7 +84,6 @@ public class Level {
         level2.walls.add(new Wall(300, 500, 80, 100, 100));
         level2.walls.add(new Wall(800, 180, 120, 430, 10000));
         level2.walls.add(new Wall(920, 550, App.getWidth()-920, 100, 10000));
-        level1.right = level2;
 
 
         Level level3 = new Level();
@@ -63,16 +94,18 @@ public class Level {
         level3.walls.add(new Wall(630,330,120,180,100));
         level3.walls.add(new Wall(400,400,80,200,100));
         level3.walls.add(new Wall(1000,180,80,80,100));
-        level2.right = level3;
 
         Level level4 = new Level();
         level4.walls.add(new Wall(200,0,100,200,100));
         level4.walls.add(new Wall(200,480,100,200,100));
         level4.walls.add(new Wall(500,220,100,200,100));
-        level3.up=level4;
-        level4.left=level1;
 
-
+        level1.right = level2;
+        level2.left = level1;
+        level2.right = level3;
+        level3.left = level2;
+        level3.up = level4;
+        level4.down = level3;
 
         levels.add(level1);
         levels.add(level2);
@@ -86,34 +119,43 @@ public class Level {
         return levels.get(selected);
     }
 
+
     public static boolean inGate(Entity entity){
         String side = Entity.getSideOut(entity);
         switch (side){
             case "RIGHT":
                 if(currentLevel().right != null){
+                    currentLevel().pause();
                     selected = levels.indexOf(currentLevel().right);
                     entity.setX(1);
+                    currentLevel().start();
                     return true;
                 }
                 break;
             case "LEFT":
                 if(currentLevel().left != null){
+                    currentLevel().pause();
                     selected = levels.indexOf(currentLevel().left);
                     entity.setX(App.getWidth()-11-entity.getWidth());
+                    currentLevel().start();
                     return true;
                 }
                 break;
             case "UP":
                 if(currentLevel().up != null){
+                    currentLevel().pause();
                     selected = levels.indexOf(currentLevel().up);
                     entity.setY(App.getHeight()-30-entity.getHeight());
+                    currentLevel().start();
                     return true;
                 }
                 break;
             case "DOWN":
                 if(currentLevel().down != null){
+                    currentLevel().pause();
                     selected = levels.indexOf(currentLevel().down);
                     entity.setY(1);
+                    currentLevel().start();
                     return true;
                 }
                 break;

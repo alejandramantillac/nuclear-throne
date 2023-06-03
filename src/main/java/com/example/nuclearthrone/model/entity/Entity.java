@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.example.nuclearthrone.App;
 
+import com.example.nuclearthrone.model.level.Level;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -15,6 +17,7 @@ public abstract class Entity extends Rectangle {
     Image sprite;
     int health;
     boolean tangible;
+    boolean isAlive;
 
     public Entity(double x, double y, double width, double height, int health, boolean tangible) {
         this.xProperty().set(x);
@@ -23,8 +26,8 @@ public abstract class Entity extends Rectangle {
         this.setWidth(width);
         this.health = health;
         this.tangible = tangible;
+        this.isAlive = true;
     }
-
     public abstract void takeDamage(int damage);
 
     public void draw(GraphicsContext gc) {

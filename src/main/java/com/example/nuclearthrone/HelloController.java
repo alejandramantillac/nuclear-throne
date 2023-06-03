@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.example.nuclearthrone.model.KeyboardControl;
 import com.example.nuclearthrone.model.entity.Avatar;
+import com.example.nuclearthrone.model.entity.Enemy;
 import com.example.nuclearthrone.model.entity.Entity;
 import com.example.nuclearthrone.model.entity.Wall;
 import com.example.nuclearthrone.model.level.Level;
@@ -45,6 +46,9 @@ public class HelloController {
                     Avatar.getIntance().draw(gc);
                     for (Wall wall : current.walls) {
                         wall.draw(gc);
+                    }
+                    for (Enemy enemy : current.enemies) {
+                        enemy.draw(gc);
                     }
                     for (int i = 0; i < current.bullets.size(); i++) {
                         current.bullets.get(i).draw(gc);
