@@ -11,6 +11,8 @@ import javafx.animation.Timeline;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 public class Avatar extends Entity implements IAnimation {
@@ -28,7 +30,9 @@ public class Avatar extends Entity implements IAnimation {
     private int spriteStage;
     int speed;
     boolean isAttacking;
-    Weapon weapon;
+    public Weapon weapon;
+
+    public Rectangle lifeBar;
     private BooleanBinding keyPressed = KeyboardControl.wPressed.or(KeyboardControl.aPressed).or(
             KeyboardControl.sPressed).or(KeyboardControl.dPressed);
 
@@ -36,12 +40,19 @@ public class Avatar extends Entity implements IAnimation {
         super(x, y, width, height, 100, true);
         speed = 2;
         isAttacking = false;
+        health = 100;
         keyPressed.addListener((a, b, c) -> onKeyPressed(a, b, c));
     }
 
     @Override
     public void takeDamage(int damage) {
+        health -= damage;
+        updateLifeBar();
+    }
 
+    private void updateLifeBar(){
+        lifeBar.setWidth(170*(health/100.0));
+        lifeBar.setFill(Color.DARKGREEN); // Cálculo para cambiar el color de la barra de vida en función del porcentaje de vida
     }
 
     public void moveTo(int x, int y) {

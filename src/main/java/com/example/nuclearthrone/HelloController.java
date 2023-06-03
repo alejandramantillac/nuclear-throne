@@ -14,6 +14,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 
 public class HelloController {
@@ -22,8 +23,11 @@ public class HelloController {
     Canvas canvas;
 
     @FXML
+    private Rectangle lifeBar;
+
+    @FXML
     public void initialize(){
-        
+        Avatar.getIntance().lifeBar = lifeBar;
         canvas.setFocusTraversable(true);
         canvas.setOnKeyPressed(KeyboardControl::onKeyPressed);
         canvas.setOnKeyReleased(KeyboardControl::onKeyReleased);
