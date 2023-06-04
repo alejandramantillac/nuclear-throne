@@ -34,6 +34,8 @@ public abstract class Entity extends Rectangle {
     public abstract void takeDamage(Entity other);
 
     public void draw(GraphicsContext gc) {
+        if(!this.isVisible())
+            return;
         if (sprite != null) {
             gc.drawImage(sprite, getX(), getY());
         } else {
@@ -102,4 +104,19 @@ public abstract class Entity extends Rectangle {
 
         return canvas.snapshot(params, null);
     }
+
+    public static Image mirrorImageHorizontally(Image image) {
+        int width = (int) image.getWidth();
+        int height = (int) image.getHeight();
+
+        Canvas canvas = new Canvas(width, height);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        gc.drawImage(image, width, 0, -width, height);
+
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        return canvas.snapshot(params, null);
+    }
+
 }

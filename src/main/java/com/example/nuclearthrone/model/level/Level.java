@@ -55,8 +55,6 @@ public class Level {
                 }
             }
         }
-        System.out.println(enemies.size());
-
     }
 
     private void start(){

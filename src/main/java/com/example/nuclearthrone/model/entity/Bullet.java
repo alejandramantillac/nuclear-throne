@@ -16,7 +16,7 @@ public class Bullet extends Entity {
     int level;
 
     public Bullet(Entity entity, double width, double height, int health, int damage, int level) {
-        super(entity.getX(), entity.getY(), width, height, health, true);
+        super(entity.getX()+(entity.getWidth()/2), entity.getY()+(entity.getHeight()/2), width, height, health, true);
         this.damage = damage;
         alive = true;
         this.level = level;
@@ -28,12 +28,18 @@ public class Bullet extends Entity {
 
     }
 
-    public void shootTo(double x, double y) {
+    public void shootTo(double x, double y, double delay) {
         movement = new Vector(x-getX(), y-getY());
         movement.normalize();
         movement.setMag(speed);
         sprite = rotateImage(sprite, Math.toDegrees(movement.angle));
         Thread t = new Thread(() -> {
+            try {
+                Thread.sleep((long) delay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            setVisible(true);
             while (alive) {
                 setX(getX() + movement.x);
                 setY(getY() + movement.y);
@@ -51,16 +57,6 @@ public class Bullet extends Entity {
     public static boolean isOutOfScreen(Entity e) {
         return e.getX() + e.getWidth() - 20> App.getWidth() || e.getX() < -20
                 || e.getY()+e.getHeight() > App.getHeight() || e.getY()  < -20;
-    }
-
-    @Override
-    public void draw(GraphicsContext gc) {
-        if (sprite != null) {
-            gc.drawImage(sprite, getX(), getY());
-        } else {
-            gc.setFill(Color.WHITE);
-            gc.fillRect(getX(), getY(), getWidth(), getHeight());
-        }
     }
 
 }

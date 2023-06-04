@@ -50,7 +50,6 @@ public abstract class Enemy extends Entity implements IAnimation {
     @Override
     public void takeDamage(Entity other) {
         health -= other.damage;
-        System.out.print("enemigo a: "+health);
         if(health <= 0) {
             isAlive = false;
             Level.getLevel(level).enemies.remove(this);

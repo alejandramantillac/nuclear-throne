@@ -5,22 +5,25 @@ import com.example.nuclearthrone.model.KeyboardControl;
 import com.example.nuclearthrone.model.item.Weapon;
 import com.example.nuclearthrone.model.level.Level;
 
+import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+import java.util.HashMap;
+
 public class Avatar extends Entity implements IAnimation {
 
     private static Avatar instance;
-    private static Image[] sprites;
+    private static HashMap<String,Image[]> animations;
 
     public static Avatar getIntance() {
         if (instance == null)
@@ -30,10 +33,12 @@ public class Avatar extends Entity implements IAnimation {
         return instance;
     }
 
-    private int spriteStage = 1;
-    int speed;
+    private int spriteStage = 0;
+    double speed;
     boolean isAttacking;
+    String lookingAt;
     public Weapon weapon;
+    public String animationType;
 
     public Rectangle lifeBar;
     private BooleanBinding keyPressed = KeyboardControl.wPressed.or(KeyboardControl.aPressed).or(
@@ -41,11 +46,13 @@ public class Avatar extends Entity implements IAnimation {
 
     private Avatar(double x, double y, double width, double height) {
         super(x, y, width, height, 100, true);
-        speed = 2;
+        speed = 1.5;
         isAttacking = false;
         health = 100;
         keyPressed.addListener((a, b, c) -> onKeyPressed(a, b, c));
         initSprites();
+        animationType = "idle";
+        lookingAt = "right";
         startAnimation();
     }
 
@@ -61,18 +68,22 @@ public class Avatar extends Entity implements IAnimation {
         lifeBar.setFill(Color.DARKGREEN); // Cálculo para cambiar el color de la barra de vida en función del porcentaje de vida
     }
 
-    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
-        if (spriteStage == 1) {
-            sprite = sprites[0];
-            spriteStage = 2;
-        } else if (spriteStage == 2) {
-            sprite = sprites[0];
-            spriteStage = 1;
+    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
+        if(spriteStage < animations.get(animationType).length-1){
+            spriteStage++;
+        }else{
+            if(!animationType.equals("idle")&&!animationType.equals("run")) {
+                animationType = "idle";
+            }
+            spriteStage = 0;
         }
+        sprite = animations.get(animationType)[spriteStage];
+        if(lookingAt.equals("left")) sprite = mirrorImageHorizontally(sprite);
     }));
 
     @Override
     public void startAnimation() {
+        timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
 
@@ -84,54 +95,93 @@ public class Avatar extends Entity implements IAnimation {
     AnimationTimer movement = new AnimationTimer() {
         @Override
         public void handle(long timestamp) {
-            double previousX = getX();
-            double previousY = getY();
-            if (KeyboardControl.wPressed.get()) {
-                setY(previousY - speed);
-            }
-            if (KeyboardControl.sPressed.get()) {
-                setY(previousY + speed);
-            }
-            if (KeyboardControl.aPressed.get()) {
-                setX(previousX - speed);
-            }
-            if (KeyboardControl.dPressed.get()) {
-                setX(previousX + speed);
-            }
+            if(!animationType.equals("shoot")){
+                double previousX = getX();
+                double previousY = getY();
+                if (KeyboardControl.wPressed.get()) {
+                    setY(previousY - speed);
 
-            if(isOutOfScreen(instance)){
-                if(!Level.inGate(instance)) {
-                    setX(previousX);
-                    setY(previousY);
                 }
-            }
+                if (KeyboardControl.sPressed.get()) {
+                    setY(previousY + speed);
+                }
+                if (KeyboardControl.aPressed.get()) {
+                    setX(previousX - speed);
+                    lookingAt = "left";
+                }
+                if (KeyboardControl.dPressed.get()) {
+                    setX(previousX + speed);
+                    lookingAt = "right";
+                }
 
-            for (Entity entity : Level.currentLevel().walls) {
-                if (intersects(entity)) {
-                    setX(previousX);
-                    setY(previousY);
+                if(isOutOfScreen(instance)){
+                    if(!Level.inGate(instance)) {
+                        setX(previousX);
+                        setY(previousY);
+                    }
+                }
+
+                for (Entity entity : Level.currentLevel().walls) {
+                    if (intersects(entity)) {
+                        setX(previousX);
+                        setY(previousY);
+                    }
+                }
+
+                if((getX() != previousX || getY() != previousY) && !animationType.equals("run")){
+                    animationType = "run";
+                    spriteStage = 0;
                 }
             }
         }
     };
 
     public void onKeyPressed(ObservableValue<? extends Boolean> observable, Boolean a, Boolean keyPressed) {
-        if (keyPressed) {
-            movement.start();
-        } else {
-            movement.stop();
+        if(!animationType.equals("shoot")) {
+            if (keyPressed) {
+                movement.start();
+                animationType = "run";
+                spriteStage = 0;
+            } else {
+                movement.stop();
+                animationType = "idle";
+                spriteStage = 0;
+            }
         }
     }
 
     public void shoot(double x, double y) {
-        Bullet bullet = new PlayerBullet(20, 20, 1, 10,Level.getSelected());
-        bullet.shootTo(x, y);
-        Level.currentLevel().bullets.add(bullet);
+        if(!animationType.equals("shoot")){
+            if(x>getX()){
+                lookingAt = "right";
+            }else{
+                lookingAt = "left";
+            }
+            animationType = "shoot";
+            spriteStage = 0;
+            Bullet bullet = new PlayerBullet(20, 20, 1, 10,Level.getSelected());
+            bullet.setVisible(false);
+            bullet.shootTo(x, y,1200);
+            Level.currentLevel().bullets.add(bullet);
+        }
     }
 
     private void initSprites(){
-        sprites = new Image[1];
-        String uri = "file:" + App.class.getResource("entities/avatar.png").getPath();
-        sprites[0] = new Image(uri,getWidth(),getHeight(),true,false,false);
+        animations = new HashMap<>();
+        animations.put("idle",new Image[4]);
+        for (int i = 1; i <=4; i++) {
+            String uri = "file:" + App.class.getResource("entities/avatar/idle/Hobbit - Idle"+i+".png").getPath();
+            animations.get("idle")[i-1] = new Image(uri,getWidth(),getHeight(),false,true,false);
+        }
+        animations.put("run",new Image[10]);
+        for (int i = 1; i <=10; i++) {
+            String uri = "file:" + App.class.getResource("entities/avatar/run/Hobbit - run"+i+".png").getPath();
+            animations.get("run")[i-1] = new Image(uri,getWidth(),getHeight(),false,true,false);
+        }
+        animations.put("shoot",new Image[17]);
+        for (int i = 1; i <=17; i++) {
+            String uri = "file:" + App.class.getResource("entities/avatar/shoot/Hobbit - attack"+i+".png").getPath();
+            animations.get("shoot")[i-1] = new Image(uri,getWidth(),getHeight(),false,true,false);
+        }
     }
 }
