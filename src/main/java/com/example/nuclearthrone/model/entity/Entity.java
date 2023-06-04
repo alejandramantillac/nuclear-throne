@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import com.example.nuclearthrone.App;
 
-import com.example.nuclearthrone.model.level.Level;
-import javafx.collections.FXCollections;
+import com.example.nuclearthrone.model.entity.enemy.Enemy;
+import com.example.nuclearthrone.model.entity.enemy.EnemyBullet;
 import javafx.collections.ObservableList;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -14,11 +16,11 @@ import javafx.scene.shape.Rectangle;
 
 public abstract class Entity extends Rectangle {
 
-    Image sprite;
-    int health;
-    boolean tangible;
-    boolean isAlive;
-    double damage;
+    public Image sprite;
+    public int health;
+    public boolean tangible;
+    public boolean isAlive;
+    public double damage;
 
     public Entity(double x, double y, double width, double height, int health, boolean tangible) {
         this.xProperty().set(x);
@@ -43,7 +45,7 @@ public abstract class Entity extends Rectangle {
     public boolean intersects(Entity other) {
         if (!tangible || !other.tangible)
             return false;
-        if ((this instanceof Avatar || this instanceof  Enemy) && (other instanceof Bullet || other instanceof Enemy))
+        if ((this instanceof Avatar || this instanceof Enemy) && (other instanceof Bullet || other instanceof Enemy))
             return false;
         if(this instanceof EnemyBullet && other instanceof Enemy)
             return false;
@@ -81,5 +83,23 @@ public abstract class Entity extends Rectangle {
             return "UP";
         }
         return "NONE";
+    }
+
+    public static Image rotateImage(Image image, double angle) {
+        double centerX = image.getWidth() / 2;
+        double centerY = image.getHeight() / 2;
+
+        Canvas canvas = new Canvas(image.getWidth(), image.getHeight());
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        gc.translate(centerX, centerY);
+        gc.rotate(angle);
+        gc.translate(-centerX, -centerY);
+
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        gc.drawImage(image, 0, 0);
+
+        return canvas.snapshot(params, null);
     }
 }

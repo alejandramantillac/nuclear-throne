@@ -10,7 +10,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -18,6 +20,7 @@ import javafx.util.Duration;
 public class Avatar extends Entity implements IAnimation {
 
     private static Avatar instance;
+    private static Image[] sprites;
 
     public static Avatar getIntance() {
         if (instance == null)
@@ -27,7 +30,7 @@ public class Avatar extends Entity implements IAnimation {
         return instance;
     }
 
-    private int spriteStage;
+    private int spriteStage = 1;
     int speed;
     boolean isAttacking;
     public Weapon weapon;
@@ -42,6 +45,8 @@ public class Avatar extends Entity implements IAnimation {
         isAttacking = false;
         health = 100;
         keyPressed.addListener((a, b, c) -> onKeyPressed(a, b, c));
+        initSprites();
+        startAnimation();
     }
 
     @Override
@@ -56,17 +61,12 @@ public class Avatar extends Entity implements IAnimation {
         lifeBar.setFill(Color.DARKGREEN); // Cálculo para cambiar el color de la barra de vida en función del porcentaje de vida
     }
 
-    public void moveTo(int x, int y) {
-        this.xProperty().set(x);
-        this.yProperty().set(y);
-    }
-
     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
         if (spriteStage == 1) {
-            sprite = new Image(App.getFile("PATH-TO-STAGE-1").getAbsolutePath());
+            sprite = sprites[0];
             spriteStage = 2;
         } else if (spriteStage == 2) {
-            sprite = new Image(App.getFile("PATH-TO-STAGE-1").getAbsolutePath());
+            sprite = sprites[0];
             spriteStage = 1;
         }
     }));
@@ -124,8 +124,14 @@ public class Avatar extends Entity implements IAnimation {
     }
 
     public void shoot(double x, double y) {
-        Bullet bullet = new PlayerBullet(20, 10, 1, 10);
+        Bullet bullet = new PlayerBullet(20, 20, 1, 10,Level.getSelected());
         bullet.shootTo(x, y);
         Level.currentLevel().bullets.add(bullet);
+    }
+
+    private void initSprites(){
+        sprites = new Image[1];
+        String uri = "file:" + App.class.getResource("entities/avatar.png").getPath();
+        sprites[0] = new Image(uri,getWidth(),getHeight(),true,false,false);
     }
 }

@@ -4,6 +4,7 @@ public class Vector {
 
     public double x;
     public double y;
+    public double angle;
 
     public Vector(double x, double y) {
         this.x = x;
@@ -11,7 +12,7 @@ public class Vector {
     }
 
     public void normalize() {
-        double angle = Math.atan2(y, x);
+        angle = Math.atan2(y, x);
         x = 1 * Math.cos(angle);
         y = 1 * Math.sin(angle);
     }

@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import com.example.nuclearthrone.App;
 import com.example.nuclearthrone.model.entity.Bullet;
-import com.example.nuclearthrone.model.entity.Enemy;
+import com.example.nuclearthrone.model.entity.enemy.Enemy;
 import com.example.nuclearthrone.model.entity.Entity;
-import com.example.nuclearthrone.model.entity.Wall;
+import com.example.nuclearthrone.model.entity.enviroment.Decoration;
+import com.example.nuclearthrone.model.entity.enviroment.Wall;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,6 +17,7 @@ public class Level {
 
     public ObservableList<Bullet> bullets = FXCollections.observableArrayList();
     public ObservableList<Wall> walls = FXCollections.observableArrayList();
+    public ObservableList<Decoration> decorations = FXCollections.observableArrayList();
     public ObservableList<Enemy> enemies = FXCollections.observableArrayList();
     public Image background;
 
@@ -76,58 +78,11 @@ public class Level {
 
     private static void initializeLevels() {
         levels = new ArrayList<>();
-        Level level1 = new Level(0);
-        level1.walls.add(new Wall(700, 50, 100, 400, 100,0));
-        level1.walls.add(new Wall(0, 0, App.getWidth(), 50, 10000,0));
-        level1.walls.add(new Wall(300, 50, 50, 100, 100,0));
-        level1.walls.add(new Wall(175, 150, 300, 50, 100,0));
-        level1.walls.add(new Wall(550, 450, 250, 100, 100,0));
-        level1.walls.add(new Wall(175,600,200,200,100,0));
-
-        Level level2 = new Level(1);
-        level2.walls.add(new Wall(0, 0, 90, 70, 100,1));
-        level2.walls.add(new Wall(90, 0, 90, 200, 100,1));
-        level2.walls.add(new Wall(300, 180, 350, 50, 100,1));
-        level2.walls.add(new Wall(300, 180, 50, 150, 100,1));
-        level2.walls.add(new Wall(650, 180, 50, 150, 100,1));
-        level2.walls.add(new Wall(300, 330, 100, 50, 100,1));
-        level2.walls.add(new Wall(600, 330, 100, 50, 100,1));
-        level2.walls.add(new Wall(300, 600, App.getWidth()-300, 100, 10000,1));
-        level2.walls.add(new Wall(300, 500, 80, 100, 100,1));
-        level2.walls.add(new Wall(800, 180, 120, 430, 10000,1));
-        level2.walls.add(new Wall(920, 550, App.getWidth()-920, 100, 10000,1));
-
-
-        Level level3 = new Level(2);
-        level3.walls.add(new Wall(0,600,App.getWidth(),100,10000,2));
-        level3.walls.add(new Wall(400,400,80,200,100,2));
-        level3.walls.add(new Wall(300,400,180,80,100,2));
-        level3.walls.add(new Wall(570,510,250,90,100,2));
-        level3.walls.add(new Wall(630,330,120,180,100,2));
-        level3.walls.add(new Wall(400,400,80,200,100,2));
-        level3.walls.add(new Wall(1000,180,80,80,100,2));
-
-        Level level4 = new Level(3);
-        level4.walls.add(new Wall(200,0,100,200,100,3));
-        level4.walls.add(new Wall(200,480,100,200,100,3));
-        level4.walls.add(new Wall(500,220,100,200,100,3));
-
-        level1.right = level2;
-        level2.left = level1;
-        level2.right = level3;
-        level3.left = level2;
-        level3.up = level4;
-        level4.down = level3;
+        Level level1 = initLevel1();
 
         levels.add(level1);
-        levels.add(level2);
-        levels.add(level3);
-        levels.add(level4);
 
-        for(Level level : levels){
-            level.initializeEnemies();
-        }
-
+        level1.initializeEnemies();
         levels.get(selected).start();
     }
 
@@ -181,6 +136,93 @@ public class Level {
                 break;
         }
         return false;
+    }
+
+    private static Level initLevel1(){
+        Level level = new Level(0);
+        //Top of the level
+        for (int x = 0; x < App.getWidth(); x+=50) {
+            if(x == 850){
+                level.walls.add(new Wall(x, 0, 10000,0,"brick-above"));
+            }else if( x == 300 || x == 800){
+                level.walls.add(new Wall(x, 0, 10000,0,"brick-side-left"));
+            }else if(x== 350 || x==900){
+                level.walls.add(new Wall(x, 0, 10000,0,"brick-side-right"));
+            }else{
+                level.walls.add(new Wall(x, 0, 10000,0,"brick"));
+            }
+        }
+        level.walls.add(new Wall(300, 50, 10000,0,"brick-side-left"));
+        level.walls.add(new Wall(300, 100, 10000,0,"brick-side-left"));
+        level.walls.add(new Wall(350, 50, 10000,0,"brick-side-right"));
+        level.walls.add(new Wall(350, 100, 10000,0,"brick-side-right"));
+        level.walls.add(new Wall(150, 150, 10000,0,"brick-incorner-top-left"));
+        level.walls.add(new Wall(150, 250, 10000,0,"brick-end-left"));
+        for (int x = 200; x < 500; x+=50) {
+            if(x == 300){
+                level.walls.add(new Wall(x, 150, 10000,0,"brick-corner-top-left"));
+            }else if(x == 350){
+                level.walls.add(new Wall(x, 150, 10000,0,"brick-corner-top-right"));
+            }else{
+                level.walls.add(new Wall(x, 150, 10000,0,"brick-side-top"));
+            }
+            level.walls.add(new Wall(x, 200, 10000,0,"brick-side-bottom"));
+            level.walls.add(new Wall(x, 250, 10000,0,"brick"));
+            level.decorations.add(new Decoration(x,300,"floor-shadow-top-right"));
+        }
+        level.walls.add(new Wall(500, 250, 10000,0,"brick-end-right"));
+        level.walls.add(new Wall(500, 150, 10000,0,"brick-incorner-top-right"));
+        level.walls.add(new Wall(150, 200, 10000,0,"brick-incorner-bottom-left"));
+        level.walls.add(new Wall(500, 200, 10000,0,"brick-incorner-bottom-right"));
+
+        // Right side brigde
+        for (int x = 800; x < 950; x+=50) {
+            for (int y = 50; y < 400; y+=50) {
+                if(x == 800){
+                    level.walls.add(new Wall(x, y, 10000,0,"brick-side-left"));
+                }else if(x == 850){
+                    level.walls.add(new Wall(x, y, 10000,0,"brick-above"));
+                }else{
+                    level.walls.add(new Wall(x, y, 10000,0,"brick-side-right"));
+                }
+            }
+        }
+
+        level.walls.add(new Wall(550, 400, 10000,0,"brick-incorner-top-left"));
+        level.walls.add(new Wall(550, 450, 10000,0,"brick-incorner-bottom-left"));
+        level.walls.add(new Wall(550, 500, 10000,0,"brick-end-left"));
+        for (int x = 600; x < 950; x+=50) {
+            if(x == 800){
+                level.walls.add(new Wall(x, 400, 10000,0,"brick-corner-top-left"));
+                level.walls.add(new Wall(x, 450, 10000,0,"brick-side-bottom"));
+            }else if(x == 850){
+                level.walls.add(new Wall(x, 400, 10000,0,"brick-above"));
+                level.walls.add(new Wall(x, 450, 10000,0,"brick-side-bottom"));
+            }else if(x == 900){
+                level.walls.add(new Wall(x, 400, 10000,0,"brick-side-right"));
+                level.walls.add(new Wall(x, 450, 10000,0,"brick-incorner-bottom-right"));
+            }else{
+                level.walls.add(new Wall(x, 400, 10000,0,"brick-side-top"));
+                level.walls.add(new Wall(x, 450, 10000,0,"brick-side-bottom"));
+            }
+            level.walls.add(new Wall(x, 500, 10000,0,"brick"));
+            level.decorations.add(new Decoration(x,550,"floor-shadow-top-right"));
+        }
+        level.walls.add(new Wall(900, 500, 10000,0,"brick-end-right"));
+
+        //Little square at bottom
+        level.walls.add(new Wall(150, App.getHeight()-50, 10000,0,"brick-side-left"));
+        level.walls.add(new Wall(150, App.getHeight()-100, 10000,0,"brick-side-left"));
+        level.walls.add(new Wall(150, App.getHeight()-150, 10000,0,"brick-incorner-top-left"));
+        level.walls.add(new Wall(200, App.getHeight()-150, 30,0,"brick-side-top"));
+        level.walls.add(new Wall(250, App.getHeight()-150, 30,0,"brick-side-top"));
+        level.walls.add(new Wall(300, App.getHeight()-150, 10000,0,"brick-incorner-top-right"));
+        level.walls.add(new Wall(300, App.getHeight()-100, 10000,0,"brick-side-right"));
+        level.walls.add(new Wall(300, App.getHeight()-50, 10000,0,"brick-side-right"));
+
+
+
+        return level;
     }
 
     public static Level getLevel(int level){

@@ -1,7 +1,12 @@
-package com.example.nuclearthrone.model.entity;
+package com.example.nuclearthrone.model.entity.enemy;
 
 import com.example.nuclearthrone.App;
+import com.example.nuclearthrone.model.entity.Avatar;
+import com.example.nuclearthrone.model.entity.Entity;
+import com.example.nuclearthrone.model.entity.IAnimation;
+import com.example.nuclearthrone.model.entity.enviroment.Wall;
 import com.example.nuclearthrone.model.level.Level;
+import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -70,23 +75,28 @@ public abstract class Enemy extends Entity implements IAnimation {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            if(level == Level.getSelected()){
-                double oldX = getX();
-                double oldY = getY();
-                attack(Avatar.getIntance());
-                if(isOutOfScreen(this)){
-                    setX(oldX);
-                    setY(oldY);
-                    continue;
-                }
-                for(Wall wall : Level.getLevel(level).walls){
-                    if(intersects(wall)){
+            Platform.runLater(() -> {
+                boolean in = true;
+                if(level == Level.getSelected()){
+                    double oldX = getX();
+                    double oldY = getY();
+                    attack(Avatar.getIntance());
+                    if(isOutOfScreen(this)){
                         setX(oldX);
                         setY(oldY);
-                        break;
+                        in = false;
+                    }
+                    if(in){
+                        for(Wall wall : Level.getLevel(level).walls){
+                            if(intersects(wall)){
+                                setX(oldX);
+                                setY(oldY);
+                                break;
+                            }
+                        }
                     }
                 }
-            }
+            });
         }
     }
 
