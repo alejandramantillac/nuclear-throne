@@ -79,7 +79,7 @@ public abstract class Enemy extends Entity implements IAnimation {
                 if(level == Level.getSelected()){
                     double oldX = getX();
                     double oldY = getY();
-                    attack(Avatar.getIntance());
+                    attack(Avatar.getInstance());
                     if(isOutOfScreen(this)){
                         setX(oldX);
                         setY(oldY);

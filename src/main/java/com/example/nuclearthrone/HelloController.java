@@ -8,6 +8,7 @@ import com.example.nuclearthrone.model.entity.enemy.Enemy;
 import com.example.nuclearthrone.model.entity.enemy.EnemyBullet;
 import com.example.nuclearthrone.model.entity.enviroment.Decoration;
 import com.example.nuclearthrone.model.entity.enviroment.Wall;
+import com.example.nuclearthrone.model.entity.item.Item;
 import com.example.nuclearthrone.model.level.Level;
 
 import javafx.application.Platform;
@@ -31,7 +32,7 @@ public class HelloController {
     @SuppressWarnings("unchecked")
     @FXML
     public void initialize(){
-        Avatar.getIntance().lifeBar = lifeBar;
+        Avatar.getInstance().lifeBar = lifeBar;
         canvas.setFocusTraversable(true);
         canvas.setOnKeyPressed(KeyboardControl::onKeyPressed);
         canvas.setOnKeyReleased(KeyboardControl::onKeyReleased);
@@ -57,12 +58,21 @@ public class HelloController {
                     for (Enemy enemy : current.enemies) {
                         enemy.draw(gc);
                     }
+                    for (int i = 0; i < current.items.size(); i++) {
+                        Item item = current.items.get(i);
+                        item.draw(gc);
+                        if(item.intersects(Avatar.getInstance())){
+                            Avatar.getInstance().collect(item);
+                            current.items.remove(i);
+                            i--;
+                        }
+                    }
                     for (int i = 0; i < current.bullets.size(); i++) {
                         Bullet currentB = current.bullets.get(i);
                         currentB.draw(gc);
                         if(currentB instanceof EnemyBullet){
-                            if(currentB.intersects(Avatar.getIntance())){
-                                Avatar.getIntance().takeDamage(currentB);
+                            if(currentB.intersects(Avatar.getInstance())){
+                                Avatar.getInstance().takeDamage(currentB);
                                 current.bullets.remove(i);
                                 i--;
                                 continue;
@@ -78,7 +88,7 @@ public class HelloController {
                             i--;
                         }
                     }
-                    Avatar.getIntance().draw(gc);
+                    Avatar.getInstance().draw(gc);
                 });
                 try {
                     Thread.sleep(App.msRate());

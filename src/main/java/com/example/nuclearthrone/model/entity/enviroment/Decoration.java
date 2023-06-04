@@ -1,13 +1,14 @@
 package com.example.nuclearthrone.model.entity.enviroment;
 
 import com.example.nuclearthrone.App;
+import com.example.nuclearthrone.model.Images;
 import com.example.nuclearthrone.model.entity.Entity;
 import javafx.scene.image.Image;
 
 public class Decoration extends Entity {
-    public Decoration(double x, double y, String spriteName) {
+    public Decoration(double x, double y, String spriteName, double angle) {
         super(x, y,50,50, 0,false);
-        sprite = getSprite(spriteName);
+        sprite = Images.rotateImage(getSprite(spriteName),angle);
     }
 
     @Override

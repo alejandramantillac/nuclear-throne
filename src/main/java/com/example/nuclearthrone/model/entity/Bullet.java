@@ -1,6 +1,7 @@
 package com.example.nuclearthrone.model.entity;
 
 import com.example.nuclearthrone.App;
+import com.example.nuclearthrone.model.Images;
 import com.example.nuclearthrone.model.Vector;
 import com.example.nuclearthrone.model.level.Level;
 import javafx.scene.SnapshotParameters;
@@ -32,7 +33,7 @@ public class Bullet extends Entity {
         movement = new Vector(x-getX(), y-getY());
         movement.normalize();
         movement.setMag(speed);
-        sprite = rotateImage(sprite, Math.toDegrees(movement.angle));
+        sprite = Images.rotateImage(sprite, Math.toDegrees(movement.angle));
         Thread t = new Thread(() -> {
             try {
                 Thread.sleep((long) delay);

@@ -14,8 +14,8 @@ module com.example.nuclearthrone {
     exports com.example.nuclearthrone.model.level;
     opens com.example.nuclearthrone.model.entity to javafx.fxml;
     exports com.example.nuclearthrone.model.entity;
-    opens com.example.nuclearthrone.model.item to javafx.fxml;
-    exports com.example.nuclearthrone.model.item;
+    opens com.example.nuclearthrone.model.entity.item to javafx.fxml;
+    exports com.example.nuclearthrone.model.entity.item;
     exports com.example.nuclearthrone.model.entity.enemy;
     opens com.example.nuclearthrone.model.entity.enemy to javafx.fxml;
     exports com.example.nuclearthrone.model.entity.enviroment;

@@ -54,6 +54,6 @@ public class KeyboardControl {
     }
 
     public static void onMousePressed(MouseEvent event) {
-        Avatar.getIntance().shoot(event.getX(), event.getY());
+        Avatar.getInstance().attack(event.getX(), event.getY());
     }
 }

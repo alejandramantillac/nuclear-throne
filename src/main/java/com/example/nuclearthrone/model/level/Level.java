@@ -3,12 +3,16 @@ package com.example.nuclearthrone.model.level;
 import java.util.ArrayList;
 
 import com.example.nuclearthrone.App;
+import com.example.nuclearthrone.model.entity.AnimationType;
 import com.example.nuclearthrone.model.entity.Bullet;
 import com.example.nuclearthrone.model.entity.enemy.Enemy;
 import com.example.nuclearthrone.model.entity.Entity;
 import com.example.nuclearthrone.model.entity.enviroment.Decoration;
 import com.example.nuclearthrone.model.entity.enviroment.Wall;
 
+import com.example.nuclearthrone.model.entity.item.Item;
+import com.example.nuclearthrone.model.entity.item.Slingshot;
+import com.example.nuclearthrone.model.entity.item.Weapon;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
@@ -19,6 +23,8 @@ public class Level {
     public ObservableList<Wall> walls = FXCollections.observableArrayList();
     public ObservableList<Decoration> decorations = FXCollections.observableArrayList();
     public ObservableList<Enemy> enemies = FXCollections.observableArrayList();
+
+    public ObservableList<Item> items = FXCollections.observableArrayList();
     public Image background;
 
     private Level left;
@@ -77,8 +83,13 @@ public class Level {
     private static void initializeLevels() {
         levels = new ArrayList<>();
         Level level1 = initLevel1();
+        Level level2 = initLevel2();
+
+        level1.right = level2;
+        level2.left = level1;
 
         levels.add(level1);
+        levels.add(level2);
 
         level1.initializeEnemies();
         levels.get(selected).start();
@@ -136,6 +147,15 @@ public class Level {
         return false;
     }
 
+    private static Level initLevel2(){
+        Level level = new Level(1);
+
+        level.walls.add(new Wall(200,200,1000,1,"brick"));
+        level.walls.add(new Wall(0,50,1000,1,"brick"));
+        level.decorations.add(new Decoration(500,500,"floor-shadow-top-right",90));
+
+        return level;
+    }
     private static Level initLevel1(){
         Level level = new Level(0);
         //Top of the level
@@ -166,7 +186,7 @@ public class Level {
             }
             level.walls.add(new Wall(x, 200, 10000,0,"brick-side-bottom"));
             level.walls.add(new Wall(x, 250, 10000,0,"brick"));
-            level.decorations.add(new Decoration(x,300,"floor-shadow-top-right"));
+            level.decorations.add(new Decoration(x,300,"floor-shadow-top-right",0));
         }
         level.walls.add(new Wall(500, 250, 10000,0,"brick-end-right"));
         level.walls.add(new Wall(500, 150, 10000,0,"brick-incorner-top-right"));
@@ -204,7 +224,7 @@ public class Level {
                 level.walls.add(new Wall(x, 450, 10000,0,"brick-side-bottom"));
             }
             level.walls.add(new Wall(x, 500, 10000,0,"brick"));
-            level.decorations.add(new Decoration(x,550,"floor-shadow-top-right"));
+            level.decorations.add(new Decoration(x,550,"floor-shadow-top-right",0));
         }
         level.walls.add(new Wall(900, 500, 10000,0,"brick-end-right"));
 
@@ -218,7 +238,7 @@ public class Level {
         level.walls.add(new Wall(300, App.getHeight()-100, 10000,0,"brick-side-right"));
         level.walls.add(new Wall(300, App.getHeight()-50, 10000,0,"brick-side-right"));
 
-
+        level.items.add(new Slingshot(50,350));
 
         return level;
     }

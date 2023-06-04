@@ -1,8 +1,10 @@
 package com.example.nuclearthrone.model.entity;
 
 import com.example.nuclearthrone.App;
+import com.example.nuclearthrone.model.Images;
 import com.example.nuclearthrone.model.KeyboardControl;
-import com.example.nuclearthrone.model.item.Weapon;
+import com.example.nuclearthrone.model.entity.item.Item;
+import com.example.nuclearthrone.model.entity.item.Weapon;
 import com.example.nuclearthrone.model.level.Level;
 
 import javafx.animation.Animation;
@@ -10,8 +12,6 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -23,9 +23,9 @@ import java.util.HashMap;
 public class Avatar extends Entity implements IAnimation {
 
     private static Avatar instance;
-    private static HashMap<String,Image[]> animations;
+    private static HashMap<AnimationType,Image[]> animations;
 
-    public static Avatar getIntance() {
+    public static Avatar getInstance() {
         if (instance == null)
             instance = new Avatar(100,100, 50, 50);
         if (instance.health <= 0)
@@ -35,31 +35,30 @@ public class Avatar extends Entity implements IAnimation {
 
     private int spriteStage = 0;
     double speed;
-    boolean isAttacking;
     String lookingAt;
     public Weapon weapon;
-    public String animationType;
+    private AnimationType animation;
 
     public Rectangle lifeBar;
-    private BooleanBinding keyPressed = KeyboardControl.wPressed.or(KeyboardControl.aPressed).or(
-            KeyboardControl.sPressed).or(KeyboardControl.dPressed);
 
     private Avatar(double x, double y, double width, double height) {
         super(x, y, width, height, 100, true);
         speed = 1.5;
-        isAttacking = false;
-        health = 100;
-        keyPressed.addListener((a, b, c) -> onKeyPressed(a, b, c));
+        BooleanBinding keyPressed = KeyboardControl.wPressed.or(KeyboardControl.aPressed).or(
+                KeyboardControl.sPressed).or(KeyboardControl.dPressed);
+        keyPressed.addListener(this::onKeyPressed);
         initSprites();
-        animationType = "idle";
+        animation = AnimationType.IDLE;
         lookingAt = "right";
+        isAlive = true;
         startAnimation();
     }
 
     @Override
     public void takeDamage(Entity other) {
+        animation = AnimationType.HIT;
         health -= other.damage;
-        System.out.print(health);
+        isAlive = health > 0;
         updateLifeBar();
     }
 
@@ -69,16 +68,18 @@ public class Avatar extends Entity implements IAnimation {
     }
 
     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
-        if(spriteStage < animations.get(animationType).length-1){
+        if(spriteStage < animations.get(animation).length-1){
             spriteStage++;
         }else{
-            if(!animationType.equals("idle")&&!animationType.equals("run")) {
-                animationType = "idle";
+            if(animation != AnimationType.DEATH){
+                if(animation != AnimationType.IDLE && animation != AnimationType.RUN) {
+                    animation = AnimationType.IDLE;
+                }
+                spriteStage = 0;
             }
-            spriteStage = 0;
         }
-        sprite = animations.get(animationType)[spriteStage];
-        if(lookingAt.equals("left")) sprite = mirrorImageHorizontally(sprite);
+        sprite = animations.get(animation)[spriteStage];
+        if(lookingAt.equals("left")) sprite = Images.mirrorImageHorizontally(sprite);
     }));
 
     @Override
@@ -95,7 +96,7 @@ public class Avatar extends Entity implements IAnimation {
     AnimationTimer movement = new AnimationTimer() {
         @Override
         public void handle(long timestamp) {
-            if(!animationType.equals("shoot")){
+            if(animation != AnimationType.SHOOT && isAlive){
                 double previousX = getX();
                 double previousY = getY();
                 if (KeyboardControl.wPressed.get()) {
@@ -128,8 +129,8 @@ public class Avatar extends Entity implements IAnimation {
                     }
                 }
 
-                if((getX() != previousX || getY() != previousY) && !animationType.equals("run")){
-                    animationType = "run";
+                if((getX() != previousX || getY() != previousY) && animation != AnimationType.RUN){
+                    animation = AnimationType.RUN;
                     spriteStage = 0;
                 }
             }
@@ -137,51 +138,64 @@ public class Avatar extends Entity implements IAnimation {
     };
 
     public void onKeyPressed(ObservableValue<? extends Boolean> observable, Boolean a, Boolean keyPressed) {
-        if(!animationType.equals("shoot")) {
+        if(animation != AnimationType.SHOOT && isAlive) {
             if (keyPressed) {
                 movement.start();
-                animationType = "run";
-                spriteStage = 0;
+                animation = AnimationType.RUN;
             } else {
                 movement.stop();
-                animationType = "idle";
-                spriteStage = 0;
+                animation = AnimationType.IDLE;
             }
+            spriteStage = 0;
         }
     }
 
-    public void shoot(double x, double y) {
-        if(!animationType.equals("shoot")){
+    public void attack(double x, double y) {
+        if(animation != AnimationType.SHOOT && isAlive && weapon != null){
             if(x>getX()){
                 lookingAt = "right";
             }else{
                 lookingAt = "left";
             }
-            animationType = "shoot";
+            animation = weapon.attack(x,y);
             spriteStage = 0;
-            Bullet bullet = new PlayerBullet(20, 20, 1, 10,Level.getSelected());
-            bullet.setVisible(false);
-            bullet.shootTo(x, y,1200);
-            Level.currentLevel().bullets.add(bullet);
+        }
+    }
+
+    public void collect(Item item){
+        if(item instanceof Weapon){
+            if(weapon == null){
+                weapon = (Weapon) item;
+            }
         }
     }
 
     private void initSprites(){
         animations = new HashMap<>();
-        animations.put("idle",new Image[4]);
+        animations.put(AnimationType.IDLE, new Image[4]);
         for (int i = 1; i <=4; i++) {
             String uri = "file:" + App.class.getResource("entities/avatar/idle/Hobbit - Idle"+i+".png").getPath();
-            animations.get("idle")[i-1] = new Image(uri,getWidth(),getHeight(),false,true,false);
+            animations.get(AnimationType.IDLE)[i-1] = new Image(uri,getWidth(),getHeight(),false,true,false);
         }
-        animations.put("run",new Image[10]);
+        animations.put(AnimationType.RUN,new Image[10]);
         for (int i = 1; i <=10; i++) {
             String uri = "file:" + App.class.getResource("entities/avatar/run/Hobbit - run"+i+".png").getPath();
-            animations.get("run")[i-1] = new Image(uri,getWidth(),getHeight(),false,true,false);
+            animations.get(AnimationType.RUN)[i-1] = new Image(uri,getWidth(),getHeight(),false,true,false);
         }
-        animations.put("shoot",new Image[17]);
+        animations.put(AnimationType.SHOOT,new Image[17]);
         for (int i = 1; i <=17; i++) {
             String uri = "file:" + App.class.getResource("entities/avatar/shoot/Hobbit - attack"+i+".png").getPath();
-            animations.get("shoot")[i-1] = new Image(uri,getWidth(),getHeight(),false,true,false);
+            animations.get(AnimationType.SHOOT)[i-1] = new Image(uri,getWidth(),getHeight(),false,true,false);
+        }
+        animations.put(AnimationType.HIT,new Image[4]);
+        for (int i = 1; i <=4; i++) {
+            String uri = "file:" + App.class.getResource("entities/avatar/hit/Hobbit - hit"+i+".png").getPath();
+            animations.get(AnimationType.HIT)[i-1] = new Image(uri,getWidth(),getHeight(),false,true,false);
+        }
+        animations.put(AnimationType.DEATH,new Image[4]);
+        for (int i = 1; i <=4; i++) {
+            String uri = "file:" + App.class.getResource("entities/avatar/death/Hobbit - death"+i+".png").getPath();
+            animations.get(AnimationType.DEATH)[i-1] = new Image(uri,getWidth(),getHeight(),false,true,false);
         }
     }
 }
