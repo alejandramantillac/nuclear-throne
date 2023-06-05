@@ -1,4 +1,4 @@
-package com.example.nuclearthrone.model;
+package com.example.nuclearthrone.model.util;
 
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;

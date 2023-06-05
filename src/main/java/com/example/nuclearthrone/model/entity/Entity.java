@@ -2,14 +2,13 @@ package com.example.nuclearthrone.model.entity;
 
 import java.util.ArrayList;
 
-import com.example.nuclearthrone.App;
-
+import com.example.nuclearthrone.MainMenu;
+import com.example.nuclearthrone.model.entity.ammo.Bullet;
+import com.example.nuclearthrone.model.entity.ammo.EnemyBullet;
 import com.example.nuclearthrone.model.entity.enemy.Enemy;
-import com.example.nuclearthrone.model.entity.enemy.EnemyBullet;
-import com.example.nuclearthrone.model.entity.item.Item;
+import com.example.nuclearthrone.model.util.Direction;
+
 import javafx.collections.ObservableList;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -32,11 +31,13 @@ public abstract class Entity extends Rectangle {
         this.tangible = tangible;
         this.isAlive = true;
     }
+
     public abstract void takeDamage(Entity other);
 
     public void draw(GraphicsContext gc) {
-        if(!this.isVisible())
+        if (!this.isVisible()) {
             return;
+        }
         if (sprite != null) {
             gc.drawImage(sprite, getX(), getY());
         } else {
@@ -46,20 +47,24 @@ public abstract class Entity extends Rectangle {
     }
 
     public boolean intersects(Entity other) {
-        if (!tangible || !other.tangible)
+        if (!tangible || !other.tangible) {
             return false;
-        if ((this instanceof Avatar || this instanceof Enemy) && (other instanceof Bullet || other instanceof Enemy))
+        }
+        if ((this instanceof Avatar || this instanceof Enemy) && (other instanceof Bullet || other instanceof Enemy)) {
             return false;
-        if(this instanceof EnemyBullet && other instanceof Enemy)
+        }
+        if (this instanceof EnemyBullet && other instanceof Enemy) {
             return false;
+        }
         return this.intersects(other.getBoundsInLocal());
     }
 
+    @SuppressWarnings("unchecked")
     public ArrayList<Entity> intersectsAny(ObservableList<? extends Entity>... list) {
         ArrayList<Entity> intersected = new ArrayList<>();
-        for(ObservableList<? extends Entity> entities : list){
+        for (ObservableList<? extends Entity> entities : list) {
             for (Entity entity : entities) {
-                if(intersects(entity)){
+                if (intersects(entity)) {
                     intersected.add(entity);
                 }
             }
@@ -68,24 +73,23 @@ public abstract class Entity extends Rectangle {
     }
 
     public static boolean isOutOfScreen(Entity e) {
-        return e.getX() + e.getWidth() +10> App.getWidth() || e.getX() <= 0
-                || e.getY() +30+e.getHeight() > App.getHeight() || e.getY()  <= 0;
+        return e.getX() + e.getWidth() + 10 > MainMenu.getWidth() || e.getX() <= 0
+                || e.getY() + 30 + e.getHeight() > MainMenu.getHeight() || e.getY() <= 0;
     }
 
-    public static String getSideOut(Entity e){
-        if(e.getX() + e.getWidth() +10> App.getWidth()){
-            return "RIGHT";
+    public static Direction getSideOut(Entity e) {
+        if (e.getX() + e.getWidth() + 10 > MainMenu.getWidth()) {
+            return Direction.RIGHT;
         }
-        if(e.getX() <= 0){
-            return "LEFT";
+        if (e.getX() <= 0) {
+            return Direction.LEFT;
         }
-        if(e.getY() +30+e.getHeight() > App.getHeight()){
-            return "DOWN";
+        if (e.getY() + 30 + e.getHeight() > MainMenu.getHeight()) {
+            return Direction.DOWN;
         }
-        if(e.getY()  <= 0){
-            return "UP";
+        if (e.getY() <= 0) {
+            return Direction.UP;
         }
-        return "NONE";
+        return Direction.NONE;
     }
-
 }

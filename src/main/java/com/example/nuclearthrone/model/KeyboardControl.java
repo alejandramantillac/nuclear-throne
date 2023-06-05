@@ -29,6 +29,9 @@ public class KeyboardControl {
             case A:
                 aPressed.set(true);
                 break;
+            case E:
+                Avatar.getInstance().collectNearbyItem();
+                break;
             default:
                 break;
         }

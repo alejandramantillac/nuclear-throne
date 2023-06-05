@@ -1,6 +1,15 @@
 package com.example.nuclearthrone;
 
-import javafx.animation.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import com.example.nuclearthrone.model.menus.Soundtrack;
+
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,9 +29,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import com.example.nuclearthrone.model.menus.Soundtrack;
-
-import java.io.IOException;
 
 public class MainMenu extends Application {
 
@@ -49,13 +55,12 @@ public class MainMenu extends Application {
 
     Soundtrack playSoundtrack = Soundtrack.getInstance();
 
-
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Main Menu");
 
         // Load fxml
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-menu.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getView("main-menu"));
         AnchorPane root = fxmlLoader.load();
 
         // Play song
@@ -114,7 +119,6 @@ public class MainMenu extends Application {
 
         root.getChildren().add(ball1);
 
-
         // Buttons references
         playButton = (Button) fxmlLoader.getNamespace().get("playButton");
         settingsButton = (Button) fxmlLoader.getNamespace().get("settingsButton");
@@ -122,15 +126,15 @@ public class MainMenu extends Application {
         quitButton = (Button) fxmlLoader.getNamespace().get("quitButton");
 
         playButton.setOnAction(e -> {
-            openWindow("hello-view.fxml");
+            initGame();
         });
 
         settingsButton.setOnAction(e -> {
-            openWindow("settings.fxml");
+            openWindow("settings");
         });
 
         creditsButton.setOnAction(e -> {
-            openWindow("credits.fxml");
+            openWindow("credits");
         });
 
         quitButton.setOnAction(e -> {
@@ -177,10 +181,9 @@ public class MainMenu extends Application {
         primaryStage.show();
     }
 
-
     public static void openWindow(String fxml) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainMenu.class.getResource(fxml));
+            FXMLLoader fxmlLoader = new FXMLLoader(getView(fxml));
             AnchorPane root = fxmlLoader.load();
 
             Scene scene = new Scene(root);
@@ -189,9 +192,47 @@ public class MainMenu extends Application {
             stage.setScene(scene);
             stage.show();
 
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
+    public static void initGame() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getView("game"));
+            Scene scene = new Scene(fxmlLoader.load(), getWidth(), getHeight());
+
+            Stage stage = new Stage();
+            stage.setWidth(1280);
+            stage.setHeight(720);
+            stage.setTitle("Nuclear Throne");
+            stage.resizableProperty().set(false);
+            stage.setScene(scene);
+
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static URL getView(String name) {
+        return MainMenu.class.getResource("windows/" + name + ".fxml");
+    }
+
+    public static File getFile(String fileName) {
+        return new File(MainMenu.class.getResource(fileName).getPath());
+    }
+
+    public static double getWidth() {
+        return 1280;
+    }
+
+    public static double getHeight() {
+        return 720;
+    }
+
+    public static int msRate() {
+        return 16;
+    }
 }

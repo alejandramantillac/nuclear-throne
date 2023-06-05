@@ -2,7 +2,7 @@ module com.example.nuclearthrone {
     requires javafx.controls;
     requires javafx.fxml;
     requires transitive javafx.graphics;
-    requires javafx.media;
+    requires transitive javafx.media;
 
     opens com.example.nuclearthrone to javafx.fxml;
     exports com.example.nuclearthrone;
@@ -20,4 +20,8 @@ module com.example.nuclearthrone {
     opens com.example.nuclearthrone.model.entity.enemy to javafx.fxml;
     exports com.example.nuclearthrone.model.entity.enviroment;
     opens com.example.nuclearthrone.model.entity.enviroment to javafx.fxml;
+    exports com.example.nuclearthrone.model.entity.ammo;
+    opens com.example.nuclearthrone.model.entity.ammo to javafx.fxml;
+    opens com.example.nuclearthrone.model.util to javafx.fxml;
+    exports com.example.nuclearthrone.model.util;
 }

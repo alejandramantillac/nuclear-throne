@@ -2,7 +2,6 @@ package com.example.nuclearthrone.model.menus;
 
 import java.io.File;
 
-import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
