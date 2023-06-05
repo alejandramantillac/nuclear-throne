@@ -1,8 +1,15 @@
 package com.example.nuclearthrone.model.entity;
 
+import javafx.animation.Timeline;
+
 public interface IAnimation {
-    
-    public void startAnimation();
-    public void stopAnimation();
+
+    void startAnimation();
+
+    void stopAnimation();
+
+    Timeline getAnimation();
+
+    void initAnimation();
 
 }

@@ -29,6 +29,9 @@ public class KeyboardControl {
             case A:
                 aPressed.set(true);
                 break;
+            case E:
+                Avatar.getInstance().collectNearbyItem();
+                break;
             default:
                 break;
         }
@@ -54,6 +57,6 @@ public class KeyboardControl {
     }
 
     public static void onMousePressed(MouseEvent event) {
-        Avatar.getIntance().shoot(event.getX(), event.getY());
+        Avatar.getInstance().attack(event.getX(), event.getY());
     }
 }
