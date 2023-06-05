@@ -14,6 +14,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -31,13 +32,13 @@ import java.io.IOException;
 public class PlayAgain extends Application {
 
     @FXML
-    private Button mainBtn;
+    private ImageView mainBtn;
 
     @FXML
     private Button playAgain_btn;
 
     @FXML
-    private Button reanudeBtn;
+    private ImageView reanudeBtn;
 
     public static void main(String[] args) {
         launch(args);
@@ -111,27 +112,14 @@ public class PlayAgain extends Application {
 
         // Buttons references
         playAgain_btn = (Button) fxmlLoader.getNamespace().get("playAgain_btn");
-        reanudeBtn = (Button) fxmlLoader.getNamespace().get("reanudeBtn");
-        mainBtn = (Button) fxmlLoader.getNamespace().get("mainBtn");
-
-        image = new Image("com/example/nuclearthrone/images/menu_button.png");
-        imageview = new ImageView(image);
-
-        mainBtn.setGraphic(imageview);
-
+        //reanudeBtn = fxmlLoader.getNamespace().get("reanudeBtn");
+        //mainBtn = fxmlLoader.getNamespace().get("mainBtn");
 
 
         playAgain_btn.setOnAction(e -> {
             openWindow("hello-view.fxml");
         });
 
-        reanudeBtn.setOnAction(e -> {
-            System.out.println("keep going...");
-        });
-
-        mainBtn.setOnAction(e -> {
-            openWindow("main-menu.fxml");
-        });
 
 
         // Buttons animation
@@ -140,20 +128,6 @@ public class PlayAgain extends Application {
         rtPlay.setAutoReverse(true);
         rtPlay.setCycleCount(RotateTransition.INDEFINITE);
         rtPlay.play();
-
-        RotateTransition rtSettings = new RotateTransition(Duration.seconds(3), reanudeBtn);
-        rtSettings.setByAngle(5);
-        rtSettings.setAutoReverse(true);
-        rtSettings.setCycleCount(RotateTransition.INDEFINITE);
-        rtSettings.setDelay(Duration.seconds(0.5));
-        rtSettings.play();
-
-        RotateTransition rtCredits = new RotateTransition(Duration.seconds(3), mainBtn);
-        rtCredits.setByAngle(5);
-        rtCredits.setAutoReverse(true);
-        rtCredits.setCycleCount(RotateTransition.INDEFINITE);
-        rtCredits.setDelay(Duration.seconds(1));
-        rtCredits.play();
 
 
         VBox vBox = new VBox(10, playAgain_btn, new HBox(10, reanudeBtn,mainBtn));
