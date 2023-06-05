@@ -1,5 +1,4 @@
 package com.example.nuclearthrone;
-
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -12,9 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -28,39 +25,56 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class PlayAgain extends Application {
 
     @FXML
-    private ImageView mainBtn;
+    private ImageView image;
 
     @FXML
-    private Button playAgain_btn;
+    private Button menuBtn;
 
     @FXML
-    private ImageView reanudeBtn;
+    private ImageView playAgainBtn;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    @FXML
+    private AnchorPane root;
 
-    private ImageView imageview;
-    private Image image;
     private Canvas canvas;
 
+    public static void openWindow(String fxml) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getView(fxml));
+            AnchorPane root = fxmlLoader.load();
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Nuclear Throne");
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     @Override
-    public void start(Stage stage) throws Exception {
-        stage.setTitle("Play again menu");
+    public void start(Stage stg) throws IOException {
+        stg.setTitle("Play Again");
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("play-again.fxml"));
+        // Load fxml
+        FXMLLoader fxmlLoader = new FXMLLoader(getView("play-again"));
         AnchorPane root = fxmlLoader.load();
+
+        // Play song
+        //playSoundtrack.mainMenuSong();
 
         // Background with gradient
         Rectangle background = new Rectangle(800, 600);
         RadialGradient gradient = new RadialGradient(0, 0, 0.5, 0.5, 1, true, CycleMethod.NO_CYCLE,
-                new Stop(0, Color.rgb(51, 0, 102, 0.8)), // Morado oscuro más opaco
-                new Stop(1, Color.rgb(17, 17, 34, 0.8))); // Morado más gris y oscuro
+                new Stop(0, Color.rgb(51, 0, 102, 0.35)),
+                new Stop(1, Color.rgb(17, 17, 34, 0.35)));
         background.setFill(gradient);
 
         // Ball Movement 1
@@ -109,52 +123,47 @@ public class PlayAgain extends Application {
 
         root.getChildren().add(ball1);
 
-
         // Buttons references
-        playAgain_btn = (Button) fxmlLoader.getNamespace().get("playAgain_btn");
-        //reanudeBtn = fxmlLoader.getNamespace().get("reanudeBtn");
-        //mainBtn = fxmlLoader.getNamespace().get("mainBtn");
+        menuBtn = (Button) fxmlLoader.getNamespace().get("menuBtn");
+        playAgainBtn = (ImageView) fxmlLoader.getNamespace().get("playAgainBtn");
 
+        menuBtn.setOnAction(e -> {
+            openWindow("main-menu");
+        });
 
-        playAgain_btn.setOnAction(e -> {
-            openWindow("hello-view.fxml");
+        playAgainBtn.setOnMouseClicked(e -> {
+            openWindow("game");
         });
 
 
-
         // Buttons animation
-        RotateTransition rtPlay = new RotateTransition(Duration.seconds(3), playAgain_btn);
+        RotateTransition rtPlay = new RotateTransition(Duration.seconds(3), menuBtn);
         rtPlay.setByAngle(5);
         rtPlay.setAutoReverse(true);
         rtPlay.setCycleCount(RotateTransition.INDEFINITE);
         rtPlay.play();
 
+        RotateTransition rtSettings = new RotateTransition(Duration.seconds(3), playAgainBtn);
+        rtSettings.setByAngle(5);
+        rtSettings.setAutoReverse(true);
+        rtSettings.setCycleCount(RotateTransition.INDEFINITE);
+        rtSettings.setDelay(Duration.seconds(0.5));
+        rtSettings.play();
 
-        VBox vBox = new VBox(10, playAgain_btn, new HBox(10, reanudeBtn,mainBtn));
-        vBox.setAlignment(Pos.CENTER);
-        vBox.setTranslateX(260);
-        vBox.setTranslateY(200);
 
-        root.getChildren().addAll(background, vBox);
+        HBox hBox = new HBox(20, menuBtn, playAgainBtn);
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setTranslateX(260);
+        hBox.setTranslateY(200);
+
+        root.getChildren().addAll(background, hBox);
 
         Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        stg.setScene(scene);
+        stg.show();
     }
 
-    public static void openWindow(String fxml) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainMenu.class.getResource(fxml));
-            AnchorPane root = fxmlLoader.load();
-
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setTitle("Nuclear Throne");
-            stage.setScene(scene);
-            stage.show();
-
-        } catch(IOException ex) {
-            ex.printStackTrace();
-        }
+    public static URL getView(String name) {
+        return MainMenu.class.getResource("windows/" + name + ".fxml");
     }
 }

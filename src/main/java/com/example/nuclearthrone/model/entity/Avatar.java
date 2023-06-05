@@ -1,5 +1,7 @@
 package com.example.nuclearthrone.model.entity;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 
 import com.example.nuclearthrone.MainMenu;
@@ -16,9 +18,13 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Avatar extends Entity implements IAnimation {
@@ -107,6 +113,7 @@ public class Avatar extends Entity implements IAnimation {
             if (!isAlive) {
                 animation = AnimationType.DEATH;
                 spriteStage = 0;
+                openWindow("play-again");
             }
             updateLifeBar();
         }
@@ -237,5 +244,24 @@ public class Avatar extends Entity implements IAnimation {
             String uri = "file:" + MainMenu.getFile("entities/avatar/attack/Hobbit - block" + i + ".png").getPath();
             animations.get(AnimationType.ATTACK)[i - 1] = new Image(uri, getWidth(), getHeight(), false, true, false);
         }
+    }
+
+    public static void openWindow(String fxml) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getView(fxml));
+            AnchorPane root = fxmlLoader.load();
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Nuclear Throne");
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public static URL getView(String name) {
+        return MainMenu.class.getResource("windows/" + name + ".fxml");
     }
 }
