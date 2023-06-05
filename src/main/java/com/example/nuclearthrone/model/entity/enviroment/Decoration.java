@@ -20,7 +20,7 @@ public class Decoration extends Entity {
     public void takeDamage(Entity other) {}
 
     public Image getSprite(String name){
-        String uri = "file:" + MainMenu.getFile("enviroment/decoration/"+name+".png").getPath();
+        String uri = "file:" + MainMenu.getFile("environment/decoration/"+name+".png").getPath();
         return new Image(uri,getWidth(),getHeight(),true,false,false);
     }
 }

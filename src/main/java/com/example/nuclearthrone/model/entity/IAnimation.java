@@ -4,12 +4,12 @@ import javafx.animation.Timeline;
 
 public interface IAnimation {
 
-    public void startAnimation();
+    void startAnimation();
 
-    public void stopAnimation();
+    void stopAnimation();
 
-    public Timeline getAnimation();
+    Timeline getAnimation();
 
-    public void initAnimation();
+    void initAnimation();
 
 }

@@ -46,6 +46,7 @@ public abstract class Bullet extends Entity implements IAnimation {
     @Override
     public void takeDamage(Entity other){}
 
+    @SuppressWarnings("BusyWait")
     public void shootTo(double x, double y, double delay) {
         movement = new Vector(x - getX(), y - getY());
         movement.normalize();
@@ -67,7 +68,9 @@ public abstract class Bullet extends Entity implements IAnimation {
                 }
                 try {
                     Thread.sleep(MainMenu.msRate());
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
             Objects.requireNonNull(Level.getLevel(level)).bullets.remove(this);
         });

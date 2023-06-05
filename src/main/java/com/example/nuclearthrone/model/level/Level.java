@@ -32,7 +32,7 @@ public class Level {
     private Level up;
     private Level down;
 
-    private int level;
+    private final int level;
 
     private boolean initialized;
 
@@ -103,40 +103,40 @@ public class Level {
     public static boolean inGate(Entity entity) {
         Direction side = Entity.getSideOut(entity);
         switch (side) {
-            case RIGHT:
+            case RIGHT -> {
                 if (currentLevel().right != null) {
                     selected = levels.indexOf(currentLevel().right);
                     entity.setX(1);
                     currentLevel().start();
                     return true;
                 }
-                break;
-            case LEFT:
+            }
+            case LEFT -> {
                 if (currentLevel().left != null) {
                     selected = levels.indexOf(currentLevel().left);
                     entity.setX(MainMenu.getWidth() - 11 - entity.getWidth());
                     currentLevel().start();
                     return true;
                 }
-                break;
-            case UP:
+            }
+            case UP -> {
                 if (currentLevel().up != null) {
                     selected = levels.indexOf(currentLevel().up);
                     entity.setY(MainMenu.getHeight() - 30 - entity.getHeight());
                     currentLevel().start();
                     return true;
                 }
-                break;
-            case DOWN:
+            }
+            case DOWN -> {
                 if (currentLevel().down != null) {
                     selected = levels.indexOf(currentLevel().down);
                     entity.setY(1);
                     currentLevel().start();
                     return true;
                 }
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
         return false;
     }
@@ -144,9 +144,9 @@ public class Level {
     private static Level initLevel1() {
         Level level = new Level(0);
 
-        String uri = "file:" + MainMenu.class.getResource("enviroment/decoration/floor.png").getPath();
+        String uri = "file:" + MainMenu.getFile("environment/decoration/floor.png").getPath();
         level.background = new Image(uri, MainMenu.getWidth(), MainMenu.getHeight(), false, false, false);
-        
+
         // Top of the level
         for (int x = 0; x < MainMenu.getWidth(); x += 50) {
             if (x == 850) {
@@ -182,7 +182,7 @@ public class Level {
         level.walls.add(new Wall(150, 200, 10000, 0, "brick-incorner-bottom-left"));
         level.walls.add(new Wall(500, 200, 10000, 0, "brick-incorner-bottom-right"));
 
-        // Right side brigde
+        // Right side bridge
         for (int x = 800; x < 950; x += 50) {
             for (int y = 50; y < 400; y += 50) {
                 if (x == 800) {
@@ -236,16 +236,12 @@ public class Level {
     private static Level initLevel2() {
         Level level = new Level(1);
 
-        String uri = "file:" + MainMenu.class.getResource("enviroment/decoration/floor.png").getPath();
+        String uri = "file:" + MainMenu.getFile("environment/decoration/floor.png").getPath();
         level.background = new Image(uri, MainMenu.getWidth(), MainMenu.getHeight(), false, false, false);
 
         // Top of the level
         for (int x = 0; x < MainMenu.getWidth(); x += 50) {
-            if (x == 850 || x == 300 || x == 800 || x == 350 || x == 900) {
                 level.walls.add(new Wall(x, 0, 10000, 0, "shore1"));
-            } else {
-                level.walls.add(new Wall(x, 0, 10000, 0, "shore1"));
-            }
         }
 
         // Water Border

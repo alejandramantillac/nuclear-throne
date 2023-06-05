@@ -38,7 +38,7 @@ public class Wall extends Entity {
     }
 
     public Image getSprite(String name) {
-        String uri = "file:" + MainMenu.getFile("enviroment/wall/" + name + ".png").getPath();
+        String uri = "file:" + MainMenu.getFile("environment/wall/" + name + ".png").getPath();
         return new Image(uri, getWidth(), getHeight(), true, false, false);
     }
 }

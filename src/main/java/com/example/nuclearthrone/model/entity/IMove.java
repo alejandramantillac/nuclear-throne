@@ -2,8 +2,8 @@ package com.example.nuclearthrone.model.entity;
 
 public interface IMove {
 
-    public void startMovement();
+    void startMovement();
 
-    public void chasePlayer();
+    void chasePlayer();
 
 }

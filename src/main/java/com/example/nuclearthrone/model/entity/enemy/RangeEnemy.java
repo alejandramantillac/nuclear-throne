@@ -18,7 +18,7 @@ import javafx.util.Duration;
 
 public class RangeEnemy extends Enemy {
     
-    public static final double SECONDS_PER_SHOT = 4;
+    public static final double SECONDS_PER_SHOT = 3;
     public static final double WIDTH = 50;
     public static final double HEIGHT = 50;
     public static final int HEALTH = 100;
@@ -44,7 +44,7 @@ public class RangeEnemy extends Enemy {
     }
 
     public void shoot(double x, double y) {
-        nextShot = System.currentTimeMillis() + ((int) (Math.random() * SECONDS_PER_SHOT) * 1000);
+        nextShot = System.currentTimeMillis() + ((int) ((Math.random() * SECONDS_PER_SHOT) + SECONDS_PER_SHOT) * 1000);
         Bullet bullet = new EnemyBullet(this, 1, Level.getSelected());
         bullet.shootTo(x, y, 0);
         Level.currentLevel().bullets.add(bullet);

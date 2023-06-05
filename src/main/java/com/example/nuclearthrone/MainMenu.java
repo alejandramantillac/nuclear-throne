@@ -3,6 +3,7 @@ package com.example.nuclearthrone;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 
 import com.example.nuclearthrone.model.menus.Soundtrack;
 
@@ -221,7 +222,7 @@ public class MainMenu extends Application {
     }
 
     public static File getFile(String fileName) {
-        return new File(MainMenu.class.getResource(fileName).getPath());
+        return new File(Objects.requireNonNull(MainMenu.class.getResource(fileName)).getPath());
     }
 
     public static double getWidth() {

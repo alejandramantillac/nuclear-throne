@@ -23,7 +23,7 @@ import javafx.util.Duration;
 
 public class Avatar extends Entity implements IAnimation {
 
-    public static final double SPEED = 1.5;
+    public static final double SPEED = 1.7;
     public static final double WIDTH = 50;
     public static final double HEIGHT = 50;
 
@@ -33,7 +33,7 @@ public class Avatar extends Entity implements IAnimation {
     private static Timeline animationPlayer;
     private static int spriteStage = 0;
     private static Avatar instance;
-    private static BooleanBinding keyPressed = KeyboardControl.wPressed.or(KeyboardControl.aPressed).or(
+    private static final BooleanBinding keyPressed = KeyboardControl.wPressed.or(KeyboardControl.aPressed).or(
             KeyboardControl.sPressed).or(KeyboardControl.dPressed);
 
     public static Avatar getInstance() {
@@ -114,8 +114,7 @@ public class Avatar extends Entity implements IAnimation {
 
     private void updateLifeBar() {
         lifeBar.setWidth(170 * (health / 100.0));
-        lifeBar.setFill(Color.DARKGREEN); // Cálculo para cambiar el color de la barra de vida en función del porcentaje
-                                          // de vida
+        lifeBar.setFill(Color.DARKGREEN); // Update life's bar
     }
 
     public void onKeyPressed(ObservableValue<? extends Boolean> observable, Boolean a, Boolean keyPressed) {

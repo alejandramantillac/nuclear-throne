@@ -13,6 +13,8 @@ import javafx.animation.Animation;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 
+import java.util.Objects;
+
 public abstract class Enemy extends Entity implements IAnimation {
 
     int speed;
@@ -46,7 +48,7 @@ public abstract class Enemy extends Entity implements IAnimation {
         health -= other.damage;
         if (health <= 0) {
             isAlive = false;
-            Level.getLevel(level).enemies.remove(this);
+            Objects.requireNonNull(Level.getLevel(level)).enemies.remove(this);
         }
     }
 
@@ -61,41 +63,42 @@ public abstract class Enemy extends Entity implements IAnimation {
         timeline.stop();
     }
 
+    @SuppressWarnings("BusyWait")
     private void run() {
-        // movimiento del enemigo
+        // Enemy movement
         while (isAlive) {
             try {
                 Thread.sleep(50);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            Platform.runLater(() -> {
-                boolean in = true;
-                if (level == Level.getSelected()) {
-                    double oldX = getX();
-                    double oldY = getY();
-                    attack(Avatar.getInstance());
-                    if (isOutOfScreen(this)) {
-                        setX(oldX);
-                        setY(oldY);
-                        in = false;
-                    }
-                    if (in) {
-                        for (Wall wall : Level.getLevel(level).walls) {
-                            if (intersects(wall)) {
-                                setX(oldX);
-                                setY(oldY);
-                                break;
+                Platform.runLater(() -> {
+                    boolean in = true;
+                    if (level == Level.getSelected()) {
+                        double oldX = getX();
+                        double oldY = getY();
+                        attack(Avatar.getInstance());
+                        if (isOutOfScreen(this)) {
+                            setX(oldX);
+                            setY(oldY);
+                            in = false;
+                        }
+                        if (in) {
+                            for (Wall wall : Objects.requireNonNull(Level.getLevel(level)).walls) {
+                                if (intersects(wall)) {
+                                    setX(oldX);
+                                    setY(oldY);
+                                    break;
+                                }
                             }
                         }
                     }
-                }
-            });
+                });
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     public static Enemy generateEnemy(int level) {
-        int type = (int) Math.random() * 2;
+        int type = (int) (Math.random() * 2);
         switch (type) {
             case 0:
                 return new RangeEnemy(Math.random() * (MainMenu.getWidth() - RangeEnemy.WIDTH),
