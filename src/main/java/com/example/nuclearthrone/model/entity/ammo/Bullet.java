@@ -62,10 +62,8 @@ public abstract class Bullet extends Entity implements IAnimation {
             while (alive) {
                 setX(getX() + movement.x);
                 setY(getY() + movement.y);
-                alive = !isOutOfScreen(this);
-                if (this instanceof Fireball) {
-                    alive = Math.sqrt(Math.pow(initialX - getX(), 2) + Math.pow(initialY - getY(), 2)) <= Fireball.RANGE;
-                }
+                alive = uniqueAliveConstraint();
+                alive = alive && !isOutOfScreen(this);
                 try {
                     Thread.sleep(MainMenu.msRate());
                 } catch (InterruptedException e) {
@@ -103,5 +101,9 @@ public abstract class Bullet extends Entity implements IAnimation {
     public static boolean isOutOfScreen(Entity e) {
         return e.getX() + e.getWidth() - 20 > MainMenu.getWidth() || e.getX() < -20
                 || e.getY() + e.getHeight() > MainMenu.getHeight() || e.getY() < -20;
+    }
+
+    public boolean uniqueAliveConstraint(){
+        return alive;
     }
 }

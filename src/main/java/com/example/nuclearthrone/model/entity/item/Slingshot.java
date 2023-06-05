@@ -13,7 +13,7 @@ public class Slingshot extends Weapon {
     public static final double DELAY = 1200;
     public static final double WIDTH = 10;
     public static final double HEIGHT = 20;
-    public static final String SPRITE = "entities/slingshot.png";
+    public static final String SPRITE = "entities/weapon/slingshot.png";
 
     public Slingshot(double x, double y) {
         super(x, y, WIDTH, HEIGHT);

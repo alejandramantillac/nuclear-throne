@@ -23,7 +23,7 @@ import javafx.util.Duration;
 
 public class Avatar extends Entity implements IAnimation {
 
-    public static final double SPEED = 1.7;
+    public static final double SPEED = 3;
     public static final double WIDTH = 50;
     public static final double HEIGHT = 50;
 
