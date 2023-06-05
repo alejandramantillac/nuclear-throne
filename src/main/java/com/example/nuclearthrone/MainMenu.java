@@ -15,10 +15,13 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -202,6 +205,9 @@ public class MainMenu extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getView("game"));
             Scene scene = new Scene(fxmlLoader.load(), getWidth(), getHeight());
+
+            ImageCursor cursor = new ImageCursor(new Image(getFile("cursor.png").getPath()),30,30);
+            scene.setCursor(cursor);
 
             Stage stage = new Stage();
             stage.setWidth(1280);

@@ -8,10 +8,11 @@ public class Rock extends PlayerBullet {
 
     public static final double WIDTH = 20;
     public static final double HEIGHT = 20;
-    public static final String SPRITE = "entities/rock.png";
+    public static final String SPRITE = "entities/ammo/rock.png";
+    public static final int HITS = 1;
 
     public Rock(int level) {
-        super(WIDTH, HEIGHT, -1, level);
+        super(WIDTH, HEIGHT, HITS, level);
         speed = 7;
         stopAnimation();
     }

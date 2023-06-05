@@ -7,7 +7,6 @@ import com.example.nuclearthrone.model.entity.Avatar;
 import com.example.nuclearthrone.model.entity.Entity;
 import com.example.nuclearthrone.model.entity.ammo.Bullet;
 import com.example.nuclearthrone.model.entity.ammo.EnemyBullet;
-import com.example.nuclearthrone.model.entity.ammo.Fireball;
 import com.example.nuclearthrone.model.entity.enemy.Enemy;
 import com.example.nuclearthrone.model.entity.enviroment.Decoration;
 import com.example.nuclearthrone.model.entity.enviroment.Wall;
@@ -107,7 +106,7 @@ public class Game {
             }
             if (!intersected.isEmpty()) {
                 currentB.health--;
-                if (!(currentB instanceof Fireball) || currentB.health <= 0) {
+                if (currentB.health <= 0) {
                     currentLevel.bullets.remove(i);
                     i--;
                 }

@@ -45,7 +45,7 @@ public class RangeEnemy extends Enemy {
 
     public void shoot(double x, double y) {
         nextShot = System.currentTimeMillis() + ((int) ((Math.random() * SECONDS_PER_SHOT) + SECONDS_PER_SHOT) * 1000);
-        Bullet bullet = new EnemyBullet(this, 1, Level.getSelected());
+        Bullet bullet = new EnemyBullet(this, Level.getSelected());
         bullet.shootTo(x, y, 0);
         Level.currentLevel().bullets.add(bullet);
     }

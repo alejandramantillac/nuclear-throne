@@ -13,7 +13,7 @@ public class Staff extends Weapon {
     public static final double DELAY = 600;
     public static final double WIDTH = 30;
     public static final double HEIGHT = 30;
-    public static final String SPRITE = "entities/staff.png";
+    public static final String SPRITE = "entities/weapon/staff.png";
 
     public Staff(double x, double y) {
         super(x, y, WIDTH, HEIGHT);
