@@ -28,6 +28,6 @@ public class Fireball extends PlayerBullet {
 
     @Override
     public boolean uniqueAliveConstraint(){
-        return Math.sqrt(Math.pow(initialX - getX(), 2) + Math.pow(initialY - getY(), 2)) <= RANGE;
+        return distanceTo(initialX, initialY) <= RANGE;
     }
 }

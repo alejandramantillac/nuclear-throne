@@ -10,6 +10,7 @@ import com.example.nuclearthrone.model.entity.ammo.EnemyBullet;
 import com.example.nuclearthrone.model.level.Level;
 import com.example.nuclearthrone.model.util.Direction;
 import com.example.nuclearthrone.model.util.Images;
+import com.example.nuclearthrone.model.util.Vector;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -17,14 +18,16 @@ import javafx.scene.image.Image;
 import javafx.util.Duration;
 
 public class RangeEnemy extends Enemy {
-    
+
+    public static final double RANGE = 250;
+    public static final double RANGE_GAP = 50;
     public static final double SECONDS_PER_SHOT = 3;
     public static final double WIDTH = 50;
     public static final double HEIGHT = 50;
     public static final int HEALTH = 100;
-    public static final int SPEED = 2;
+    public static final int SPEED = 4;
     public static HashMap<AnimationType, Image[]> animations;
-    
+
     private long nextShot;
 
     public RangeEnemy(double x, double y, int level) {
@@ -36,8 +39,14 @@ public class RangeEnemy extends Enemy {
 
     @Override
     public void attack(Entity entity) {
-        setX(getX() + (Math.random() * 10 - 3));
-        setY(getY() + (Math.random() * 10 - 3));
+        double distance = distanceTo(entity.getX(), entity.getY());
+        if (distance > (RANGE + RANGE_GAP)) {
+            moveTowards(entity);
+        } else if (distance < (RANGE - RANGE_GAP)) {
+            moveAwayFrom(entity);
+        }
+        setX(getX() + Vector.randNegOrPos() * (Math.random() * 2));
+        setY(getY() + Vector.randNegOrPos() * (Math.random() * 2));
         if (System.currentTimeMillis() >= nextShot) {
             shoot(entity.getX(), entity.getY());
         }

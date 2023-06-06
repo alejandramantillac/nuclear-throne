@@ -3,6 +3,7 @@ package com.example.nuclearthrone.model.entity.ammo;
 import com.example.nuclearthrone.MainMenu;
 import com.example.nuclearthrone.model.entity.Entity;
 
+import com.example.nuclearthrone.model.entity.enemy.RangeEnemy;
 import javafx.scene.image.Image;
 
 public class EnemyBullet extends Bullet {
@@ -24,5 +25,10 @@ public class EnemyBullet extends Bullet {
         String uri = "file:" + MainMenu.getFile(SPRITE).getPath();
         animation[0] = new Image(uri, WIDTH, HEIGHT, true, false, false);
         sprite = animation[0];
+    }
+
+    @Override
+    public boolean uniqueAliveConstraint(){
+        return distanceTo(initialX, initialY) <= RangeEnemy.RANGE;
     }
 }

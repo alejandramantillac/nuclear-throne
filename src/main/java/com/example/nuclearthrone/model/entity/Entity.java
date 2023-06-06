@@ -6,7 +6,10 @@ import com.example.nuclearthrone.MainMenu;
 import com.example.nuclearthrone.model.entity.ammo.Bullet;
 import com.example.nuclearthrone.model.entity.ammo.EnemyBullet;
 import com.example.nuclearthrone.model.entity.enemy.Enemy;
+import com.example.nuclearthrone.model.entity.enviroment.Wall;
+import com.example.nuclearthrone.model.level.Level;
 import com.example.nuclearthrone.model.util.Direction;
+import com.example.nuclearthrone.model.util.Vector;
 
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.GraphicsContext;
@@ -33,6 +36,14 @@ public abstract class Entity extends Rectangle {
     }
 
     public abstract void takeDamage(Entity other);
+
+    public double getCenterX(){
+        return getX() + getWidth()/2;
+    }
+    
+    public double getCenterY() {
+        return getY() + getHeight() / 2;
+    }
 
     public void draw(GraphicsContext gc) {
         if (!this.isVisible()) {
@@ -70,6 +81,20 @@ public abstract class Entity extends Rectangle {
             }
         }
         return intersected;
+    }
+
+    public double distanceTo(double x, double y) {
+        return Math.sqrt(Math.pow(x - getX(), 2) + Math.pow(y - getY(), 2));
+    }
+
+    public boolean isEntityVisible(Entity entity) {
+        Level selected = Level.currentLevel();
+        for (Wall wall : selected.walls) {
+            if (Vector.intersectsLine(wall, (int) getCenterX(), (int) getCenterY(), (int) entity.getCenterX(), (int) entity.getCenterY())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static boolean isOutOfScreen(Entity e) {
