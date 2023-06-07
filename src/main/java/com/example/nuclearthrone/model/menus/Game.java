@@ -19,11 +19,11 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 
 public class Game {
@@ -42,7 +42,19 @@ public class Game {
     Canvas canvas;
 
     @FXML
-    private Rectangle lifeBar;
+    private ImageView heartOne;
+
+    @FXML
+    private ImageView heartThree;
+
+    @FXML
+    private ImageView heartTwo;
+
+    @FXML
+    private ProgressBar reloadBar;
+
+    @FXML
+    private ImageView weaponImage;
 
     @FXML
     void goToMenu(ActionEvent event) {
@@ -61,9 +73,9 @@ public class Game {
 
     @FXML
     public void initialize() {
+        bindHUD();
         initKeyBoard();
         initBounds();
-        Avatar.lifeBar = lifeBar;
         Thread gameThread = new Thread(() -> {
             while (0 != 1) {
                 Platform.runLater(() -> {
@@ -84,6 +96,15 @@ public class Game {
     }
 
     GraphicsContext graphicsContext;
+
+    public void bindHUD(){
+        Avatar.hearts = new ImageView[3];
+        Avatar.hearts[0] = heartOne;
+        Avatar.hearts[1] = heartTwo;
+        Avatar.hearts[2] = heartThree;
+        Avatar.hand = weaponImage;
+        Avatar.reloadBar = reloadBar;
+    }
 
     public void initKeyBoard() {
         canvas.setFocusTraversable(true);

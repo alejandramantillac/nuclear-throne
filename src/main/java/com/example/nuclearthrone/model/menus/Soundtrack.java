@@ -23,6 +23,8 @@ public class Soundtrack {
         Media musicFile = new Media(_mainmenu);
         mediaPlayer = new MediaPlayer(musicFile);
         mediaPlayer.play();
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setVolume(0);
     }
 
     public MediaPlayer getMediaPlayer() {

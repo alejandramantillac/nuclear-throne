@@ -1,0 +1,9 @@
+.picture {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-background-radius: 5;
+    -fx-background-color: white;
+}
+
+.reload{
+    -fx-accent: red
+}

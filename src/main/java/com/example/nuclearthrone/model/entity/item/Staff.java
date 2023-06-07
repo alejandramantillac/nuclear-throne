@@ -16,7 +16,7 @@ public class Staff extends Weapon {
     public static final String SPRITE = "entities/weapon/staff.png";
 
     public Staff(double x, double y) {
-        super(x, y, WIDTH, HEIGHT);
+        super(x, y, WIDTH, HEIGHT,DELAY);
         String uri = "file:" + MainMenu.getFile(SPRITE).getPath();
         this.sprite = new Image(uri, WIDTH, HEIGHT, false, true, false);
     }

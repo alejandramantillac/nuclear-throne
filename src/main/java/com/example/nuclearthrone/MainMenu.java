@@ -186,6 +186,9 @@ public class MainMenu extends Application {
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.onCloseRequestProperty().set(event->{
+            Soundtrack.getInstance().getMediaPlayer().pause();
+        });
     }
 
     public static void openWindow(String fxml) {

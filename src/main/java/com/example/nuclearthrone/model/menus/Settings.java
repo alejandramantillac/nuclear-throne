@@ -43,9 +43,11 @@ public class Settings {
     private void initialize() {
         soundtrack = Soundtrack.getInstance();
         resetSettingsBtn.setOnAction(event -> resetSettings());
-        sliderSound.valueProperty().addListener((observable, oldValue, newValue) -> adjustVolume(newValue.doubleValue()));
+        sliderSound.valueProperty().addListener((observable, oldValue, newValue) -> adjustVolume(newValue.doubleValue()/100));
         turnSound.setOnAction(event -> toggleSound());
         mediaPlayer = soundtrack.getMediaPlayer();
+        sliderSound.setValue(mediaPlayer.getVolume());
+        turnSound.setSelected(mediaPlayer.getVolume() > 0);
 
         StringBinding soundButtonText = Bindings.when(turnSound.selectedProperty())
                 .then("Sound On")
@@ -55,15 +57,16 @@ public class Settings {
     }
 
     private void resetSettings() {
-        sliderSound.setValue(0.5);
+        sliderSound.setValue(50);
         turnSound.setSelected(true);
-        adjustVolume(0.0);
+        adjustVolume(0.5);
     }
 
 
     private void adjustVolume(double volume) {
         if (mediaPlayer != null) {
             mediaPlayer.setVolume(volume);
+            turnSound.setSelected(mediaPlayer.getVolume() > 0);
         }
     }
 

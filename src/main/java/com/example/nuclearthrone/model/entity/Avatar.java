@@ -16,13 +16,16 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 public class Avatar extends Entity implements IAnimation {
 
+    public static final int HEALTH = 100;
     public static final double SPEED = 3;
     public static final double WIDTH = 50;
     public static final double HEIGHT = 50;
@@ -32,14 +35,16 @@ public class Avatar extends Entity implements IAnimation {
     private static Direction lookingAt;
     private static Timeline animationPlayer;
     private static int spriteStage = 0;
-    public static Rectangle lifeBar;
     private static Avatar instance;
     private static final BooleanBinding keyPressed = KeyboardControl.wPressed.or(KeyboardControl.aPressed).or(
             KeyboardControl.sPressed).or(KeyboardControl.dPressed);
+    public static ImageView[] hearts;
+    public static ImageView hand;
+    public static ProgressBar reloadBar;
 
     public static Avatar getInstance() {
         if (instance == null) {
-            instance = new Avatar(70, 70, WIDTH, HEIGHT);
+            instance = new Avatar(200, 70, WIDTH, HEIGHT);
             updateLifeBar();
         }
         return instance;
@@ -48,7 +53,7 @@ public class Avatar extends Entity implements IAnimation {
     public Weapon weapon;
 
     private Avatar(double x, double y, double width, double height) {
-        super(x, y, width, height, 100, true);
+        super(x, y, width, height, HEALTH, true);
         keyPressed.addListener(this::onKeyPressed);
         animation = AnimationType.IDLE;
         lookingAt = Direction.RIGHT;
@@ -65,6 +70,7 @@ public class Avatar extends Entity implements IAnimation {
             } else {
                 lookingAt = Direction.LEFT;
             }
+            reloadBar.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
             animation = weapon.attack(x, y);
             spriteStage = 0;
         }
@@ -72,15 +78,17 @@ public class Avatar extends Entity implements IAnimation {
 
     public Item collect(Item item) {
         if (item instanceof Weapon) {
+            Item temp = null;
             if (weapon == null) {
                 weapon = (Weapon) item;
             } else {
-                Item temp = weapon;
+                temp = weapon;
                 weapon = (Weapon) item;
                 temp.setX(weapon.getX());
                 temp.setY(weapon.getY());
-                return temp;
             }
+            hand.setImage(weapon.sprite);
+            return temp;
         }
         return null;
 
@@ -245,11 +253,18 @@ public class Avatar extends Entity implements IAnimation {
     }
 
     private static void updateLifeBar() {
-        lifeBar.setWidth(215 * (instance.health / 100.0));
-        lifeBar.setFill(Color.DARKGREEN); // Update life's bar
+        int nHearts = hearts.length;
+        for (int i = 0; i < nHearts; i++) {
+            if((i+1)*30 < instance.health){
+                hearts[i].setImage(new Image(MainMenu.getFile("windows/full-heart.png").getPath()));
+            }else{
+                hearts[i].setImage(new Image(MainMenu.getFile("windows/empty-heart.png").getPath()));
+            }
+        }
     }
 
     public static void resetAvatar(){
+        instance.stopAnimation();
         instance = null;
     }
 }

@@ -3,6 +3,7 @@ package com.example.nuclearthrone.model.entity.ammo;
 import java.util.Objects;
 
 import com.example.nuclearthrone.MainMenu;
+import com.example.nuclearthrone.model.entity.Avatar;
 import com.example.nuclearthrone.model.entity.Entity;
 import com.example.nuclearthrone.model.entity.IAnimation;
 import com.example.nuclearthrone.model.level.Level;
@@ -12,12 +13,13 @@ import com.example.nuclearthrone.model.util.Vector;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 
 public abstract class Bullet extends Entity implements IAnimation {
 
-    public static final int DAMAGE = 40;
+    public static final int DAMAGE = 34;
 
     double speed;
     Vector movement;
@@ -58,6 +60,12 @@ public abstract class Bullet extends Entity implements IAnimation {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            Platform.runLater(()->{
+                if(this instanceof PlayerBullet){
+                    Avatar.reloadBar.setProgress(1);
+                }
+            });
+
             setVisible(true);
             while (alive) {
                 setX(getX() + movement.x);

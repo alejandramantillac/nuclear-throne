@@ -16,7 +16,7 @@ public class Slingshot extends Weapon {
     public static final String SPRITE = "entities/weapon/slingshot.png";
 
     public Slingshot(double x, double y) {
-        super(x, y, WIDTH, HEIGHT);
+        super(x, y, WIDTH, HEIGHT,DELAY);
         String uri = "file:" + MainMenu.getFile(SPRITE).getPath();
         this.sprite = new Image(uri, 20, 40, false, true, false);
     }

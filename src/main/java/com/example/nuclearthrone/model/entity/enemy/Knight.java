@@ -21,7 +21,7 @@ public class Knight extends Enemy {
     public static final double HEIGHT = 50;
     public static final int HEALTH = 100;
     public static final int SPEED = 4;
-    public static final int DAMAGE = 40;
+    public static final int DAMAGE = 34;
     public static HashMap<AnimationType, Image[]> animations;
 
     private long nextAttack;
