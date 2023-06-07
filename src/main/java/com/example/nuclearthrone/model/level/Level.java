@@ -63,6 +63,7 @@ public class Level {
     }
 
     private void start() {
+        initializeEnemies();
         for (Enemy enemy : enemies) {
             enemy.start();
         }
@@ -92,11 +93,9 @@ public class Level {
         levels.add(level2);
         levels.add(level3);
 
-        level1.initializeEnemies();
-        level2.initializeEnemies();
-        level3.initializeEnemies();
-
-        levels.get(selected).start();
+        level1.start();
+        level3.start();
+        level2.start();
     }
 
     public static Level currentLevel() {
@@ -112,7 +111,6 @@ public class Level {
                 if (currentLevel().right != null) {
                     selected = levels.indexOf(currentLevel().right);
                     entity.setX(1);
-                    currentLevel().start();
                     return true;
                 }
             }
@@ -120,7 +118,6 @@ public class Level {
                 if (currentLevel().left != null) {
                     selected = levels.indexOf(currentLevel().left);
                     entity.setX(MainMenu.getWidth() - 11 - entity.getWidth());
-                    currentLevel().start();
                     return true;
                 }
             }
@@ -128,7 +125,6 @@ public class Level {
                 if (currentLevel().up != null) {
                     selected = levels.indexOf(currentLevel().up);
                     entity.setY(MainMenu.getHeight() - 30 - entity.getHeight());
-                    currentLevel().start();
                     return true;
                 }
             }
@@ -136,7 +132,6 @@ public class Level {
                 if (currentLevel().down != null) {
                     selected = levels.indexOf(currentLevel().down);
                     entity.setY(1);
-                    currentLevel().start();
                     return true;
                 }
             }
