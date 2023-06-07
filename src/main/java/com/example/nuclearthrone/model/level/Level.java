@@ -81,15 +81,20 @@ public class Level {
 
         Level level1 = initLevel1();
         Level level2 = initLevel2();
+        Level level3 = initLevel3();
 
         level1.right = level2;
         level2.left = level1;
+        level2.right = level3;
+        level3.left = level2;
 
         levels.add(level1);
         levels.add(level2);
+        levels.add(level3);
 
         level1.initializeEnemies();
         level2.initializeEnemies();
+        level3.initializeEnemies();
 
         levels.get(selected).start();
     }
@@ -297,6 +302,44 @@ public class Level {
             level.walls.add(new Wall(125, y, 10000, 0, "chest-closed"));
             level.walls.add(new Wall(275, y, 10000, 0, "chest-closed"));
         }
+
+        return level;
+    }
+
+    private static Level initLevel3() {
+        Level level = new Level(2);
+
+        String uri = "file:" + MainMenu.getFile("environment/decoration/soccer-field.jpg").getPath();
+        level.background = new Image(uri, MainMenu.getWidth(), MainMenu.getHeight(), false, false, false);
+
+        int columnWidth = 100;
+        int columnSpacing = 150;
+
+        // Left side walls (first column)
+        for (int y = 0; y < MainMenu.getHeight(); y += 150) {
+            level.walls.add(new Wall(MainMenu.getWidth() / 2 - 2 * columnSpacing - 2 * columnWidth + 50, y, columnWidth, 0, "player1"));
+        }
+
+        // Left side walls (second column)
+        for (int y = 0; y < MainMenu.getHeight(); y += 150) {
+            level.walls.add(new Wall(MainMenu.getWidth() / 2 - columnSpacing - columnWidth + 50, y, columnWidth, 0, "player1"));
+        }
+
+        // Right side walls (first column)
+        int rightColumnX = (int) (MainMenu.getWidth() - columnWidth - columnSpacing);
+        for (int y = 0; y < MainMenu.getHeight(); y += 150) {
+            level.walls.add(new Wall(rightColumnX, y, columnWidth, 0, "player2"));
+        }
+
+        // Right side walls (second column)
+        int secondRightColumnX = rightColumnX - columnWidth - columnSpacing;
+        for (int y = 0; y < MainMenu.getHeight(); y += 150) {
+            level.walls.add(new Wall(secondRightColumnX, y, columnWidth, 0, "player2"));
+        }
+
+        // Middle ball
+        Wall ball = new Wall(MainMenu.getWidth() / 2 - 25, 325, 10000, 0, "ball");
+        level.walls.add(ball);
 
         return level;
     }
