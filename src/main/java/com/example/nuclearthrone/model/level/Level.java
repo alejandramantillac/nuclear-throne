@@ -96,6 +96,7 @@ public class Level {
         level1.start();
         level3.start();
         level2.start();
+
     }
 
     public static Level currentLevel() {
@@ -236,66 +237,59 @@ public class Level {
     private static Level initLevel2() {
         Level level = new Level(1);
 
-        String uri = "file:" + MainMenu.getFile("environment/decoration/floor.png").getPath();
+        String uri = "file:" + MainMenu.getFile("environment/decoration/road.png").getPath();
         level.background = new Image(uri, MainMenu.getWidth(), MainMenu.getHeight(), false, false, false);
 
-        // Top of the level
-        for (int x = 0; x < MainMenu.getWidth(); x += 50) {
-                level.walls.add(new Wall(x, 0, 10000, 0, "shore1"));
-        }
-
         // Water Border
-        for (int x = 250; x <= 550; x += 50) {
-            level.walls.add(new Wall(x, 50, 10000, 0, "rope"));
-            level.walls.add(new Wall(x, 300, 10000, 0, "rope"));
+        for (int x = 200; x <= 500; x += 50) {
+            level.walls.add(new Wall(x, 75, 10000, 0, "rope"));
+            level.walls.add(new Wall(x, 325, 10000, 0, "rope"));
         }
-        for (int y = 100; y <= 250; y += 50) {
-            level.walls.add(new Wall(250, y, 10000, 0, "rope"));
-            level.walls.add(new Wall(550, y, 10000, 0, "rope"));
+        for (int y = 125; y <= 275; y += 50) {
+            level.walls.add(new Wall(200, y, 10000, 0, "rope"));
+            level.walls.add(new Wall(500, y, 10000, 0, "rope"));
         }
 
         // Water
-        for (int x = 300; x <= 500; x += 50) {
-            for (int y = 100; y <= 250; y += 50) {
+        for (int x = 250; x <= 450; x += 50) {
+            for (int y = 125; y <= 275; y += 50) {
                 level.walls.add(new Wall(x, y, 10000, 0, "sea1"));
             }
         }
 
-        // Frogs
-        level.walls.add(new Wall(375, 175, 10000, 0, "frog1"));
-        level.walls.add(new Wall(425, 175, 10000, 0, "frog1"));
-        level.walls.add(new Wall(375, 225, 10000, 0, "frog1"));
-        level.walls.add(new Wall(425, 225, 10000, 0, "frog1"));
+        // Frogs on water
+        level.walls.add(new Wall(325, 200, 10000, 0, "frog1"));
+        level.walls.add(new Wall(375, 200, 10000, 0, "frog1"));
+        level.walls.add(new Wall(325, 250, 10000, 0, "frog1"));
+        level.walls.add(new Wall(375, 250, 10000, 0, "frog1"));
 
-        // Additional walls
-        for (int y = 400; y <= 800; y += 150) {
-            level.walls.add(new Wall(650, y, 10000, 0, "sign"));
-        }
-        for (int y = 400; y <= 800; y += 150) {
-            level.walls.add(new Wall(800, y, 10000, 0, "sign"));
-        }
+        // Cows
+        level.walls.add(new Wall(250, 550, 10000, 0, "cow"));
+        level.walls.add(new Wall(350, 550, 10000, 0, "cow"));
 
-        // Shape in the top right
-        for (int x = 925; x <= 1175; x += 50) {
-            for (int y = 125; y <= 325; y += 50) {
+        // Dog
+        level.walls.add(new Wall(700, 20, 10000, 0, "dog"));
+
+        // Pigs
+        level.walls.add(new Wall(1000, 200, 10000, 0, "pig"));
+        level.walls.add(new Wall(800, 250, 10000, 0, "pig"));
+
+        // Signals
+        level.walls.add(new Wall(500, 500, 10000, 0, "signal"));
+        level.walls.add(new Wall(800, 200, 10000, 0, "signal"));
+
+        // Shape in the middle right
+        for (int x = 775; x <= 1175; x += 50) {
+            for (int y = 325; y <= 525; y += 50) {
                 level.walls.add(new Wall(x, y, 10000, 0, "rope"));
             }
         }
-        for (int y = 175; y <= 275; y += 50) {
-            level.walls.add(new Wall(925, y, 10000, 0, "orb-green2"));
+        for (int y = 375; y <= 475; y += 50) {
+            level.walls.add(new Wall(775, y, 10000, 0, "orb-green2"));
             level.walls.add(new Wall(1175, y, 10000, 0, "orb-green2"));
         }
-        for (int x = 975; x <= 1125; x += 50) {
-            level.walls.add(new Wall(x, 325, 10000, 0, "rope"));
-        }
-
-        // Shape in the bottom left
-        for (int x = 125; x <= 275; x += 50) {
-            level.walls.add(new Wall(x, 625, 10000, 0, "chest-closed"));
-        }
-        for (int y = 575; y <= 625; y += 50) {
-            level.walls.add(new Wall(125, y, 10000, 0, "chest-closed"));
-            level.walls.add(new Wall(275, y, 10000, 0, "chest-closed"));
+        for (int x = 825; x <= 1075; x += 50) {
+            level.walls.add(new Wall(x, 525, 10000, 0, "rope"));
         }
 
         return level;
