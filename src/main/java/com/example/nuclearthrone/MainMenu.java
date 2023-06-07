@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 
+import com.example.nuclearthrone.model.entity.Avatar;
+import com.example.nuclearthrone.model.level.Level;
 import com.example.nuclearthrone.model.menus.Soundtrack;
 
 import javafx.animation.Animation;
@@ -34,6 +36,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class MainMenu extends Application {
+    
+    static Stage gameStage;
 
     @FXML
     private Button playButton;
@@ -200,6 +204,7 @@ public class MainMenu extends Application {
         }
     }
 
+    
     public static void initGame() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getView("game"));
@@ -208,15 +213,20 @@ public class MainMenu extends Application {
             ImageCursor cursor = new ImageCursor(new Image(getFile("cursor.png").getPath()),30,30);
             scene.setCursor(cursor);
 
-            Stage stage = new Stage();
-            stage.setWidth(1280);
-            stage.setHeight(720);
-            stage.setTitle("Nuclear Throne");
-            stage.resizableProperty().set(false);
-            stage.setScene(scene);
-
-            stage.show();
-
+            if(gameStage == null){
+                gameStage = new Stage();
+                gameStage.setWidth(1280);
+                gameStage.setHeight(720);
+                gameStage.setTitle("Nuclear Throne");
+                gameStage.resizableProperty().set(false);
+            }
+            
+            gameStage.setScene(scene);
+            gameStage.show();
+            gameStage.setOnCloseRequest(event->{
+                Avatar.resetAvatar();
+                Level.resetLevels();
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }

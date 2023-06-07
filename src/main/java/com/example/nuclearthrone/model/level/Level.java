@@ -34,10 +34,8 @@ public class Level {
 
     private final int level;
 
-    private boolean initialized;
 
     private Level(int level) {
-        initialized = false;
         this.level = level;
     }
 
@@ -65,11 +63,13 @@ public class Level {
     }
 
     private void start() {
-        if (!initialized) {
-            initialized = true;
-            for (Enemy enemy : enemies) {
-                enemy.start();
-            }
+        for (Enemy enemy : enemies) {
+            enemy.start();
+        }
+    }
+    private void destroy(){
+        for (Enemy enemy : enemies) {
+            enemy.stop();
         }
     }
 
@@ -309,5 +309,13 @@ public class Level {
 
     public static int getSelected() {
         return selected;
+    }
+
+    public static void resetLevels(){
+        for(Level level :levels){
+            level.destroy();
+        }
+        levels = null;
+        selected = 0;
     }
 }

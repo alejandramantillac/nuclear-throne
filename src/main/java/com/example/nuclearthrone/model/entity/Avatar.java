@@ -1,7 +1,5 @@
 package com.example.nuclearthrone.model.entity;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
 
 import com.example.nuclearthrone.MainMenu;
@@ -18,13 +16,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Avatar extends Entity implements IAnimation {
@@ -38,21 +32,23 @@ public class Avatar extends Entity implements IAnimation {
     private static Direction lookingAt;
     private static Timeline animationPlayer;
     private static int spriteStage = 0;
+    public static Rectangle lifeBar;
     private static Avatar instance;
     private static final BooleanBinding keyPressed = KeyboardControl.wPressed.or(KeyboardControl.aPressed).or(
             KeyboardControl.sPressed).or(KeyboardControl.dPressed);
 
     public static Avatar getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new Avatar(70, 70, WIDTH, HEIGHT);
+            updateLifeBar();
+        }
         return instance;
     }
 
     public Weapon weapon;
-    public Rectangle lifeBar;   
 
     private Avatar(double x, double y, double width, double height) {
-        super(x, y, width, height, 10000, true);
+        super(x, y, width, height, 100, true);
         keyPressed.addListener(this::onKeyPressed);
         animation = AnimationType.IDLE;
         lookingAt = Direction.RIGHT;
@@ -87,8 +83,8 @@ public class Avatar extends Entity implements IAnimation {
             }
         }
         return null;
-    }
 
+    }
     public void collectNearbyItem() {
         for (int i = 0; i < Level.currentLevel().items.size(); i++) {
             Item current = Level.currentLevel().items.get(i);
@@ -112,16 +108,10 @@ public class Avatar extends Entity implements IAnimation {
             isAlive = health > 0;
             if (!isAlive) {
                 animation = AnimationType.DEATH;
-                openWindow("play-again");
             }
             spriteStage = 0;
             updateLifeBar();
         }
-    }
-
-    private void updateLifeBar() {
-        lifeBar.setWidth(170 * (health / 100.0));
-        lifeBar.setFill(Color.DARKGREEN); // Update life's bar
     }
 
     public void onKeyPressed(ObservableValue<? extends Boolean> observable, Boolean a, Boolean keyPressed) {
@@ -219,55 +209,47 @@ public class Avatar extends Entity implements IAnimation {
     }
 
     public void initAnimation() {
-        animations = new HashMap<>();
-        animations.put(AnimationType.IDLE, new Image[4]);
-        for (int i = 1; i <= 4; i++) {
-            String uri = "file:" + MainMenu.getFile("entities/avatar/idle/Hobbit - Idle" + i + ".png").getPath();
-            animations.get(AnimationType.IDLE)[i - 1] = new Image(uri, getWidth(), getHeight(), false, true, false);
-        }
-        animations.put(AnimationType.RUN, new Image[10]);
-        for (int i = 1; i <= 10; i++) {
-            String uri = "file:" + MainMenu.getFile("entities/avatar/run/Hobbit - run" + i + ".png").getPath();
-            animations.get(AnimationType.RUN)[i - 1] = new Image(uri, getWidth(), getHeight(), false, true, false);
-        }
-        animations.put(AnimationType.SHOOT, new Image[17]);
-        for (int i = 1; i <= 17; i++) {
-            String uri = "file:" + MainMenu.getFile("entities/avatar/shoot/Hobbit - attack" + i + ".png").getPath();
-            animations.get(AnimationType.SHOOT)[i - 1] = new Image(uri, getWidth(), getHeight(), false, true, false);
-        }
-        animations.put(AnimationType.HIT, new Image[4]);
-        for (int i = 1; i <= 4; i++) {
-            String uri = "file:" + MainMenu.getFile("entities/avatar/hit/Hobbit - hit" + i + ".png").getPath();
-            animations.get(AnimationType.HIT)[i - 1] = new Image(uri, getWidth(), getHeight(), false, true, false);
-        }
-        animations.put(AnimationType.DEATH, new Image[12]);
-        for (int i = 1; i <= 12; i++) {
-            String uri = "file:" + MainMenu.getFile("entities/avatar/death/Hobbit - death" + i + ".png").getPath();
-            animations.get(AnimationType.DEATH)[i - 1] = new Image(uri, getWidth(), getHeight(), true, false, false);
-        }
-        animations.put(AnimationType.ATTACK, new Image[13]);
-        for (int i = 1; i <= 13; i++) {
-            String uri = "file:" + MainMenu.getFile("entities/avatar/attack/Hobbit - block" + i + ".png").getPath();
-            animations.get(AnimationType.ATTACK)[i - 1] = new Image(uri, getWidth(), getHeight(), false, true, false);
-        }
-    }
-
-    public static void openWindow(String fxml) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getView(fxml));
-            AnchorPane root = fxmlLoader.load();
-
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setTitle("Nuclear Throne");
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        if(animations == null){
+            animations = new HashMap<>();
+            animations.put(AnimationType.IDLE, new Image[4]);
+            for (int i = 1; i <= 4; i++) {
+                String uri = "file:" + MainMenu.getFile("entities/avatar/idle/Hobbit - Idle" + i + ".png").getPath();
+                animations.get(AnimationType.IDLE)[i - 1] = new Image(uri, WIDTH,HEIGHT, false, true, false);
+            }
+            animations.put(AnimationType.RUN, new Image[10]);
+            for (int i = 1; i <= 10; i++) {
+                String uri = "file:" + MainMenu.getFile("entities/avatar/run/Hobbit - run" + i + ".png").getPath();
+                animations.get(AnimationType.RUN)[i - 1] = new Image(uri,WIDTH,HEIGHT,false, true, false);
+            }
+            animations.put(AnimationType.SHOOT, new Image[17]);
+            for (int i = 1; i <= 17; i++) {
+                String uri = "file:" + MainMenu.getFile("entities/avatar/shoot/Hobbit - attack" + i + ".png").getPath();
+                animations.get(AnimationType.SHOOT)[i - 1] = new Image(uri, WIDTH,HEIGHT, false, true, false);
+            }
+            animations.put(AnimationType.HIT, new Image[4]);
+            for (int i = 1; i <= 4; i++) {
+                String uri = "file:" + MainMenu.getFile("entities/avatar/hit/Hobbit - hit" + i + ".png").getPath();
+                animations.get(AnimationType.HIT)[i - 1] = new Image(uri,WIDTH,HEIGHT,false, true, false);
+            }
+            animations.put(AnimationType.DEATH, new Image[12]);
+            for (int i = 1; i <= 12; i++) {
+                String uri = "file:" + MainMenu.getFile("entities/avatar/death/Hobbit - death" + i + ".png").getPath();
+                animations.get(AnimationType.DEATH)[i - 1] = new Image(uri,WIDTH,HEIGHT, true, false, false);
+            }
+            animations.put(AnimationType.ATTACK, new Image[13]);
+            for (int i = 1; i <= 13; i++) {
+                String uri = "file:" + MainMenu.getFile("entities/avatar/attack/Hobbit - block" + i + ".png").getPath();
+                animations.get(AnimationType.ATTACK)[i - 1] = new Image(uri, WIDTH,HEIGHT,false, true, false);
+            }
         }
     }
-    public static URL getView(String name) {
-        return MainMenu.class.getResource("windows/" + name + ".fxml");
+
+    private static void updateLifeBar() {
+        lifeBar.setWidth(215 * (instance.health / 100.0));
+        lifeBar.setFill(Color.DARKGREEN); // Update life's bar
+    }
+
+    public static void resetAvatar(){
+        instance = null;
     }
 }

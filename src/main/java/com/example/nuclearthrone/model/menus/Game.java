@@ -13,15 +13,30 @@ import com.example.nuclearthrone.model.entity.enviroment.Wall;
 import com.example.nuclearthrone.model.level.Level;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 
 public class Game {
+
+
+    @FXML
+    AnchorPane gameOver;
+
+    @FXML
+    private Button menuBtn;
+
+    @FXML
+    private ImageView playAgainBtn;
 
     @FXML
     Canvas canvas;
@@ -29,13 +44,26 @@ public class Game {
     @FXML
     private Rectangle lifeBar;
 
-    GraphicsContext graphicsContext;
+    @FXML
+    void goToMenu(ActionEvent event) {
+        canvas.getScene().getWindow().hide();
+    }
+
+    @FXML
+    void playAgain(MouseEvent event) {
+        System.out.println("BBB");
+        menuBtn.setDisable(true);
+        playAgainBtn.setDisable(true);
+        gameOver.setVisible(false);
+        Avatar.resetAvatar();
+        Level.resetLevels();
+    }
 
     @FXML
     public void initialize() {
         initKeyBoard();
         initBounds();
-        Avatar.getInstance().lifeBar = lifeBar;
+        Avatar.lifeBar = lifeBar;
         Thread gameThread = new Thread(() -> {
             while (0 != 1) {
                 Platform.runLater(() -> {
@@ -43,6 +71,7 @@ public class Game {
                     graphicsContext.setFill(Color.BLACK);
                     graphicsContext.drawImage(currentLevel.background, 0, 0);
                     paintEntities(currentLevel);
+                    checkAvatarAlive();
                 });
                 try {
                     Thread.sleep(msRate());
@@ -53,6 +82,8 @@ public class Game {
         });
         gameThread.start();
     }
+
+    GraphicsContext graphicsContext;
 
     public void initKeyBoard() {
         canvas.setFocusTraversable(true);
@@ -110,6 +141,14 @@ public class Game {
                     i--;
                 }
             }
+        }
+    }
+
+    public void checkAvatarAlive(){
+        if(!Avatar.getInstance().isAlive) {
+            gameOver.setVisible(true);
+            playAgainBtn.setDisable(false);
+            menuBtn.setDisable(false);
         }
     }
 

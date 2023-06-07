@@ -51,6 +51,10 @@ public abstract class Enemy extends Entity implements IAnimation {
         thread.start();
     }
 
+    public void stop() {
+        thread.interrupt();
+    }
+
     @Override
     public void takeDamage(Entity other) {
         health -= other.damage;
