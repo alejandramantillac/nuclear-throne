@@ -23,7 +23,6 @@ import javafx.stage.Screen;
 
 public class Game {
 
-
     @FXML
     Canvas canvas;
 
@@ -44,8 +43,6 @@ public class Game {
                     graphicsContext.setFill(Color.BLACK);
                     graphicsContext.drawImage(currentLevel.background, 0, 0);
                     paintEntities(currentLevel);
-                    bulletsInteraction(currentLevel);
-                    Avatar.getInstance().draw(graphicsContext);
                 });
                 try {
                     Thread.sleep(msRate());
@@ -78,16 +75,18 @@ public class Game {
         for (Decoration decoration : current.decorations) {
             decoration.draw(graphicsContext);
         }
-        for (Enemy enemy : current.enemies) {
-            enemy.draw(graphicsContext);
-        }
         for (int i = 0; i < current.items.size(); i++) {
             current.items.get(i).draw(graphicsContext);
+        }
+        bulletsInteraction(current);
+        Avatar.getInstance().draw(graphicsContext);
+        for (Enemy enemy : current.enemies) {
+            enemy.draw(graphicsContext);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public void bulletsInteraction(Level currentLevel){
+    public void bulletsInteraction(Level currentLevel) {
         for (int i = 0; i < currentLevel.bullets.size(); i++) {
             Bullet currentB = currentLevel.bullets.get(i);
             currentB.draw(graphicsContext);
@@ -113,7 +112,7 @@ public class Game {
             }
         }
     }
-    
+
     public static int msRate() {
         return 16;
     }

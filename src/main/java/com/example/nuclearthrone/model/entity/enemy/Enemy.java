@@ -177,10 +177,11 @@ public abstract class Enemy extends Entity implements IAnimation {
         int type = (int) (Math.random() * 2);
         switch (type) {
             case 0:
-                return new RangeEnemy(Math.random() * (MainMenu.getWidth() - RangeEnemy.WIDTH),
-                        Math.random() * (MainMenu.getHeight() - RangeEnemy.HEIGHT), level);
+                return new Ghost(Math.random() * (MainMenu.getWidth() - Ghost.WIDTH),
+                        Math.random() * (MainMenu.getHeight() - Ghost.HEIGHT), level);
             case 1:
-                break;
+                return new Knight(Math.random() * (MainMenu.getWidth() - Ghost.WIDTH),
+                        Math.random() * (MainMenu.getHeight() - Ghost.HEIGHT), level);
             default:
                 break;
         }

@@ -49,10 +49,10 @@ public class Avatar extends Entity implements IAnimation {
     }
 
     public Weapon weapon;
-    public Rectangle lifeBar;
+    public Rectangle lifeBar;   
 
     private Avatar(double x, double y, double width, double height) {
-        super(x, y, width, height, 100, true);
+        super(x, y, width, height, 10000, true);
         keyPressed.addListener(this::onKeyPressed);
         animation = AnimationType.IDLE;
         lookingAt = Direction.RIGHT;
@@ -112,9 +112,9 @@ public class Avatar extends Entity implements IAnimation {
             isAlive = health > 0;
             if (!isAlive) {
                 animation = AnimationType.DEATH;
-                spriteStage = 0;
                 openWindow("play-again");
             }
+            spriteStage = 0;
             updateLifeBar();
         }
     }
@@ -128,12 +128,18 @@ public class Avatar extends Entity implements IAnimation {
         if (animation != AnimationType.SHOOT && animation != AnimationType.ATTACK && isAlive) {
             if (keyPressed) {
                 movement.start();
-                animation = AnimationType.RUN;
+                if(animation != AnimationType.HIT){
+                    animation = AnimationType.RUN;
+                }
             } else {
                 movement.stop();
+                if(animation != AnimationType.HIT){
                 animation = AnimationType.IDLE;
+                }
             }
-            spriteStage = 0;
+            if(animation != AnimationType.HIT){
+                spriteStage = 0;
+            }
         }
     }
 
@@ -172,7 +178,7 @@ public class Avatar extends Entity implements IAnimation {
                     }
                 }
 
-                if ((getX() != previousX || getY() != previousY) && animation != AnimationType.RUN) {
+                if ((getX() != previousX || getY() != previousY) && animation != AnimationType.RUN && animation != AnimationType.HIT) {
                     animation = AnimationType.RUN;
                     spriteStage = 0;
                 }
