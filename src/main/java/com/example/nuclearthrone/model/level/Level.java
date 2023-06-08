@@ -7,6 +7,7 @@ import com.example.nuclearthrone.model.entity.Avatar;
 import com.example.nuclearthrone.model.entity.Entity;
 import com.example.nuclearthrone.model.entity.MovableEntity;
 import com.example.nuclearthrone.model.entity.ammo.Bullet;
+import com.example.nuclearthrone.model.entity.ammo.EnemyBullet;
 import com.example.nuclearthrone.model.entity.enemy.Enemy;
 import com.example.nuclearthrone.model.entity.enviroment.Decoration;
 import com.example.nuclearthrone.model.entity.enviroment.Wall;
@@ -125,6 +126,7 @@ public class Level {
         level3.left = level2;
         level3.right= level4;
         level4.left = level3;
+        level1.left = level4;
 
         levels.add(level1);
         levels.add(level2);
@@ -621,7 +623,11 @@ public class Level {
         }
 
         level.entities.add(new Ball(MainMenu.getWidth() / 2 - 25, 325,3));
-
+        level.decorations.add(new Decoration(1185,310,"floor",0));
+/*
+* 1185 - 1215
+* 315 - 415
+* */
         return level;
     }
 
@@ -642,5 +648,16 @@ public class Level {
         }
         levels = null;
         selected = 0;
+    }
+
+    public static boolean enemiesLeft(){
+        for(Level level : levels){
+            for(MovableEntity entity : level.entities){
+                if(entity instanceof Enemy){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
