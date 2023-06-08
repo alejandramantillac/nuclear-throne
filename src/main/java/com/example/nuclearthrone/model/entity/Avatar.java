@@ -21,7 +21,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -126,10 +125,12 @@ public class Avatar extends Entity implements IAnimation {
             animation = AnimationType.HIT;
             health -= other.damage;
             isAlive = health > 0;
+            playSoundtrack.reproduceSound("playerDamage_sound",false);
             if (!isAlive) {
                 animation = AnimationType.DEATH;
-                playSoundtrack.reproduceSound("gameOver_sound");
-
+                playSoundtrack.reproduceSound("gameOver_sound",false);
+                Soundtrack.getInstance().stopSound("walking_sound");
+                Soundtrack.getInstance().stopSound("footstep_grass");
             }
             spriteStage = 0;
             updateLifeBar();
@@ -144,7 +145,10 @@ public class Avatar extends Entity implements IAnimation {
                     animation = AnimationType.RUN;
                 }
             } else {
+                //System.out.println(instance.getCenterX() +" - "+ instance.getCenterY());
                 movement.stop();
+                Soundtrack.getInstance().stopSound("walking_sound");
+                Soundtrack.getInstance().stopSound("footstep_grass");
                 if(animation != AnimationType.HIT){
                 animation = AnimationType.IDLE;
                 }
@@ -163,20 +167,21 @@ public class Avatar extends Entity implements IAnimation {
                 double previousY = getY();
                 if (KeyboardControl.wPressed.get()) {
                     setY(previousY - SPEED);
-                    playSoundtrack.reproduceSound("walking_sound");
                 }
                 if (KeyboardControl.sPressed.get()) {
                     setY(previousY + SPEED);
-                    playSoundtrack.reproduceSound("walking_sound");
                 }
                 if (KeyboardControl.aPressed.get()) {
                     setX(previousX - SPEED);
                     lookingAt = Direction.LEFT;
-                    playSoundtrack.reproduceSound("walking_sound");
                 }
                 if (KeyboardControl.dPressed.get()) {
                     setX(previousX + SPEED);
                     lookingAt = Direction.RIGHT;
+                }
+                if(Level.getSelected() == 3){
+                    playSoundtrack.reproduceSound("footstep_grass");
+                }else{
                     playSoundtrack.reproduceSound("walking_sound");
                 }
 

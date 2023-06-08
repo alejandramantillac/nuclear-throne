@@ -8,7 +8,7 @@ public class Healing extends Item {
     public static final double HEAL_AMOUNT = 34;
     public static final double WIDTH = 30;
     public static final double HEIGHT = 30;
-    public static final String SPRITE = "entities/item/healing_potion.png";
+    public static final String SPRITE = "entities/item/healing-potion.png";
     public Healing(double x, double y) {
         super(x, y, WIDTH, HEIGHT);
         String uri = "file:" + MainMenu.getFile(SPRITE).getPath();

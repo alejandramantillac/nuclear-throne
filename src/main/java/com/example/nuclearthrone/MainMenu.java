@@ -194,7 +194,7 @@ public class MainMenu extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         primaryStage.onCloseRequestProperty().set(event->{
-            Soundtrack.getInstance().getMediaPlayer().pause();
+            Soundtrack.getInstance().stopSound("03_before_the_dawn");
         });
     }
 
@@ -259,7 +259,6 @@ public class MainMenu extends Application {
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
             loadingStage.close();
-
             initGame();
         }));
         timeline.setCycleCount(1);

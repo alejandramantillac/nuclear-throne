@@ -6,6 +6,7 @@ import com.example.nuclearthrone.model.entity.ammo.Bullet;
 import com.example.nuclearthrone.model.entity.ammo.Rock;
 import com.example.nuclearthrone.model.level.Level;
 
+import com.example.nuclearthrone.model.menus.Soundtrack;
 import javafx.scene.image.Image;
 
 public class Slingshot extends Weapon {
@@ -27,6 +28,7 @@ public class Slingshot extends Weapon {
         bullet.setVisible(false);
         bullet.shootTo(x, y, DELAY);
         Level.currentLevel().bullets.add(bullet);
+        Soundtrack.getInstance().reproduceSound("shot_by_slingshot",false);
         return AnimationType.SHOOT;
     }
 }

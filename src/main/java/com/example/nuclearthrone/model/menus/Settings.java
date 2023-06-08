@@ -45,7 +45,7 @@ public class Settings {
         resetSettingsBtn.setOnAction(event -> resetSettings());
         sliderSound.valueProperty().addListener((observable, oldValue, newValue) -> adjustVolume(newValue.doubleValue()/100));
         turnSound.setOnAction(event -> toggleSound());
-        mediaPlayer = soundtrack.getMediaPlayer();
+        mediaPlayer = Soundtrack.sounds.get("03_before_the_dawn");
         sliderSound.setValue(mediaPlayer.getVolume());
         turnSound.setSelected(mediaPlayer.getVolume() > 0);
 
@@ -54,6 +54,7 @@ public class Settings {
                 .otherwise("Sound Off");
 
         turnSound.textProperty().bind(soundButtonText);
+        resetSettings();
     }
 
     private void resetSettings() {

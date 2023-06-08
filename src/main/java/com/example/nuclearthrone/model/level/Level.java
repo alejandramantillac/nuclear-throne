@@ -15,6 +15,7 @@ import com.example.nuclearthrone.model.entity.item.Item;
 import com.example.nuclearthrone.model.entity.item.Slingshot;
 import com.example.nuclearthrone.model.entity.item.Staff;
 import com.example.nuclearthrone.model.entity.npc.Ball;
+import com.example.nuclearthrone.model.menus.Soundtrack;
 import com.example.nuclearthrone.model.util.Direction;
 
 import javafx.collections.FXCollections;
@@ -24,7 +25,7 @@ import javafx.scene.image.Image;
 public class Level {
 
     public static final int MIN_ENEMIES = 1;
-    public static final int MAX_ENEMIES = 2;
+    public static final int MAX_ENEMIES = 6;
 
     public ObservableList<Bullet> bullets = FXCollections.observableArrayList();
     public ObservableList<Wall> walls = FXCollections.observableArrayList();
@@ -152,6 +153,8 @@ public class Level {
             case RIGHT -> {
                 if (currentLevel().right != null) {
                     selected = levels.indexOf(currentLevel().right);
+                    Soundtrack.getInstance().stopSound("walking_sound");
+                    Soundtrack.getInstance().stopSound("footstep_grass");
                     entity.setX(1);
                     return true;
                 }
@@ -160,6 +163,8 @@ public class Level {
                 if (currentLevel().left != null) {
                     selected = levels.indexOf(currentLevel().left);
                     entity.setX(MainMenu.getWidth() - 11 - entity.getWidth());
+                    Soundtrack.getInstance().stopSound("walking_sound");
+                    Soundtrack.getInstance().stopSound("footstep_grass");
                     return true;
                 }
             }
@@ -167,12 +172,16 @@ public class Level {
                 if (currentLevel().up != null) {
                     selected = levels.indexOf(currentLevel().up);
                     entity.setY(MainMenu.getHeight() - 30 - entity.getHeight());
+                    Soundtrack.getInstance().stopSound("walking_sound");
+                    Soundtrack.getInstance().stopSound("footstep_grass");
                     return true;
                 }
             }
             case DOWN -> {
                 if (currentLevel().down != null) {
                     selected = levels.indexOf(currentLevel().down);
+                    Soundtrack.getInstance().stopSound("walking_sound");
+                    Soundtrack.getInstance().stopSound("footstep_grass");
                     entity.setY(1);
                     return true;
                 }
@@ -207,6 +216,8 @@ public class Level {
         level.walls.add(new Wall(350, 100, 10000, 0, "brick-side-right"));
         level.walls.add(new Wall(150, 150, 10000, 0, "brick-incorner-top-left"));
         level.walls.add(new Wall(150, 250, 10000, 0, "brick-end-left"));
+        level.decorations.add(new Decoration(100, 300, "floor-shadow-corner", 90));
+        level.decorations.add(new Decoration(150, 300, "floor-shadow-top-right", 0));
         for (int x = 200; x < 500; x += 50) {
             if (x == 300) {
                 level.walls.add(new Wall(x, 150, 10000, 0, "brick-corner-top-left"));
@@ -219,6 +230,10 @@ public class Level {
             level.walls.add(new Wall(x, 250, 10000, 0, "brick"));
             level.decorations.add(new Decoration(x, 300, "floor-shadow-top-right", 0));
         }
+        level.decorations.add(new Decoration(500, 300, "floor-shadow-top-right", 0));
+        level.decorations.add(new Decoration(550, 300, "floor-shadow-corner", 0));
+        level.decorations.add(new Decoration(550, 250, "floor-shadow-corner", 270));
+        level.decorations.add(new Decoration(550, 200, "floor-shadow-corner", 270));
         level.walls.add(new Wall(500, 250, 10000, 0, "brick-end-right"));
         level.walls.add(new Wall(500, 150, 10000, 0, "brick-incorner-top-right"));
         level.walls.add(new Wall(150, 200, 10000, 0, "brick-incorner-bottom-left"));
@@ -269,8 +284,8 @@ public class Level {
         level.walls.add(new Wall(300, MainMenu.getHeight() - 100, 10000, 0, "brick-side-right"));
         level.walls.add(new Wall(300, MainMenu.getHeight() - 50, 10000, 0, "brick-side-right"));
 
-        level.items.add(new Staff(50, 350));
-        level.items.add(new Slingshot(200, 350));
+        level.items.add(new Staff(230, MainMenu.getHeight() - 70));
+        level.items.add(new Slingshot(470, 95));
 
         return level;
     }
@@ -585,6 +600,9 @@ public class Level {
         level.decorations.add(new Decoration(550, 400, "floor-shadow-top-right", 0));
         level.decorations.add(new Decoration(750, 400, "floor-shadow-top-right", 0));
         level.decorations.add(new Decoration(800, 400, "floor-shadow-top-right", 0));
+
+        level.items.add(new Slingshot(720, 225));
+
         return level;
     }
 
@@ -623,11 +641,6 @@ public class Level {
         }
 
         level.entities.add(new Ball(MainMenu.getWidth() / 2 - 25, 325,3));
-        level.decorations.add(new Decoration(1185,310,"floor",0));
-/*
-* 1185 - 1215
-* 315 - 415
-* */
         return level;
     }
 

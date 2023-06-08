@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.example.nuclearthrone.MainMenu;
 import com.example.nuclearthrone.model.entity.*;
 import com.example.nuclearthrone.model.level.Level;
+import com.example.nuclearthrone.model.menus.Soundtrack;
 import com.example.nuclearthrone.model.util.Vector;
 
 public abstract class Enemy extends MovableEntity {
@@ -26,6 +27,7 @@ public abstract class Enemy extends MovableEntity {
     public void takeDamage(Entity other) {
         health -= other.damage;
         if (health <= 0) {
+            Soundtrack.getInstance().reproduceSound("enemyKilled_sound",false);
             isAlive = false;
             Objects.requireNonNull(Level.getLevel(level)).entities.remove(this);
         }
