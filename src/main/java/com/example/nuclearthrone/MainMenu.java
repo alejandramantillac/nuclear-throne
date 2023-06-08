@@ -9,10 +9,7 @@ import com.example.nuclearthrone.model.entity.Avatar;
 import com.example.nuclearthrone.model.level.Level;
 import com.example.nuclearthrone.model.menus.Soundtrack;
 
-import javafx.animation.Animation;
-import javafx.animation.Interpolator;
-import javafx.animation.RotateTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +29,9 @@ import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class MainMenu extends Application {
@@ -137,7 +136,7 @@ public class MainMenu extends Application {
         quitButton = (Button) fxmlLoader.getNamespace().get("quitButton");
 
         playButton.setOnAction(e -> {
-            initGame();
+            showLoadingScreen();
         });
 
         settingsButton.setOnAction(e -> {
@@ -241,6 +240,30 @@ public class MainMenu extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void showLoadingScreen() {
+        Stage loadingStage = new Stage();
+        loadingStage.initModality(Modality.APPLICATION_MODAL);
+        loadingStage.initStyle(StageStyle.UNDECORATED);
+
+        FXMLLoader fxmlLoader = new FXMLLoader(MainMenu.class.getResource("windows/loading.fxml"));
+        try {
+            AnchorPane root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            loadingStage.setScene(scene);
+            loadingStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+            loadingStage.close();
+
+            initGame();
+        }));
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     public static URL getView(String name) {
