@@ -12,7 +12,6 @@
    <children>
       <VBox layoutX="41.0" layoutY="142.0" prefHeight="244.0" prefWidth="272.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="label2" text="Developers" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textST" text="Maria Alejandra Mantilla Coral">
                <VBox.margin>
                   <Insets top="50.0" />
@@ -31,10 +30,11 @@
          <image>
             <Image url="@adventurer-idle-2-02.png" />
          </image></ImageView>
-      <ImageView fx:id="logoImg" fitHeight="79.0" fitWidth="200.0" layoutX="213.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="logoImg" fitHeight="60.0" fitWidth="110.0" layoutX="477.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@nuclear-throne-logo.png" />
          </image>
       </ImageView>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="169.0" layoutY="71.0" styleClass="label2" text="Developers" />
    </children>
 </AnchorPane>

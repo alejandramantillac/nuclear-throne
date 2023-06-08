@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nuclearthrone.MainMenu">
     <VBox alignment="CENTER" layoutX="80.0" layoutY="-73.0" prefHeight="146.0" prefWidth="339.0" spacing="15.0" translateX="100.0" translateY="100.0">
-        <ImageView fx:id="logoImage" fitHeight="165.0" fitWidth="451.0" layoutX="200.0" layoutY="58.0" opacity="1.0" depthTest="DISABLE">            <image>
+        <ImageView fx:id="logoImage" depthTest="DISABLE" fitHeight="165.0" fitWidth="451.0" layoutX="200.0" layoutY="58.0" opacity="1.0">            <image>
                 <Image url="@nuclear-throne-logo.png" />
             </image>
         </ImageView>
@@ -17,6 +17,7 @@
     <VBox fx:id="buttonsVBOX" alignment="CENTER" layoutX="150.0" layoutY="58.0" spacing="15.0" style="-fx-padding: 0 0 80 0;" translateX="100.0" translateY="100.0">
         <Button fx:id="playButton" prefWidth="300.0" stylesheets="@menu.css" text="Play" />
         <Button fx:id="settingsButton" prefWidth="300.0" stylesheets="@menu.css" text="Settings" />
+        <Button fx:id="manualButton" prefWidth="300.0" stylesheets="@menu.css" text="Manual" />
         <Button fx:id="creditsButton" prefWidth="300.0" stylesheets="@menu.css" text="Credits" />
         <Button fx:id="quitButton" prefWidth="300.0" stylesheets="@menu.css" text="Quit" />
     </VBox>

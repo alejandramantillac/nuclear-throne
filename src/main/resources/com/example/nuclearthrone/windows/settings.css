@@ -12,7 +12,7 @@
 }
 
 .root {
-    -fx-background-color: radial-gradient(radius 0%, #330066CC 0%, #111122CC 100%);
+    -fx-background-color: black;
 }
 
 .slider {

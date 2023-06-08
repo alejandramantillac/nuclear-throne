@@ -46,6 +46,9 @@ public class MainMenu extends Application {
     private Button settingsButton;
 
     @FXML
+    private Button manualButton;
+
+    @FXML
     private Button creditsButton;
 
     @FXML
@@ -129,6 +132,7 @@ public class MainMenu extends Application {
         // Buttons references
         playButton = (Button) fxmlLoader.getNamespace().get("playButton");
         settingsButton = (Button) fxmlLoader.getNamespace().get("settingsButton");
+        manualButton = (Button) fxmlLoader.getNamespace().get("manualButton");
         creditsButton = (Button) fxmlLoader.getNamespace().get("creditsButton");
         quitButton = (Button) fxmlLoader.getNamespace().get("quitButton");
 
@@ -138,6 +142,10 @@ public class MainMenu extends Application {
 
         settingsButton.setOnAction(e -> {
             openWindow("settings");
+        });
+
+        manualButton.setOnAction( e -> {
+            openWindow("manual");
         });
 
         creditsButton.setOnAction(e -> {
@@ -176,7 +184,7 @@ public class MainMenu extends Application {
         rtQuit.setDelay(Duration.seconds(1.5));
         rtQuit.play();
 
-        VBox vBox = new VBox(20, playButton, settingsButton, creditsButton, quitButton);
+        VBox vBox = new VBox(20, playButton, settingsButton, manualButton, creditsButton, quitButton);
         vBox.setAlignment(Pos.CENTER);
         vBox.setTranslateX(260);
         vBox.setTranslateY(200);

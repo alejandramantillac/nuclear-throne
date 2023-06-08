@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@manual.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nuclearthrone.model.menus.Manual">
+   <children>
+      <ImageView fitHeight="60.0" fitWidth="110.0" layoutX="475.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@nuclear-throne-logo.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="169.0" layoutY="73.0" prefHeight="43.0" prefWidth="287.0" styleClass="label2" stylesheets="@manual.css" text="INSTRUCTIONS" />
+      <ImageView fx:id="keys" fitHeight="152.0" fitWidth="299.0" layoutX="38.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@howtoplay.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="takeweapon" fitHeight="152.0" fitWidth="275.0" layoutX="317.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@takeweapon.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

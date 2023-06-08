@@ -279,16 +279,16 @@ public class Level {
         level.walls.add(new Wall(800, 200, 10000, 0, "signal"));
 
         // Shape in the middle right
-        for (int x = 775; x <= 1175; x += 50) {
+        for (int x = 825; x <= 1075; x += 50) {
             for (int y = 325; y <= 525; y += 50) {
                 level.walls.add(new Wall(x, y, 10000, 0, "rope"));
             }
         }
         for (int y = 375; y <= 475; y += 50) {
-            level.walls.add(new Wall(775, y, 10000, 0, "orb-green2"));
-            level.walls.add(new Wall(1175, y, 10000, 0, "orb-green2"));
+            level.walls.add(new Wall(825, y, 10000, 0, "orb-green2"));
+            level.walls.add(new Wall(1075, y, 10000, 0, "orb-green2"));
         }
-        for (int x = 825; x <= 1075; x += 50) {
+        for (int x = 875; x <= 1025; x += 50) {
             level.walls.add(new Wall(x, 525, 10000, 0, "rope"));
         }
 
