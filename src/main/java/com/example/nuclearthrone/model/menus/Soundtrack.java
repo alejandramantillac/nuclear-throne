@@ -2,6 +2,8 @@ package com.example.nuclearthrone.model.menus;
 
 import java.io.File;
 
+import com.example.nuclearthrone.MainMenu;
+import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -12,19 +14,16 @@ public class Soundtrack {
 
     private static Soundtrack instance;
 
-    File mainmenu = new File("utils/soundtrack/03_before_the_dawn.mp3");
-
-    String _mainmenu = "file:///"+mainmenu.getAbsolutePath();
-
     MediaPlayer mediaPlayer;
 
-    public void mainMenuSong() {
-        _mainmenu = _mainmenu.replace("\\", "/");
-        Media musicFile = new Media(_mainmenu);
+    public void reproduceSound(String name) {
+        File url = new File("utils/soundtrack/"+name+".mp3");
+        String file = "file:///" + url.getAbsolutePath().replace("\\", "/");
+        Media musicFile = new Media(file);
         mediaPlayer = new MediaPlayer(musicFile);
         mediaPlayer.play();
         mediaPlayer.setAutoPlay(true);
-        mediaPlayer.setVolume(0);
+        mediaPlayer.setVolume(0.5);
     }
 
     public MediaPlayer getMediaPlayer() {

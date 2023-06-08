@@ -1,0 +1,153 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ff8b46a4bee, pid=11872, tid=4716
+#
+# JRE version: Java(TM) SE Runtime Environment (19.0.2+7) (build 19.0.2+7-44)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (19.0.2+7-44, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, windows-amd64)
+# Problematic frame:
+# C  0x00007ff8b46a4bee
+#
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugreport.java.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Educational Edition 2022.2.2\lib\idea_rt.jar=4706:C:\Program Files\JetBrains\IntelliJ IDEA Educational Edition 2022.2.2\bin -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 --module-path=F:\APO2\Integradora3\nuclear-throne\target\classes;C:\Users\Rafa\.m2\repository\org\openjfx\javafx-fxml\19\javafx-fxml-19-win.jar;C:\Users\Rafa\.m2\repository\org\openjfx\javafx-media\17.0.2\javafx-media-17.0.2-win.jar;C:\Users\Rafa\.m2\repository\org\openjfx\javafx-controls\19\javafx-controls-19-win.jar;C:\Users\Rafa\.m2\repository\org\openjfx\javafx-graphics\19\javafx-graphics-19-win.jar;C:\Users\Rafa\.m2\repository\org\openjfx\javafx-base\19\javafx-base-19-win.jar -Djdk.module.main=com.example.nuclearthrone com.example.nuclearthrone/com.example.nuclearthrone.MainMenu
+
+Host: Intel(R) Core(TM) i5-5200U CPU @ 2.20GHz, 4 cores, 15G,  Windows 10 , 64 bit Build 19041 (10.0.19041.2913)
+Time: Wed Jun  7 22:06:36 2023 Hora est. Pacífico, Sudamérica elapsed time: 485.548192 seconds (0d 0h 8m 5s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00000153754d6710):  JavaThread "QuantumRenderer-0" daemon [_thread_in_native, id=4716, stack(0x0000003e1c500000,0x0000003e1c600000)]
+
+Stack: [0x0000003e1c500000,0x0000003e1c600000],  sp=0x0000003e1c5fe700,  free space=1017k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  0x00007ff8b46a4bee
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+J 3248  com.sun.javafx.font.directwrite.OS.CreateGlyphRunAnalysis(JLcom/sun/javafx/font/directwrite/DWRITE_GLYPH_RUN;FLcom/sun/javafx/font/directwrite/DWRITE_MATRIX;IIFF)J javafx.graphics@19 (0 bytes) @ 0x0000015362489cbb [0x0000015362489c20+0x000000000000009b]
+J 5247 c2 com.sun.javafx.font.directwrite.DWGlyph.getPixelData(I)[B javafx.graphics@19 (129 bytes) @ 0x000001536268d620 [0x000001536268d520+0x0000000000000100]
+J 3526 c2 com.sun.prism.impl.GlyphCache.getCachedGlyph(II)Lcom/sun/prism/impl/GlyphCache$GlyphData; javafx.graphics@19 (491 bytes) @ 0x00000153624cedf4 [0x00000153624cea80+0x0000000000000374]
+J 4468 c2 com.sun.prism.impl.GlyphCache.render(Lcom/sun/prism/impl/BaseContext;Lcom/sun/javafx/scene/text/GlyphList;FFIILcom/sun/prism/paint/Color;Lcom/sun/prism/paint/Color;Lcom/sun/javafx/geom/transform/BaseTransform;Lcom/sun/javafx/geom/BaseBounds;)V javafx.graphics@19 (326 bytes) @ 0x000001536254b9e8 [0x000001536254b5c0+0x0000000000000428]
+J 4955 c2 com.sun.prism.impl.ps.BaseShaderGraphics.drawString(Lcom/sun/javafx/scene/text/GlyphList;Lcom/sun/javafx/font/FontStrike;FFLcom/sun/prism/paint/Color;II)V javafx.graphics@19 (820 bytes) @ 0x000001536260a808 [0x0000015362608960+0x0000000000001ea8]
+J 4872 c2 com.sun.javafx.sg.prism.NGText.renderText(Lcom/sun/prism/Graphics;Lcom/sun/javafx/font/FontStrike;Lcom/sun/javafx/geom/BaseBounds;Lcom/sun/prism/paint/Color;I)V javafx.graphics@19 (523 bytes) @ 0x00000153625eb5c8 [0x00000153625eb440+0x0000000000000188]
+J 5380 c2 com.sun.javafx.sg.prism.NGText.renderContent2D(Lcom/sun/prism/Graphics;Z)V javafx.graphics@19 (355 bytes) @ 0x00000153626e5a34 [0x00000153626e5140+0x00000000000008f4]
+J 3539 c2 com.sun.javafx.sg.prism.NGShape.renderContent(Lcom/sun/prism/Graphics;)V javafx.graphics@19 (458 bytes) @ 0x00000153624d8fc0 [0x00000153624d8f20+0x00000000000000a0]
+J 5063 c2 com.sun.javafx.sg.prism.NGNode.doRender(Lcom/sun/prism/Graphics;)V javafx.graphics@19 (473 bytes) @ 0x000001536256272c [0x0000015362562520+0x000000000000020c]
+J 4676 c2 com.sun.javafx.sg.prism.NGGroup.renderContent(Lcom/sun/prism/Graphics;)V javafx.graphics@19 (422 bytes) @ 0x0000015362595db4 [0x0000015362595c00+0x00000000000001b4]
+J 3498 c2 com.sun.javafx.sg.prism.NGRegion.renderContent(Lcom/sun/prism/Graphics;)V javafx.graphics@19 (115 bytes) @ 0x00000153624c5738 [0x00000153624c5600+0x0000000000000138]
+J 5063 c2 com.sun.javafx.sg.prism.NGNode.doRender(Lcom/sun/prism/Graphics;)V javafx.graphics@19 (473 bytes) @ 0x000001536256272c [0x0000015362562520+0x000000000000020c]
+J 4676 c2 com.sun.javafx.sg.prism.NGGroup.renderContent(Lcom/sun/prism/Graphics;)V javafx.graphics@19 (422 bytes) @ 0x0000015362595db4 [0x0000015362595c00+0x00000000000001b4]
+J 3498 c2 com.sun.javafx.sg.prism.NGRegion.renderContent(Lcom/sun/prism/Graphics;)V javafx.graphics@19 (115 bytes) @ 0x00000153624c5738 [0x00000153624c5600+0x0000000000000138]
+J 5063 c2 com.sun.javafx.sg.prism.NGNode.doRender(Lcom/sun/prism/Graphics;)V javafx.graphics@19 (473 bytes) @ 0x000001536256272c [0x0000015362562520+0x000000000000020c]
+J 4676 c2 com.sun.javafx.sg.prism.NGGroup.renderContent(Lcom/sun/prism/Graphics;)V javafx.graphics@19 (422 bytes) @ 0x0000015362595db4 [0x0000015362595c00+0x00000000000001b4]
+J 3498 c2 com.sun.javafx.sg.prism.NGRegion.renderContent(Lcom/sun/prism/Graphics;)V javafx.graphics@19 (115 bytes) @ 0x00000153624c5738 [0x00000153624c5600+0x0000000000000138]
+J 5063 c2 com.sun.javafx.sg.prism.NGNode.doRender(Lcom/sun/prism/Graphics;)V javafx.graphics@19 (473 bytes) @ 0x000001536256272c [0x0000015362562520+0x000000000000020c]
+J 5129 c2 com.sun.javafx.tk.quantum.ViewPainter.paintImpl(Lcom/sun/prism/Graphics;)V javafx.graphics@19 (1449 bytes) @ 0x000001536263fd0c [0x000001536263ebc0+0x000000000000114c]
+J 5180 c2 com.sun.javafx.tk.quantum.PresentingPainter.run()V javafx.graphics@19 (680 bytes) @ 0x000001536266343c [0x00000153626630e0+0x000000000000035c]
+J 5176 c2 com.sun.javafx.tk.RenderJob.run()V javafx.graphics@19 (92 bytes) @ 0x0000015362660e48 [0x0000015362660d60+0x00000000000000e8]
+j  java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V+92 java.base@19.0.2
+j  java.util.concurrent.ThreadPoolExecutor$Worker.run()V+5 java.base@19.0.2
+j  com.sun.javafx.tk.quantum.QuantumRenderer$PipelineRunnable.run()V+8 javafx.graphics@19
+j  java.lang.Thread.run()V+13 java.base@19.0.2
+v  ~StubRoutines::call_stub 0x0000015361db100e
+
+siginfo: EXCEPTION_ACCESS_VIOLATION (0xc0000005), reading address 0x00000153010222a0
+
+
+Registers:
+RAX=0x0000015301022240, RBX=0x000001537faf0588, RCX=0x000001537faf0638, RDX=0x0000000000000001
+RSP=0x0000003e1c5fe700, RBP=0x0000003e1c5fe810, RSI=0x0000000000000000, RDI=0x0000003e1c5fea88
+R8 =0x000001537fac1190, R9 =0x0000000000000000, R10=0x0000003e1c5fea88, R11=0x0000003e1c5fea58
+R12=0x000001537fac1190, R13=0x0000003e1c5fea88, R14=0x0000000000000000, R15=0x0000003e1c5fea58
+RIP=0x00007ff8b46a4bee, EFLAGS=0x0000000000010297
+
+
+Register to memory mapping:
+
+RIP=0x00007ff8b46a4bee points into unknown readable memory: 8a 48
+RAX=0x0000015301022240 is an unknown value
+RBX=0x000001537faf0588 points into unknown readable memory: 0x0000000000000000 | 00 00 00 00 00 00 00 00
+RCX=0x000001537faf0638 points into unknown readable memory: 0x00003fffffffffff | ff ff ff ff ff 3f 00 00
+RDX=0x0000000000000001 is an unknown value
+RSP=0x0000003e1c5fe700 is pointing into the stack for thread: 0x00000153754d6710
+RBP=0x0000003e1c5fe810 is pointing into the stack for thread: 0x00000153754d6710
+RSI=0x0 is NULL
+RDI=0x0000003e1c5fea88 is pointing into the stack for thread: 0x00000153754d6710
+R8 =0x000001537fac1190 points into unknown readable memory: 0x0000015301022240 | 40 22 02 01 53 01 00 00
+R9 =0x0 is NULL
+R10=0x0000003e1c5fea88 is pointing into the stack for thread: 0x00000153754d6710
+R11=0x0000003e1c5fea58 is pointing into the stack for thread: 0x00000153754d6710
+R12=0x000001537fac1190 points into unknown readable memory: 0x0000015301022240 | 40 22 02 01 53 01 00 00
+R13=0x0000003e1c5fea88 is pointing into the stack for thread: 0x00000153754d6710
+R14=0x0 is NULL
+R15=0x0000003e1c5fea58 is pointing into the stack for thread: 0x00000153754d6710
+
+
+Top of Stack: (sp=0x0000003e1c5fe700)
+0x0000003e1c5fe700:   0000000000000000 00000153508a0000
+0x0000003e1c5fe710:   00000153508a02d4 0000000000000000
+0x0000003e1c5fe720:   00000000000000d0 00000153508a0cc0
+0x0000003e1c5fe730:   0000000000000000 0000000000000000
+0x0000003e1c5fe740:   0000000000000000 00000000000000d0
+0x0000003e1c5fe750:   00000000000000c0 0000000000000020
+0x0000003e1c5fe760:   0000015350930000 0000003e1c5fe829
+0x0000003e1c5fe770:   000000000000000d 00007ff8d991b3c7
+0x0000003e1c5fe780:   00000153508a0000 00007ff800000000
+0x0000003e1c5fe790:   00000000000000c0 000001537fac1190
+0x0000003e1c5fe7a0:   000001537faf0588 0000000000000000
+0x0000003e1c5fe7b0:   000001537fab7118 0000000000000000
+0x0000003e1c5fe7c0:   000001537faf0590 00007ff85058c92e
+0x0000003e1c5fe7d0:   0000015300000000 0000000000000000
+0x0000003e1c5fe7e0:   fffffffffffffffe 0000926cab57c38e
+0x0000003e1c5fe7f0:   0000000000000000 0000000000000000 
+
+Instructions: (pc=0x00007ff8b46a4bee)
+0x00007ff8b46a4aee:   30 48 8b c7 48 83 c4 20 5f c3 cc cc cc cc cc cc
+0x00007ff8b46a4afe:   cc cc 48 8b c4 48 89 48 08 55 41 54 41 55 41 56
+0x00007ff8b46a4b0e:   41 57 48 8d 68 b8 48 81 ec 30 01 00 00 48 c7 45
+0x00007ff8b46a4b1e:   d0 fe ff ff ff 48 89 58 10 48 89 70 18 48 89 78
+0x00007ff8b46a4b2e:   20 0f 29 70 c8 0f 29 78 b8 44 0f 29 40 a8 44 0f
+0x00007ff8b46a4b3e:   29 50 98 48 8b 05 c0 4c 18 00 48 33 c4 48 89 45
+0x00007ff8b46a4b4e:   d8 44 89 4d 98 4d 8b e0 4c 89 45 88 48 89 55 a0
+0x00007ff8b46a4b5e:   48 8b d9 48 89 4d 90 45 33 f6 4c 89 31 48 8d 41
+0x00007ff8b46a4b6e:   08 48 89 45 b0 4c 89 30 4c 89 70 08 4c 89 70 10
+0x00007ff8b46a4b7e:   4c 89 71 20 4c 8b 7d 70 41 8b 47 0c 89 41 28 48
+0x00007ff8b46a4b8e:   8b 95 c0 00 00 00 48 89 51 30 8b c8 48 8d 04 c2
+0x00007ff8b46a4b9e:   48 89 43 38 48 c1 e1 04 48 03 ca 48 89 4b 40 44
+0x00007ff8b46a4bae:   89 73 48 0f 57 c0 f3 0f 7f 43 4c 0f 57 c9 f3 0f
+0x00007ff8b46a4bbe:   7f 4b 5c 4c 89 73 70 4c 89 73 78 4c 89 b3 80 00
+0x00007ff8b46a4bce:   00 00 8b b5 a8 00 00 00 89 b3 8c 00 00 00 41 8d
+0x00007ff8b46a4bde:   56 01 3b f2 0f 94 c0 88 83 90 00 00 00 49 8b 00
+0x00007ff8b46a4bee:   8a 48 60 c0 e9 02 22 ca 88 8b 91 00 00 00 48 8b
+0x00007ff8b46a4bfe:   bd 80 00 00 00 48 85 ff 0f 85 1e 7e 02 00 f3 44
+0x00007ff8b46a4c0e:   0f 10 85 b8 00 00 00 f3 0f 10 b5 b0 00 00 00 f3
+0x00007ff8b46a4c1e:   0f 10 7d 78 8b d6 8b 8d 88 00 00 00 e8 7d 11 00
+0x00007ff8b46a4c2e:   00 89 83 88 00 00 00 b9 0f 00 00 00 84 c1 0f 84
+0x00007ff8b46a4c3e:   5f 7e 02 00 45 39 77 28 41 0f 95 c6 44 88 75 81
+0x00007ff8b46a4c4e:   45 8a 6f 2c 41 80 e5 01 0f ba e0 13 72 0e 49 8b
+0x00007ff8b46a4c5e:   04 24 f6 40 60 10 0f 84 58 7e 02 00 b0 01 33 c9
+0x00007ff8b46a4c6e:   88 4d 80 48 8d 4d 80 48 89 4c 24 38 88 44 24 30
+0x00007ff8b46a4c7e:   44 88 74 24 28 48 89 7c 24 20 0f 28 df 0f 28 d7
+0x00007ff8b46a4c8e:   f3 41 0f 10 4f 08 48 8d 4d c0 e8 63 0c 00 00 0f
+0x00007ff8b46a4c9e:   10 00 0f 11 45 c0 48 8b 55 c8 66 48 0f 7e c1 45
+0x00007ff8b46a4cae:   33 db 85 c9 0f 84 13 7e 02 00 85 d2 0f 85 1f 7e
+0x00007ff8b46a4cbe:   02 00 48 c1 e9 20 85 c9 0f 85 13 7e 02 00 f3 44
+0x00007ff8b46a4cce:   0f 10 15 1f 7c 11 00 8b b5 a0 00 00 00 85 f6 0f
+0x00007ff8b46a4cde:   84 54 7e 02 00 49 8b 47 10 48 89 45 90 8a 8b 88 
+
+
+Stack slot to memory mapping:
+stack at sp + 0 slots: 0x0 is NULL
+stack at sp + 1 slots: 0x00000153508a0000 points into unknown readable memory: 0x0000000000000000 | 00 00 00 00 00 00 00 00
+stack at sp + 2 slots: 0x00000153508a02d4 points into unknown readable memory: 0d 00 0c 00
+stack at sp + 3 slots: 0x0 is NULL
+stack at sp + 4 slots: 0x00000000000000d0 is an unknown value
+stack at sp + 5 slots: 

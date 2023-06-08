@@ -74,7 +74,7 @@ public class Settings {
         if (turnSound.isSelected()) {
             // Turn on sound
             if (mediaPlayer == null) {
-                soundtrack.mainMenuSong();
+                soundtrack.reproduceSound("03_before_the_dawn");
             } else {
                 mediaPlayer.play();
             }

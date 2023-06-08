@@ -8,6 +8,7 @@ import com.example.nuclearthrone.model.entity.item.Healing;
 import com.example.nuclearthrone.model.entity.item.Item;
 import com.example.nuclearthrone.model.entity.item.Weapon;
 import com.example.nuclearthrone.model.level.Level;
+import com.example.nuclearthrone.model.menus.Soundtrack;
 import com.example.nuclearthrone.model.util.Direction;
 import com.example.nuclearthrone.model.util.Images;
 
@@ -118,6 +119,7 @@ public class Avatar extends Entity implements IAnimation {
         }
     }
 
+    Soundtrack playSoundtrack = Soundtrack.getInstance();
     @Override
     public void takeDamage(Entity other) {
         if (isAlive) {
@@ -126,6 +128,8 @@ public class Avatar extends Entity implements IAnimation {
             isAlive = health > 0;
             if (!isAlive) {
                 animation = AnimationType.DEATH;
+                playSoundtrack.reproduceSound("gameOver_sound");
+
             }
             spriteStage = 0;
             updateLifeBar();
@@ -159,17 +163,21 @@ public class Avatar extends Entity implements IAnimation {
                 double previousY = getY();
                 if (KeyboardControl.wPressed.get()) {
                     setY(previousY - SPEED);
+                    playSoundtrack.reproduceSound("walking_sound");
                 }
                 if (KeyboardControl.sPressed.get()) {
                     setY(previousY + SPEED);
+                    playSoundtrack.reproduceSound("walking_sound");
                 }
                 if (KeyboardControl.aPressed.get()) {
                     setX(previousX - SPEED);
                     lookingAt = Direction.LEFT;
+                    playSoundtrack.reproduceSound("walking_sound");
                 }
                 if (KeyboardControl.dPressed.get()) {
                     setX(previousX + SPEED);
                     lookingAt = Direction.RIGHT;
+                    playSoundtrack.reproduceSound("walking_sound");
                 }
 
                 if (isOutOfScreen(instance)) {

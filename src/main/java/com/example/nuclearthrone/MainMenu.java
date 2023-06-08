@@ -73,7 +73,7 @@ public class MainMenu extends Application {
         AnchorPane root = fxmlLoader.load();
 
         // Play song
-        playSoundtrack.mainMenuSong();
+        playSoundtrack.reproduceSound("03_before_the_dawn");
 
         // Background with gradient
         Rectangle background = new Rectangle(800, 600);
