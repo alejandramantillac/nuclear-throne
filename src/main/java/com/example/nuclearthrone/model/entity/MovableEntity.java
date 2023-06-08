@@ -130,6 +130,5 @@ public abstract class MovableEntity extends Entity implements IAnimation {
     }
 
     public void stuckAtBorder(){
-
     }
 }

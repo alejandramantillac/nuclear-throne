@@ -26,6 +26,7 @@ public class Level {
 
     public static final int MIN_ENEMIES = 1;
     public static final int MAX_ENEMIES = 6;
+    public static final int MAX_ITEMS = 2;
 
     public ObservableList<Bullet> bullets = FXCollections.observableArrayList();
     public ObservableList<Wall> walls = FXCollections.observableArrayList();
@@ -75,7 +76,7 @@ public class Level {
     }
 
     private void initializeItems() {
-        int quantity = ((int) (Math.random() * 2));
+        int quantity = ((int) (Math.random() * MAX_ITEMS));
         while (quantity > 0) {
             Item item = Item.generateItem(level);
             if (item != null) {
@@ -127,7 +128,6 @@ public class Level {
         level3.left = level2;
         level3.right= level4;
         level4.left = level3;
-        level1.left = level4;
 
         levels.add(level1);
         levels.add(level2);

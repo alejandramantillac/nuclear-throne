@@ -103,6 +103,7 @@ public class Avatar extends Entity implements IAnimation {
         }
         return temp;
     }
+
     public void collectNearbyItem() {
         for (int i = 0; i < Level.currentLevel().items.size(); i++) {
             Item current = Level.currentLevel().items.get(i);
@@ -145,7 +146,6 @@ public class Avatar extends Entity implements IAnimation {
                     animation = AnimationType.RUN;
                 }
             } else {
-                //System.out.println(instance.getCenterX() +" - "+ instance.getCenterY());
                 movement.stop();
                 Soundtrack.getInstance().stopSound("walking_sound");
                 Soundtrack.getInstance().stopSound("footstep_grass");
