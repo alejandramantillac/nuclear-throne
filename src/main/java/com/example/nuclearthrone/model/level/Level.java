@@ -279,6 +279,8 @@ public class Level {
         String uri = "file:" + MainMenu.getFile("environment/decoration/road.png").getPath();
         level.background = new Image(uri, MainMenu.getWidth(), MainMenu.getHeight(), false, false, false);
 
+        level.walls.add(new Wall(-45, 0, 10000, 1, "rope"));
+
         // Water Border
         for (int x = 200; x <= 500; x += 50) {
             level.walls.add(new Wall(x, 75, 10000, 1, "rope"));
@@ -324,111 +326,75 @@ public class Level {
             }
         }
         for (int y = 375; y <= 475; y += 50) {
-            level.walls.add(new Wall(775, y, 10000, 1, "orb-green2"));
-            level.walls.add(new Wall(1175, y, 10000, 1, "orb-green2"));
-            level.walls.add(new Wall(825, y, 10000, 0, "orb-green2"));
-            level.walls.add(new Wall(1075, y, 10000, 0, "orb-green2"));
+            level.walls.add(new Wall(825, y, 10000, 1, "orb-green2"));
+            level.walls.add(new Wall(1075, y, 10000, 1, "orb-green2"));
         }
         for (int x = 825; x <= 1075; x += 50) {
             level.walls.add(new Wall(x, 525, 10000, 1, "rope"));
         }
         for (int x = 875; x <= 1025; x += 50) {
-            level.walls.add(new Wall(x, 525, 10000, 0, "rope"));
+            level.walls.add(new Wall(x, 525, 10000, 1, "rope"));
         }
+
+        level.walls.add(new Wall(1260, 0, 10000, 1, "rope"));
+        level.walls.add(new Wall(1260, 50, 10000, 1, "rope"));
 
         return level;
     }
-
-    private static Level initLevel3() {
+    private static Level initLevel3(){
         Level level = new Level(2);
-
-        String uri = "file:" + MainMenu.getFile("environment/decoration/soccer-field.jpg").getPath();
-        level.background = new Image(uri, MainMenu.getWidth(), MainMenu.getHeight(), false, false, false);
-
-        int columnWidth = 100;
-        int columnSpacing = 150;
-
-        // Left side walls (first column)
-        for (int y = 0; y < MainMenu.getHeight(); y += 150) {
-            level.walls.add(new Wall(MainMenu.getWidth() / 2 - 2 * columnSpacing - 2 * columnWidth + 50, y,33, 50, columnWidth, 2, "player1"));
-        }
-
-        // Left side walls (second column)
-        for (int y = 0; y < MainMenu.getHeight(); y += 150) {
-            level.walls.add(new Wall(MainMenu.getWidth() / 2 - columnSpacing - columnWidth + 50, y,33, 50, columnWidth, 2, "player1"));
-        }
-
-        // Right side walls (first column)
-        int rightColumnX = (int) (MainMenu.getWidth() - columnWidth - columnSpacing);
-        for (int y = 0; y < MainMenu.getHeight(); y += 150) {
-            level.walls.add(new Wall(rightColumnX, y,33, 50, columnWidth, 2, "player2"));
-        }
-
-        // Right side walls (second column)
-        int secondRightColumnX = rightColumnX - columnWidth - columnSpacing;
-        for (int y = 0; y < MainMenu.getHeight(); y += 150) {
-            level.walls.add(new Wall(secondRightColumnX, y, 33, 50, columnWidth, 2, "player2"));
-        }
-
-        level.entities.add(new Ball(MainMenu.getWidth() / 2 - 25, 325,2));
-
-        return level;
-    }
-
-    private static Level initLevel4(){
-        Level level = new Level(3);
         String uri = "file:" + MainMenu.getFile("environment/decoration/floor.png").getPath();
         level.background = new Image(uri, MainMenu.getWidth(), MainMenu.getHeight(), false, false, false);
 
         for(int y=0; y<=300; y+=50){
             for(int x=0;x<=250;x+=50){
                 if(y==0){
-                    level.walls.add(new Wall(x, y, 10000, 0,"brick-above"));
+                    level.walls.add(new Wall(x, y, 10000, 2,"brick-above"));
                 }
                 if(x==250){
                     if(y<250){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2, "brick-side-right"));
                     }
                     if(y==250){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-incorner-bottom-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-incorner-bottom-right"));
                     }
                 }
                 if(y==50){
                     if(x==0||x==50){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-bottom"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-bottom"));
                     }else{
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-above"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-above"));
                     }
                     if(x==250){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-right"));
                     }
                     if(x==100){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-corner-bottom-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-corner-bottom-left"));
                     }
                 }
                 if(x==100 && y>=100 && y<=250){
-                    level.walls.add(new Wall(x, y, 10000, 0,"brick-side-left"));
+                    level.walls.add(new Wall(x, y, 10000, 2,"brick-side-left"));
                     if(y==250){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-incorner-bottom-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-incorner-bottom-left"));
                     }
                 }
                 if(x>100 && x<250){
                     if(y>=100 && y<250){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-above"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-above"));
                     }
                     if(y==250){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-bottom"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-bottom"));
                     }
                 }
                 if(y>250){
                     if(x==100){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-end-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-end-left"));
                     }
                     if(x==250){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-end-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-end-right"));
                     }
                     if(x>100 && x<250){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick"));
                     }
                 }
 
@@ -443,64 +409,64 @@ public class Level {
             for(int x=500; x<MainMenu.getWidth();x+=50){
                 if(y==470){
                     if(x==500){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-incorner-top-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-incorner-top-left"));
                     }
                     if(x==650){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-incorner-top-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-incorner-top-right"));
                     }
                     if(x>500 && x<650){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-top"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-top"));
                     }
                 }
                 if(y==520){
                     if(x==500){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-left"));
                     }
                     if(x==650){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-right"));
                     }
                     if(x>500 && x<650){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-above"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-above"));
                     }
                     if(x==1000){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-left"));
                     }
                     if(x==1100){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-right"));
                     }
                     if(x>1000 && x<1100){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-above"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-above"));
                     }
                 }
                 if(y==620 || y==670){
                     if(x==500){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-left"));
                     }else{
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-above"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-above"));
                     }
 
                 }
                 if(y==570){
                     if(x==500){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-left"));
                     }
                     if(x>500 && x<650){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-above"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-above"));
                     }
                     if(x==650){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-corner-top-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-corner-top-right"));
                     }
                     if(x>650){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-top"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-top"));
                     }
                     if(x>1000 && x<1100){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-above"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-above"));
                     }
                     if(x==1000){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-corner-top-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-corner-top-left"));
                     }
                     if(x==1100){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-corner-top-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-corner-top-right"));
                     }
                 }
             }
@@ -509,24 +475,24 @@ public class Level {
             for(int x=1000; x<1200; x+=50){
                 if(y==250){
                     if(x==1000){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-incorner-top-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-incorner-top-left"));
                     }
                     if(x==1100){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-incorner-top-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-incorner-top-right"));
                     }
                     if(x>1000 && x<1100){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-top"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-top"));
                     }
                 }
                 if(y>250){
                     if(x==1000){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-left"));
                     }
                     if(x==1100){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-right"));
                     }
                     if(x>1000 && x<1100){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-above"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-above"));
                     }
                 }
             }
@@ -535,77 +501,77 @@ public class Level {
             for(int x=500; x<=850; x+=50){
                 if(y==100){
                     if(x==500){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-incorner-top-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-incorner-top-left"));
                     }
                     if(x==850){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-incorner-top-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-incorner-top-right"));
                     }
                     if(x>500 && x<850){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-top"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-top"));
                     }
                 }
                 if(y>100 && y<300){
                     if(x==500){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-left"));
                     }
                     if(x==850){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-right"));
                     }
                 }
                 if(y==300){
                     if(x==500 || x==750){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-incorner-bottom-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-incorner-bottom-left"));
                     }
                     if(x==850 || x==600){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-incorner-bottom-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-incorner-bottom-right"));
                     }
                     if((x>500 && x<600)||(x<850 && x>750)){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-bottom"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-bottom"));
                     }
                 }
                 if(y==250){
                     if(x==600){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-incorner-top-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-incorner-top-right"));
                     }
                     if(x==750){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-incorner-top-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-incorner-top-left"));
                     }
                     if(x==550){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-corner-top-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-corner-top-right"));
                     }
                     if(x==800){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-corner-top-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-corner-top-left"));
                     }
 
                 }
                 if(y==150){
                     if(x>550 && x<800){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-bottom"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-bottom"));
                     }
                     if(x==550){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-corner-bottom-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-corner-bottom-right"));
                     }
                     if(x==800){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-corner-bottom-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-corner-bottom-left"));
                     }
                 }
                 if(y>300){
                     if(x==500 || x==750){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-end-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-end-left"));
                     }
                     if(x==850 || x==600){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-end-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-end-right"));
                     }
                     if((x>500 && x<600)||(x>750 && x<850)){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick"));
                     }
                 }
                 if(y>150 && y<250){
                     if(x==550){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-right"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-right"));
                     }
                     if(x==800){
-                        level.walls.add(new Wall(x, y, 10000, 0,"brick-side-left"));
+                        level.walls.add(new Wall(x, y, 10000, 2,"brick-side-left"));
                     }
                 }
             }
@@ -619,6 +585,46 @@ public class Level {
         level.decorations.add(new Decoration(800, 400, "floor-shadow-top-right", 0));
         return level;
     }
+
+    private static Level initLevel4() {
+        Level level = new Level(3);
+
+        String uri = "file:" + MainMenu.getFile("environment/decoration/soccer-field.jpg").getPath();
+        level.background = new Image(uri, MainMenu.getWidth(), MainMenu.getHeight(), false, false, false);
+
+        int columnWidth = 100;
+        int columnSpacing = 150;
+
+        level.walls.add(new Wall(-45, 570, 10000, 3, "rope"));
+        level.walls.add(new Wall(-45, 620, 10000, 3, "rope"));
+
+        // Left side walls (first column)
+        for (int y = 0; y < MainMenu.getHeight(); y += 150) {
+            level.walls.add(new Wall(MainMenu.getWidth() / 2 - 2 * columnSpacing - 2 * columnWidth + 50, y,33, 50, columnWidth, 3, "player1"));
+        }
+
+        // Left side walls (second column)
+        for (int y = 0; y < MainMenu.getHeight(); y += 150) {
+            level.walls.add(new Wall(MainMenu.getWidth() / 2 - columnSpacing - columnWidth + 50, y,33, 50, columnWidth, 3, "player1"));
+        }
+
+        // Right side walls (first column)
+        int rightColumnX = (int) (MainMenu.getWidth() - columnWidth - columnSpacing);
+        for (int y = 0; y < MainMenu.getHeight(); y += 150) {
+            level.walls.add(new Wall(rightColumnX, y,33, 50, columnWidth, 3, "player2"));
+        }
+
+        // Right side walls (second column)
+        int secondRightColumnX = rightColumnX - columnWidth - columnSpacing;
+        for (int y = 0; y < MainMenu.getHeight(); y += 150) {
+            level.walls.add(new Wall(secondRightColumnX, y, 33, 50, columnWidth, 3, "player2"));
+        }
+
+        level.entities.add(new Ball(MainMenu.getWidth() / 2 - 25, 325,3));
+
+        return level;
+    }
+
 
     public static Level getLevel(int level) {
         if (level >= levels.size())

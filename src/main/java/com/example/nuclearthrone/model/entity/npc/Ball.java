@@ -53,7 +53,7 @@ public class Ball extends MovableEntity {
 
     @Override
     public void movement() {
-        double distance = distanceTo(Avatar.getInstance().getCenterX(),Avatar.getInstance().getCenterY());
+        double distance = distanceTo(Avatar.getInstance().getX(),Avatar.getInstance().getY());
         if(distance < DISTANCE){
             moveAwayFrom(Avatar.getInstance());
         }

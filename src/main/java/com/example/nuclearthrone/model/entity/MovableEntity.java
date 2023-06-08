@@ -73,7 +73,7 @@ public abstract class MovableEntity extends Entity implements IAnimation {
     }
 
     public void moveToDirection(double x, double y) {
-        Vector movement = new Vector(x - getCenterX(), y - getCenterY());
+        Vector movement = new Vector(x - getX(), y - getY());
         movement.normalize();
         movement.setMag((int) (speed / 3));
         setX(getX() + movement.x);
@@ -99,13 +99,13 @@ public abstract class MovableEntity extends Entity implements IAnimation {
     }
 
     public void moveTowards(Entity entity) {
-        Vector movement = Vector.getMovementVector(entity.getCenterX() - getCenterX(), entity.getCenterY() - getCenterY(), speed);
+        Vector movement = Vector.getMovementVector(entity.getX() - getX(), entity.getY() - getY(), speed);
         setX(getX() + movement.x);
         setY(getY() + movement.y);
     }
 
     public void moveAwayFrom(Entity entity) {
-        Vector movement = Vector.getMovementVector(entity.getCenterX() - getCenterX(), entity.getCenterY() - getCenterY(), speed);
+        Vector movement = Vector.getMovementVector(entity.getX() - getX(), entity.getY() - getY(), speed);
         setX(getX() - movement.x);
         setY(getY() - movement.y);
     }
