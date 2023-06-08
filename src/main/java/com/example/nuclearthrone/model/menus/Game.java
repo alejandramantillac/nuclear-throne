@@ -10,6 +10,7 @@ import com.example.nuclearthrone.model.entity.ammo.Bullet;
 import com.example.nuclearthrone.model.entity.ammo.EnemyBullet;
 import com.example.nuclearthrone.model.entity.enviroment.Decoration;
 import com.example.nuclearthrone.model.entity.enviroment.Wall;
+import com.example.nuclearthrone.model.entity.npc.Ball;
 import com.example.nuclearthrone.model.level.Level;
 
 import javafx.application.Platform;
@@ -38,6 +39,8 @@ public class Game {
     @FXML
     private ImageView playAgainBtn;
 
+    @FXML
+    private AnchorPane winner;
     @FXML
     Canvas canvas;
 
@@ -98,6 +101,7 @@ public class Game {
     GraphicsContext graphicsContext;
 
     public void bindHUD(){
+        Ball.winner = winner;
         Avatar.hearts = new ImageView[3];
         Avatar.hearts[0] = heartOne;
         Avatar.hearts[1] = heartTwo;
