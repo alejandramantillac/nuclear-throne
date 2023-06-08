@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.example.nuclearthrone.model.KeyboardControl;
 import com.example.nuclearthrone.model.entity.Avatar;
 import com.example.nuclearthrone.model.entity.Entity;
+import com.example.nuclearthrone.model.entity.MovableEntity;
 import com.example.nuclearthrone.model.entity.ammo.Bullet;
 import com.example.nuclearthrone.model.entity.ammo.EnemyBullet;
 import com.example.nuclearthrone.model.entity.enemy.Enemy;
@@ -132,8 +133,8 @@ public class Game {
         }
         bulletsInteraction(current);
         Avatar.getInstance().draw(graphicsContext);
-        for (Enemy enemy : current.enemies) {
-            enemy.draw(graphicsContext);
+        for (MovableEntity entity : current.entities) {
+            entity.draw(graphicsContext);
         }
     }
 
@@ -150,7 +151,7 @@ public class Game {
                     continue;
                 }
             }
-            ArrayList<Entity> intersected = currentB.intersectsAny(currentLevel.walls, currentLevel.enemies);
+            ArrayList<Entity> intersected = currentB.intersectsAny(currentLevel.walls, currentLevel.entities);
             for (Entity entity : intersected) {
                 entity.takeDamage(currentB);
                 break;

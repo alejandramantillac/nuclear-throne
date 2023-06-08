@@ -23,6 +23,12 @@ public class Wall extends Entity {
         this.level = level;
     }
 
+    public Wall(double x, double y, double width, double height, int health, int level, String spriteName) {
+        super(x, y, width, height, health, true);
+        sprite = getSprite(spriteName);
+        this.level = level;
+    }
+
     @Override
     public void takeDamage(Entity other) {
         if (other instanceof Fireball) {

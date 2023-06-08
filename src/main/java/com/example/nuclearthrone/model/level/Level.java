@@ -3,7 +3,9 @@ package com.example.nuclearthrone.model.level;
 import java.util.ArrayList;
 
 import com.example.nuclearthrone.MainMenu;
+import com.example.nuclearthrone.model.entity.Avatar;
 import com.example.nuclearthrone.model.entity.Entity;
+import com.example.nuclearthrone.model.entity.MovableEntity;
 import com.example.nuclearthrone.model.entity.ammo.Bullet;
 import com.example.nuclearthrone.model.entity.enemy.Enemy;
 import com.example.nuclearthrone.model.entity.enviroment.Decoration;
@@ -11,6 +13,7 @@ import com.example.nuclearthrone.model.entity.enviroment.Wall;
 import com.example.nuclearthrone.model.entity.item.Item;
 import com.example.nuclearthrone.model.entity.item.Slingshot;
 import com.example.nuclearthrone.model.entity.item.Staff;
+import com.example.nuclearthrone.model.entity.npc.Ball;
 import com.example.nuclearthrone.model.util.Direction;
 
 import javafx.collections.FXCollections;
@@ -19,10 +22,13 @@ import javafx.scene.image.Image;
 
 public class Level {
 
+    public static final int MIN_ENEMIES = 1;
+    public static final int MAX_ENEMIES = 2;
+
     public ObservableList<Bullet> bullets = FXCollections.observableArrayList();
     public ObservableList<Wall> walls = FXCollections.observableArrayList();
     public ObservableList<Decoration> decorations = FXCollections.observableArrayList();
-    public ObservableList<Enemy> enemies = FXCollections.observableArrayList();
+    public ObservableList<MovableEntity> entities = FXCollections.observableArrayList();
     public ObservableList<Item> items = FXCollections.observableArrayList();
 
     public Image background;
@@ -40,11 +46,15 @@ public class Level {
     }
 
     private void initializeEnemies() {
-        int quantity = ((int) (Math.random() * 3)) + 1;
+        int quantity = (int) (Math.random() * MAX_ENEMIES);
+        if(quantity < MIN_ENEMIES) quantity = MIN_ENEMIES;
         while (quantity > 0) {
             Enemy enemy = Enemy.generateEnemy(level);
             if (enemy != null) {
                 boolean add = true;
+                if(Avatar.getInstance().distanceTo(enemy.getCenterX(),enemy.getCenterY()) < 150){
+                    continue;
+                }
                 if (Entity.isOutOfScreen(enemy)) {
                     continue;
                 }
@@ -55,7 +65,30 @@ public class Level {
                     }
                 }
                 if (add) {
-                    enemies.add(enemy);
+                    entities.add(enemy);
+                    quantity--;
+                }
+            }
+        }
+    }
+
+    private void initializeItems() {
+        int quantity = ((int) (Math.random() * 2));
+        while (quantity > 0) {
+            Item item = Item.generateItem(level);
+            if (item != null) {
+                boolean add = true;
+                if (Entity.isOutOfScreen(item)) {
+                    continue;
+                }
+                for (Wall wall : walls) {
+                    if (item.intersects(wall)) {
+                        add = false;
+                        break;
+                    }
+                }
+                if (add) {
+                    items.add(item);
                     quantity--;
                 }
             }
@@ -64,12 +97,13 @@ public class Level {
 
     private void start() {
         initializeEnemies();
-        for (Enemy enemy : enemies) {
+        initializeItems();
+        for (MovableEntity enemy : entities) {
             enemy.start();
         }
     }
     private void destroy(){
-        for (Enemy enemy : enemies) {
+        for (MovableEntity enemy : entities) {
             enemy.stop();
         }
     }
@@ -247,51 +281,56 @@ public class Level {
 
         // Water Border
         for (int x = 200; x <= 500; x += 50) {
-            level.walls.add(new Wall(x, 75, 10000, 0, "rope"));
-            level.walls.add(new Wall(x, 325, 10000, 0, "rope"));
+            level.walls.add(new Wall(x, 75, 10000, 1, "rope"));
+            level.walls.add(new Wall(x, 325, 10000, 1, "rope"));
         }
         for (int y = 125; y <= 275; y += 50) {
-            level.walls.add(new Wall(200, y, 10000, 0, "rope"));
-            level.walls.add(new Wall(500, y, 10000, 0, "rope"));
+            level.walls.add(new Wall(200, y, 10000, 1, "rope"));
+            level.walls.add(new Wall(500, y, 10000, 1, "rope"));
         }
 
         // Water
         for (int x = 250; x <= 450; x += 50) {
             for (int y = 125; y <= 275; y += 50) {
-                level.walls.add(new Wall(x, y, 10000, 0, "sea1"));
+                level.walls.add(new Wall(x, y, 10000, 1, "sea1"));
             }
         }
 
         // Frogs on water
-        level.walls.add(new Wall(325, 200, 10000, 0, "frog1"));
-        level.walls.add(new Wall(375, 200, 10000, 0, "frog1"));
-        level.walls.add(new Wall(325, 250, 10000, 0, "frog1"));
-        level.walls.add(new Wall(375, 250, 10000, 0, "frog1"));
+        level.walls.add(new Wall(325, 200, 10000, 1, "frog1"));
+        level.walls.add(new Wall(375, 200, 10000, 1, "frog1"));
+        level.walls.add(new Wall(325, 250, 10000, 1, "frog1"));
+        level.walls.add(new Wall(375, 250, 10000, 1, "frog1"));
 
         // Cows
-        level.walls.add(new Wall(250, 550, 10000, 0, "cow"));
-        level.walls.add(new Wall(350, 550, 10000, 0, "cow"));
+        level.walls.add(new Wall(250, 550, 10000, 1, "cow"));
+        level.walls.add(new Wall(350, 550, 10000, 1, "cow"));
 
         // Dog
-        level.walls.add(new Wall(700, 20, 10000, 0, "dog"));
+        level.walls.add(new Wall(700, 20, 10000, 1, "dog"));
 
         // Pigs
-        level.walls.add(new Wall(1000, 200, 10000, 0, "pig"));
-        level.walls.add(new Wall(800, 250, 10000, 0, "pig"));
+        level.walls.add(new Wall(1000, 200, 10000, 1, "pig"));
+        level.walls.add(new Wall(800, 250, 10000, 1, "pig"));
 
         // Signals
-        level.walls.add(new Wall(500, 500, 10000, 0, "signal"));
-        level.walls.add(new Wall(800, 200, 10000, 0, "signal"));
+        level.walls.add(new Wall(500, 500, 10000, 1, "signal"));
+        level.walls.add(new Wall(800, 200, 10000, 1, "signal"));
 
         // Shape in the middle right
         for (int x = 825; x <= 1075; x += 50) {
             for (int y = 325; y <= 525; y += 50) {
-                level.walls.add(new Wall(x, y, 10000, 0, "rope"));
+                level.walls.add(new Wall(x, y, 10000, 1, "rope"));
             }
         }
         for (int y = 375; y <= 475; y += 50) {
+            level.walls.add(new Wall(775, y, 10000, 1, "orb-green2"));
+            level.walls.add(new Wall(1175, y, 10000, 1, "orb-green2"));
             level.walls.add(new Wall(825, y, 10000, 0, "orb-green2"));
             level.walls.add(new Wall(1075, y, 10000, 0, "orb-green2"));
+        }
+        for (int x = 825; x <= 1075; x += 50) {
+            level.walls.add(new Wall(x, 525, 10000, 1, "rope"));
         }
         for (int x = 875; x <= 1025; x += 50) {
             level.walls.add(new Wall(x, 525, 10000, 0, "rope"));
@@ -311,29 +350,27 @@ public class Level {
 
         // Left side walls (first column)
         for (int y = 0; y < MainMenu.getHeight(); y += 150) {
-            level.walls.add(new Wall(MainMenu.getWidth() / 2 - 2 * columnSpacing - 2 * columnWidth + 50, y, columnWidth, 0, "player1"));
+            level.walls.add(new Wall(MainMenu.getWidth() / 2 - 2 * columnSpacing - 2 * columnWidth + 50, y,33, 50, columnWidth, 2, "player1"));
         }
 
         // Left side walls (second column)
         for (int y = 0; y < MainMenu.getHeight(); y += 150) {
-            level.walls.add(new Wall(MainMenu.getWidth() / 2 - columnSpacing - columnWidth + 50, y, columnWidth, 0, "player1"));
+            level.walls.add(new Wall(MainMenu.getWidth() / 2 - columnSpacing - columnWidth + 50, y,33, 50, columnWidth, 2, "player1"));
         }
 
         // Right side walls (first column)
         int rightColumnX = (int) (MainMenu.getWidth() - columnWidth - columnSpacing);
         for (int y = 0; y < MainMenu.getHeight(); y += 150) {
-            level.walls.add(new Wall(rightColumnX, y, columnWidth, 0, "player2"));
+            level.walls.add(new Wall(rightColumnX, y,33, 50, columnWidth, 2, "player2"));
         }
 
         // Right side walls (second column)
         int secondRightColumnX = rightColumnX - columnWidth - columnSpacing;
         for (int y = 0; y < MainMenu.getHeight(); y += 150) {
-            level.walls.add(new Wall(secondRightColumnX, y, columnWidth, 0, "player2"));
+            level.walls.add(new Wall(secondRightColumnX, y, 33, 50, columnWidth, 2, "player2"));
         }
 
-        // Middle ball
-        Wall ball = new Wall(MainMenu.getWidth() / 2 - 25, 325, 10000, 0, "ball");
-        level.walls.add(ball);
+        level.entities.add(new Ball(MainMenu.getWidth() / 2 - 25, 325,2));
 
         return level;
     }

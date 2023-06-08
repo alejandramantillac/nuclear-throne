@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.example.nuclearthrone.MainMenu;
 import com.example.nuclearthrone.model.KeyboardControl;
+import com.example.nuclearthrone.model.entity.item.Healing;
 import com.example.nuclearthrone.model.entity.item.Item;
 import com.example.nuclearthrone.model.entity.item.Weapon;
 import com.example.nuclearthrone.model.level.Level;
@@ -61,6 +62,7 @@ public class Avatar extends Entity implements IAnimation {
         initAnimation();
         animationPlayer = getAnimation();
         startAnimation();
+        hand.setImage(new Image(MainMenu.getFile("entities/weapon/fist.png").getPath()));
     }
 
     public void attack(double x, double y) {
@@ -77,8 +79,8 @@ public class Avatar extends Entity implements IAnimation {
     }
 
     public Item collect(Item item) {
+        Item temp = null;
         if (item instanceof Weapon) {
-            Item temp = null;
             if (weapon == null) {
                 weapon = (Weapon) item;
             } else {
@@ -88,10 +90,18 @@ public class Avatar extends Entity implements IAnimation {
                 temp.setY(weapon.getY());
             }
             hand.setImage(weapon.sprite);
-            return temp;
         }
-        return null;
-
+        if(item instanceof Healing){
+            if(instance.health == 100){
+                return item;
+            }
+            instance.health += Healing.HEAL_AMOUNT;
+            if(instance.health > 100){
+                instance.health = 100;
+            }
+            updateLifeBar();
+        }
+        return temp;
     }
     public void collectNearbyItem() {
         for (int i = 0; i < Level.currentLevel().items.size(); i++) {
